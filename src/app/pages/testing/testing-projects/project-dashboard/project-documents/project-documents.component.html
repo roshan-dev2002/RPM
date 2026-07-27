@@ -1,22 +1,32 @@
 <div class="page-container" style="padding: 0 10px; box-sizing: border-box; width: 100%;">
 
-  <!-- Header Section with Buttons -->
+  <!-- Header Section with Back Button -->
   <div class="header-section"
     style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 20px; width: 100%;">
-    <div style="display: flex; gap: 10px;">
-      <button mat-raised-button (click)="uploaddoc()" style="background-color: #286ba5; color: white;">
-        <mat-icon>add</mat-icon> Add Document
-      </button>
-      <button mat-raised-button (click)="filterToggle = !filterToggle" style="background-color: black; color: white;">
-        <mat-icon>filter_list</mat-icon> Filter
-      </button>
-      <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white;">
-        <mat-icon>arrow_back</mat-icon> Back
-      </button>
-    </div>
+    <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white;">
+      <mat-icon>arrow_back</mat-icon> Back
+    </button>
   </div>
 
-  <!-- Toggleable Filter Card -->
+  <!-- Toolbar with Add Document, Filter, Grid Columns, and View Toggle -->
+  <div class="toolbar"
+    style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-bottom: 20px; width: 100%;">
+    <button mat-raised-button (click)="uploaddoc()" style="background-color: #286ba5; color: white;">
+      <mat-icon>add</mat-icon> Add Document
+    </button>
+    <button mat-raised-button (click)="filterToggle = !filterToggle" style="background-color: black; color: white;">
+      <mat-icon>filter_list</mat-icon> Filter
+    </button>
+    <button mat-raised-button (click)="gridview()" style="background-color: black; color: white;">
+      <mat-icon style="vertical-align: middle; margin-right: 4px;">grid_on</mat-icon>Grid Columns
+    </button>
+    <button mat-raised-button class="view-toggle-btn" (click)="toggleView()" style="height: 38px;">
+      <mat-icon>{{ isGridView ? 'view_list' : 'view_module' }}</mat-icon>
+      {{ isGridView ? 'Grid View': 'Card View' }}
+    </button>
+  </div>
+
+  <!-- Toggleable Filter Card (rendered at the bottom of buttons) -->
   <div *ngIf="filterToggle" style="margin-bottom: 15px; width: 100%;">
     <mat-card class="filter" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
       <mat-card-content style="padding: 15px;">
@@ -58,15 +68,6 @@
     </mat-card>
   </div>
 
-  <!-- Toolbar with View Toggle only -->
-  <div class="toolbar"
-    style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; width: 100%;">
-    <button mat-raised-button class="view-toggle-btn" (click)="toggleView()" style="height: 38px;">
-      <mat-icon>{{ isGridView ? 'view_list' : 'view_module' }}</mat-icon>
-      {{ isGridView ? 'Grid View': 'Card View' }}
-    </button>
-  </div>
-
   <!-- Grid View -->
   <div *ngIf="isGridView" class="grid-container">
 
@@ -95,11 +96,11 @@
 
   <!-- Table View -->
   <div *ngIf="!isGridView" class="table-responsive" id="grid-table-container"
-    style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; background: white; margin-top: 15px;">
+    style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; overflow: auto; max-height: calc(100vh - 220px); background: white; margin-top: 15px;">
     <table mat-table [dataSource]="filteredDataSource" class="table table-bordered table-hover"
       style="width: 100%; margin-bottom: 0;">
 
-      <ng-container matColumnDef="actions">
+      <ng-container matColumnDef="actions" [sticky]="isColumnFrozen('actions')">
         <th mat-header-cell *matHeaderCellDef class="text-center" style="font-weight:600; width: 90px;"> Actions </th>
         <td mat-cell *matCellDef="let element" class="text-center">
           <a style="cursor: pointer; margin-right: 15px;" matTooltip="Edit" (click)="editDocument(element, $event)">
@@ -111,18 +112,18 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="documentType">
+      <ng-container matColumnDef="documentType" [sticky]="isColumnFrozen('documentType')">
         <th mat-header-cell *matHeaderCellDef class="text-left" style="font-weight:600;"> Document Type </th>
         <td mat-cell *matCellDef="let element" class="text-left"> {{element.documentType}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="documentTitle">
+      <ng-container matColumnDef="documentTitle" [sticky]="isColumnFrozen('documentTitle')">
         <th mat-header-cell *matHeaderCellDef class="text-left" style="font-weight:600;"> Document Title </th>
         <td mat-cell *matCellDef="let element" class="text-left" style="font-weight: 500;"> {{element.documentTitle}}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="description">
+      <ng-container matColumnDef="description" [sticky]="isColumnFrozen('description')">
         <th mat-header-cell *matHeaderCellDef class="text-left" style="font-weight:600;"> Description </th>
         <td mat-cell *matCellDef="let element" class="text-left" style="padding: 8px 15px;">
           <div style="font-weight: 500; color: #374151;">Category: {{element.category || '-'}}</div>
@@ -130,7 +131,7 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="uploadFile">
+      <ng-container matColumnDef="uploadFile" [sticky]="isColumnFrozen('uploadFile')">
         <th mat-header-cell *matHeaderCellDef class="text-center" style="font-weight:600; width: 100px;"> PDF </th>
         <td mat-cell *matCellDef="let element" class="text-center">
           <i class="fa fa-eye" style="color: #1b85ca; font-size: 16px; cursor: pointer; margin-right: 12px;"
@@ -140,17 +141,17 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="uploadedDate">
+      <ng-container matColumnDef="uploadedDate" [sticky]="isColumnFrozen('uploadedDate')">
         <th mat-header-cell *matHeaderCellDef class="text-center" style="font-weight:600;"> Uploaded Date </th>
         <td mat-cell *matCellDef="let element" class="text-center"> {{element.uploadedDate}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="uploadedBy">
+      <ng-container matColumnDef="uploadedBy" [sticky]="isColumnFrozen('uploadedBy')">
         <th mat-header-cell *matHeaderCellDef class="text-left" style="font-weight:600;"> Uploaded By </th>
         <td mat-cell *matCellDef="let element" class="text-left"> {{element.uploadedBy}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="remarks">
+      <ng-container matColumnDef="remarks" [sticky]="isColumnFrozen('remarks')">
         <th mat-header-cell *matHeaderCellDef class="text-center" style="font-weight:600;"> Remarks </th>
         <td mat-cell *matCellDef="let element" class="text-center">
           <mat-icon class="info-icon" [matTooltip]="element.remarks || 'No remarks'"
@@ -158,7 +159,7 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 

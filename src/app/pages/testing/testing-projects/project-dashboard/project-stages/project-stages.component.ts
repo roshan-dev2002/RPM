@@ -36,6 +36,15 @@ export interface StageModule {
   name: string;
   count: number;
   tasks: Task[];
+  planStart?: string;
+  planEnd?: string;
+}
+
+export interface GanttBar {
+  name: string;
+  planStart: string;
+  planEnd: string;
+  planEffort: string;
 }
 
 export interface StageItem {
@@ -57,6 +66,7 @@ export interface StageItem {
   setupCount: number;
   modules: StageModule[];
   expanded?: boolean;
+  bars?: GanttBar[];
 }
 
 @Component({
@@ -84,27 +94,32 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       gateCode: 'GT000',
       status: true,
       setupCount: 10,
+      bars: [
+        { name: 'Requirements & Concept', planStart: '2026-01-05', planEnd: '2026-02-15', planEffort: '160 hrs' },
+        { name: 'Mid-Year Concept Review', planStart: '2026-07-01', planEnd: '2026-07-25', planEffort: '60 hrs' },
+        { name: 'Annual Requirement Sync', planStart: '2026-11-05', planEnd: '2026-11-28', planEffort: '40 hrs' }
+      ],
       modules: [
         {
           name: 'Stakeholder Alignment',
           count: 5,
           tasks: [
-            { task: 'Initial Briefing', taskCode: 'TC-01', jobCode: 'INIT0', effort: 10, duration: 2, description: 'Client Briefing', department: 'Management', role: 'Olivia Brown', planStart: '2026-01-05', planEnd: '2026-01-07', actualStart: '2026-01-05', actualEnd: '2026-01-07', eta: '2026-01-07', actualHours: 10, expenses: '₹0', priority: 'High' },
-            { task: 'Gather Stakeholder Requirements', taskCode: 'TC-01-B', jobCode: 'INIT0', effort: 20, duration: 4, description: 'Interviews with business leads', department: 'Management', role: 'Olivia Brown', planStart: '2026-01-08', planEnd: '2026-01-12', actualStart: '2026-01-08', actualEnd: '2026-01-12', eta: '2026-01-12', actualHours: 20, expenses: '₹0', priority: 'Medium' },
-            { task: 'Market Research & Competitor Analysis', taskCode: 'TC-01-C', jobCode: 'INIT0', effort: 30, duration: 6, description: 'Competitor study', department: 'R & D', role: 'Diego Ruiz', planStart: '2026-01-13', planEnd: '2026-01-20', actualStart: '2026-01-13', actualEnd: '2026-01-20', eta: '2026-01-20', actualHours: 32, expenses: '₹2,000', priority: 'Low' },
-            { task: 'Define Project Charter', taskCode: 'TC-01-D', jobCode: 'INIT0', effort: 15, duration: 3, description: 'Document project goals & bounds', department: 'Management', role: 'Olivia Brown', planStart: '2026-01-21', planEnd: '2026-01-24', actualStart: '2026-01-21', actualEnd: '2026-01-24', eta: '2026-01-24', actualHours: 15, expenses: '₹0', priority: 'High' },
-            { task: 'Sign-off on Concept Document', taskCode: 'TC-01-E', jobCode: 'INIT0', effort: 8, duration: 2, description: 'Get formal approval from stakeholders', department: 'Management', role: 'Olivia Brown', planStart: '2026-01-25', planEnd: '2026-01-27', actualStart: '2026-01-25', actualEnd: '2026-01-27', eta: '2026-01-27', actualHours: 8, expenses: '₹0', priority: 'High' }
+            { task: 'Initial Briefing', taskCode: 'TC-01', jobCode: 'INIT0', effort: 10, duration: 2, description: 'Client Briefing', department: 'Management', role: 'Olivia Brown', section: 'Section A', planStart: '2026-01-05', planEnd: '2026-01-07', actualStart: '2026-01-05', actualEnd: '2026-01-07', eta: '2026-01-07', actualHours: 10, expenses: '₹0', priority: 'High' },
+            { task: 'Gather Stakeholder Requirements', taskCode: 'TC-01-B', jobCode: 'INIT0', effort: 20, duration: 4, description: 'Interviews with business leads', department: 'Management', role: 'Olivia Brown', section: 'Section A', planStart: '2026-01-08', planEnd: '2026-01-12', actualStart: '2026-01-08', actualEnd: '2026-01-12', eta: '2026-01-12', actualHours: 20, expenses: '₹0', priority: 'Medium' },
+            { task: 'Market Research & Competitor Analysis', taskCode: 'TC-01-C', jobCode: 'INIT0', effort: 30, duration: 6, description: 'Competitor study', department: 'R & D', role: 'Diego Ruiz', section: 'Section B', planStart: '2026-01-13', planEnd: '2026-01-20', actualStart: '2026-01-13', actualEnd: '2026-01-20', eta: '2026-01-20', actualHours: 32, expenses: '₹2,000', priority: 'Low' },
+            { task: 'Define Project Charter', taskCode: 'TC-01-D', jobCode: 'INIT0', effort: 15, duration: 3, description: 'Document project goals & bounds', department: 'Management', role: 'Olivia Brown', section: 'Section B', planStart: '2026-01-21', planEnd: '2026-01-24', actualStart: '2026-01-21', actualEnd: '2026-01-24', eta: '2026-01-24', actualHours: 15, expenses: '₹0', priority: 'High' },
+            { task: 'Sign-off on Concept Document', taskCode: 'TC-01-E', jobCode: 'INIT0', effort: 8, duration: 2, description: 'Get formal approval from stakeholders', department: 'Management', role: 'Olivia Brown', section: 'Section C', planStart: '2026-01-25', planEnd: '2026-01-27', actualStart: '2026-01-25', actualEnd: '2026-01-27', eta: '2026-01-27', actualHours: 8, expenses: '₹0', priority: 'High' }
           ]
         },
         {
           name: 'Concept Validation',
           count: 5,
           tasks: [
-            { task: 'Concept Ideation Workshop', taskCode: 'TC-02-A', jobCode: 'VAL01', effort: 12, duration: 2, description: 'Brainstorm concepts', department: 'R & D', role: 'Diego Ruiz', planStart: '2026-01-28', planEnd: '2026-01-30', actualStart: '2026-01-28', actualEnd: '2026-01-30', eta: '2026-01-30', actualHours: 12, expenses: '₹500', priority: 'Medium' },
-            { task: 'Feasibility Pre-check', taskCode: 'TC-02-B', jobCode: 'VAL01', effort: 16, duration: 3, description: 'Pre-check technical risks', department: 'R & D', role: 'Aarav Shah', planStart: '2026-02-01', planEnd: '2026-02-04', actualStart: '2026-02-01', actualEnd: '2026-02-04', eta: '2026-02-04', actualHours: 16, expenses: '₹0', priority: 'Low' },
-            { task: 'Customer Persona Modeling', taskCode: 'TC-02-C', jobCode: 'VAL01', effort: 15, duration: 3, description: 'Model target persona profiles', department: 'Management', role: 'Olivia Brown', planStart: '2026-02-05', planEnd: '2026-02-08', actualStart: '2026-02-05', actualEnd: '2026-02-08', eta: '2026-02-08', actualHours: 15, expenses: '₹0', priority: 'Medium' },
-            { task: 'Mockup Flow Validation', taskCode: 'TC-02-D', jobCode: 'VAL01', effort: 20, duration: 4, description: 'Validate user flow diagrams', department: 'Management', role: 'Olivia Brown', planStart: '2026-02-09', planEnd: '2026-02-12', actualStart: '2026-02-09', actualEnd: '', eta: '2026-02-12', actualHours: 0, expenses: '₹0', priority: 'Medium' },
-            { task: 'Pre-Validation Gate Review', taskCode: 'TC-02-E', jobCode: 'VAL01', effort: 8, duration: 1, description: 'Review concept checklist', department: 'Management', role: 'Olivia Brown', planStart: '2026-02-13', planEnd: '2026-02-14', actualStart: '2026-02-13', actualEnd: '', eta: '2026-02-14', actualHours: 0, expenses: '₹0', priority: 'High' }
+            { task: 'Concept Ideation Workshop', taskCode: 'TC-02-A', jobCode: 'VAL01', effort: 12, duration: 2, description: 'Brainstorm concepts', department: 'R & D', role: 'Diego Ruiz', section: 'Section A', planStart: '2026-01-28', planEnd: '2026-01-30', actualStart: '2026-01-28', actualEnd: '2026-01-30', eta: '2026-01-30', actualHours: 12, expenses: '₹500', priority: 'Medium' },
+            { task: 'Feasibility Pre-check', taskCode: 'TC-02-B', jobCode: 'VAL01', effort: 16, duration: 3, description: 'Pre-check technical risks', department: 'R & D', role: 'Aarav Shah', section: 'Section B', planStart: '2026-02-01', planEnd: '2026-02-04', actualStart: '2026-02-01', actualEnd: '2026-02-04', eta: '2026-02-04', actualHours: 16, expenses: '₹0', priority: 'Low' },
+            { task: 'Customer Persona Modeling', taskCode: 'TC-02-C', jobCode: 'VAL01', effort: 15, duration: 3, description: 'Model target persona profiles', department: 'Management', role: 'Olivia Brown', section: 'Section B', planStart: '2026-02-05', planEnd: '2026-02-08', actualStart: '2026-02-05', actualEnd: '2026-02-08', eta: '2026-02-08', actualHours: 15, expenses: '₹0', priority: 'Medium' },
+            { task: 'Mockup Flow Validation', taskCode: 'TC-02-D', jobCode: 'VAL01', effort: 20, duration: 4, description: 'Validate user flow diagrams', department: 'Management', role: 'Olivia Brown', section: 'Section C', planStart: '2026-02-09', planEnd: '2026-02-12', actualStart: '2026-02-09', actualEnd: '', eta: '2026-02-12', actualHours: 0, expenses: '₹0', priority: 'Medium' },
+            { task: 'Pre-Validation Gate Review', taskCode: 'TC-02-E', jobCode: 'VAL01', effort: 8, duration: 1, description: 'Review concept checklist', department: 'Management', role: 'Olivia Brown', section: 'Section C', planStart: '2026-02-13', planEnd: '2026-02-14', actualStart: '2026-02-13', actualEnd: '', eta: '2026-02-14', actualHours: 0, expenses: '₹0', priority: 'High' }
           ]
         }
       ]
@@ -126,25 +141,31 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       gateCode: 'GT001',
       status: true,
       setupCount: 8,
+      bars: [
+        { name: 'Feasibility Pre-check', planStart: '2026-01-08', planEnd: '2026-01-14', planEffort: '40 hrs' },
+        { name: 'Feasibility & Viability', planStart: '2026-02-16', planEnd: '2026-03-31', planEffort: '180 hrs' },
+        { name: 'Tech Stack Audit', planStart: '2026-06-01', planEnd: '2026-06-25', planEffort: '50 hrs' },
+        { name: 'Financial Re-viability', planStart: '2026-11-01', planEnd: '2026-11-20', planEffort: '30 hrs' }
+      ],
       modules: [
         {
           name: 'Feasibility Study',
           count: 5,
           tasks: [
-            { task: 'Technical Audit', taskCode: 'TC-02', jobCode: 'FEAS1', effort: 40, duration: 10, description: 'Audit tech stack', department: 'R & D', role: 'Diego Ruiz', planStart: '2026-02-16', planEnd: '2026-02-28', actualStart: '2026-02-16', actualEnd: '2026-02-28', eta: '2026-02-28', actualHours: 40, expenses: '₹1,000', priority: 'High' },
-            { task: 'Financial Viability Projections', taskCode: 'TC-02-B', jobCode: 'FEAS1', effort: 25, duration: 5, description: 'Prepare 5-year budget forecast', department: 'Management', role: 'Olivia Brown', planStart: '2026-03-01', planEnd: '2026-03-06', actualStart: '2026-03-01', actualEnd: '2026-03-06', eta: '2026-03-06', actualHours: 25, expenses: '₹0', priority: 'Medium' },
-            { task: 'Risk Assessment & Mitigation Plan', taskCode: 'TC-02-C', jobCode: 'FEAS1', effort: 20, duration: 4, description: 'Identify project vulnerabilities', department: 'R & D', role: 'Diego Ruiz', planStart: '2026-03-07', planEnd: '2026-03-11', actualStart: '2026-03-07', actualEnd: '2026-03-11', eta: '2026-03-11', actualHours: 22, expenses: '₹500', priority: 'High' },
-            { task: 'Technology Stack Decision Matrix', taskCode: 'TC-02-D', jobCode: 'FEAS1', effort: 16, duration: 3, description: 'Evaluate frameworks & vendors', department: 'R & D', role: 'Aarav Shah', planStart: '2026-03-12', planEnd: '2026-03-15', actualStart: '2026-03-12', actualEnd: '2026-03-15', eta: '2026-03-15', actualHours: 16, expenses: '₹0', priority: 'Low' },
-            { task: 'Present Feasibility Report', taskCode: 'TC-02-E', jobCode: 'FEAS1', effort: 12, duration: 2, description: 'Review report with steering committee', department: 'Management', role: 'Olivia Brown', planStart: '2026-03-16', planEnd: '2026-03-18', actualStart: '2026-03-16', actualEnd: '2026-03-18', eta: '2026-03-18', actualHours: 12, expenses: '₹1,500', priority: 'High' }
+            { task: 'Technical Audit', taskCode: 'TC-02', jobCode: 'FEAS1', effort: 40, duration: 10, description: 'Audit tech stack', department: 'R & D', role: 'Diego Ruiz', section: 'Section A', planStart: '2026-02-16', planEnd: '2026-02-28', actualStart: '2026-02-16', actualEnd: '2026-02-28', eta: '2026-02-28', actualHours: 40, expenses: '₹1,000', priority: 'High' },
+            { task: 'Financial Viability Projections', taskCode: 'TC-02-B', jobCode: 'FEAS1', effort: 25, duration: 5, description: 'Prepare 5-year budget forecast', department: 'Management', role: 'Olivia Brown', section: 'Section A', planStart: '2026-03-01', planEnd: '2026-03-06', actualStart: '2026-03-01', actualEnd: '2026-03-06', eta: '2026-03-06', actualHours: 25, expenses: '₹0', priority: 'Medium' },
+            { task: 'Risk Assessment & Mitigation Plan', taskCode: 'TC-02-C', jobCode: 'FEAS1', effort: 20, duration: 4, description: 'Identify project vulnerabilities', department: 'R & D', role: 'Diego Ruiz', section: 'Section B', planStart: '2026-03-07', planEnd: '2026-03-11', actualStart: '2026-03-07', actualEnd: '2026-03-11', eta: '2026-03-11', actualHours: 22, expenses: '₹500', priority: 'High' },
+            { task: 'Technology Stack Decision Matrix', taskCode: 'TC-02-D', jobCode: 'FEAS1', effort: 16, duration: 3, description: 'Evaluate frameworks & vendors', department: 'R & D', role: 'Aarav Shah', section: 'Section B', planStart: '2026-03-12', planEnd: '2026-03-15', actualStart: '2026-03-12', actualEnd: '2026-03-15', eta: '2026-03-15', actualHours: 16, expenses: '₹0', priority: 'Low' },
+            { task: 'Present Feasibility Report', taskCode: 'TC-02-E', jobCode: 'FEAS1', effort: 12, duration: 2, description: 'Review report with steering committee', department: 'Management', role: 'Olivia Brown', section: 'Section C', planStart: '2026-03-16', planEnd: '2026-03-18', actualStart: '2026-03-16', actualEnd: '2026-03-18', eta: '2026-03-18', actualHours: 12, expenses: '₹1,500', priority: 'High' }
           ]
         },
         {
           name: 'Financial Modeling',
           count: 3,
           tasks: [
-            { task: 'Cost Structure Estimation', taskCode: 'TC-02-F', jobCode: 'FIN01', effort: 15, duration: 3, description: 'Estimate project development costs', department: 'Management', role: 'Olivia Brown', planStart: '2026-03-19', planEnd: '2026-03-22', actualStart: '2026-03-19', actualEnd: '2026-03-22', eta: '2026-03-22', actualHours: 15, expenses: '₹0', priority: 'Medium' },
-            { task: 'Revenue Projection Models', taskCode: 'TC-02-G', jobCode: 'FIN01', effort: 20, duration: 4, description: 'Forecast licensing & subscription revenues', department: 'Management', role: 'Olivia Brown', planStart: '2026-03-23', planEnd: '2026-03-27', actualStart: '2026-03-23', actualEnd: '', eta: '2026-03-27', actualHours: 0, expenses: '₹0', priority: 'Medium' },
-            { task: 'ROI Break-Even Analysis', taskCode: 'TC-02-H', jobCode: 'FIN01', effort: 18, duration: 3, description: 'Calculate timeline to profit break-even', department: 'Management', role: 'Olivia Brown', planStart: '2026-03-28', planEnd: '2026-03-31', actualStart: '', actualEnd: '', eta: '2026-03-31', actualHours: 0, expenses: '₹0', priority: 'Medium' }
+            { task: 'Cost Structure Estimation', taskCode: 'TC-02-F', jobCode: 'FIN01', effort: 15, duration: 3, description: 'Estimate project development costs', department: 'Management', role: 'Olivia Brown', section: 'Section A', planStart: '2026-03-19', planEnd: '2026-03-22', actualStart: '2026-03-19', actualEnd: '2026-03-22', eta: '2026-03-22', actualHours: 15, expenses: '₹0', priority: 'Medium' },
+            { task: 'Revenue Projection Models', taskCode: 'TC-02-G', jobCode: 'FIN01', effort: 20, duration: 4, description: 'Forecast licensing & subscription revenues', department: 'Management', role: 'Olivia Brown', section: 'Section B', planStart: '2026-03-23', planEnd: '2026-03-27', actualStart: '2026-03-23', actualEnd: '', eta: '2026-03-27', actualHours: 0, expenses: '₹0', priority: 'Medium' },
+            { task: 'ROI Break-Even Analysis', taskCode: 'TC-02-H', jobCode: 'FIN01', effort: 18, duration: 3, description: 'Calculate timeline to profit break-even', department: 'Management', role: 'Olivia Brown', section: 'Section C', planStart: '2026-03-28', planEnd: '2026-03-31', actualStart: '', actualEnd: '', eta: '2026-03-31', actualHours: 0, expenses: '₹0', priority: 'Medium' }
           ]
         }
       ]
@@ -166,23 +187,28 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       gateCode: 'GT002',
       status: true,
       setupCount: 6,
+      bars: [
+        { name: 'Early Arch Review', planStart: '2026-01-10', planEnd: '2026-01-16', planEffort: '45 hrs' },
+        { name: 'System Architecture', planStart: '2026-04-01', planEnd: '2026-05-15', planEffort: '220 hrs' },
+        { name: 'Scalability & Cloud Arch', planStart: '2026-09-01', planEnd: '2026-09-25', planEffort: '70 hrs' }
+      ],
       modules: [
         {
           name: 'Blueprint Design',
           count: 5,
           tasks: [
-            { task: 'High-Level Diagramming', taskCode: 'TC-03', jobCode: 'ARCH1', effort: 50, duration: 12, description: 'Prepare architecture diagrams', department: 'R & D', role: 'Aarav Shah', planStart: '2026-04-01', planEnd: '2026-04-15', actualStart: '2026-04-01', actualEnd: '2026-04-15', eta: '2026-04-15', actualHours: 50, expenses: '₹0', priority: 'High' },
-            { task: 'Database Schema Architecture', taskCode: 'TC-03-B', jobCode: 'ARCH1', effort: 35, duration: 8, description: 'ERD modeling and indexing strategy', department: 'R & D', role: 'Aarav Shah', planStart: '2026-04-16', planEnd: '2026-04-24', actualStart: '2026-04-16', actualEnd: '2026-04-24', eta: '2026-04-24', actualHours: 35, expenses: '₹0', priority: 'High' },
-            { task: 'Microservices Boundary Definition', taskCode: 'TC-03-C', jobCode: 'ARCH1', effort: 30, duration: 6, description: 'Design service interfaces & API gateways', department: 'R & D', role: 'Aarav Shah', planStart: '2026-04-25', planEnd: '2026-05-01', actualStart: '2026-04-25', actualEnd: '2026-05-01', eta: '2026-05-01', actualHours: 30, expenses: '₹0', priority: 'Medium' },
-            { task: 'Security & Threat Modeling', taskCode: 'TC-03-D', jobCode: 'ARCH1', effort: 24, duration: 5, description: 'Define authentication & data encryption rules', department: 'Testing', role: 'Priya Nair', planStart: '2026-05-02', planEnd: '2026-05-07', actualStart: '2026-05-02', actualEnd: '2026-05-07', eta: '2026-05-07', actualHours: 24, expenses: '₹0', priority: 'High' },
-            { task: 'Infrastructure Architecture Blueprint', taskCode: 'TC-03-E', jobCode: 'ARCH1', effort: 20, duration: 4, description: 'Design cloud deployment network & VPCs', department: 'R & D', role: 'Diego Ruiz', planStart: '2026-05-08', planEnd: '2026-05-12', actualStart: '2026-05-08', actualEnd: '2026-05-12', eta: '2026-05-12', actualHours: 20, expenses: '₹0', priority: 'Medium' }
+            { task: 'High-Level Diagramming', taskCode: 'TC-03', jobCode: 'ARCH1', effort: 50, duration: 12, description: 'Prepare architecture diagrams', department: 'R & D', role: 'Aarav Shah', section: 'Section A', planStart: '2026-04-01', planEnd: '2026-04-15', actualStart: '2026-04-01', actualEnd: '2026-04-15', eta: '2026-04-15', actualHours: 50, expenses: '₹0', priority: 'High' },
+            { task: 'Database Schema Architecture', taskCode: 'TC-03-B', jobCode: 'ARCH1', effort: 35, duration: 8, description: 'ERD modeling and indexing strategy', department: 'R & D', role: 'Aarav Shah', section: 'Section A', planStart: '2026-04-16', planEnd: '2026-04-24', actualStart: '2026-04-16', actualEnd: '2026-04-24', eta: '2026-04-24', actualHours: 35, expenses: '₹0', priority: 'High' },
+            { task: 'Microservices Boundary Definition', taskCode: 'TC-03-C', jobCode: 'ARCH1', effort: 30, duration: 6, description: 'Design service interfaces & API gateways', department: 'R & D', role: 'Aarav Shah', section: 'Section B', planStart: '2026-04-25', planEnd: '2026-05-01', actualStart: '2026-04-25', actualEnd: '2026-05-01', eta: '2026-05-01', actualHours: 30, expenses: '₹0', priority: 'Medium' },
+            { task: 'Security & Threat Modeling', taskCode: 'TC-03-D', jobCode: 'ARCH1', effort: 24, duration: 5, description: 'Define authentication & data encryption rules', department: 'Testing', role: 'Priya Nair', section: 'Section B', planStart: '2026-05-02', planEnd: '2026-05-07', actualStart: '2026-05-02', actualEnd: '2026-05-07', eta: '2026-05-07', actualHours: 24, expenses: '₹0', priority: 'High' },
+            { task: 'Infrastructure Architecture Blueprint', taskCode: 'TC-03-E', jobCode: 'ARCH1', effort: 20, duration: 4, description: 'Design cloud deployment network & VPCs', department: 'R & D', role: 'Diego Ruiz', section: 'Section C', planStart: '2026-05-08', planEnd: '2026-05-12', actualStart: '2026-05-08', actualEnd: '2026-05-12', eta: '2026-05-12', actualHours: 20, expenses: '₹0', priority: 'Medium' }
           ]
         },
         {
           name: 'API Specification',
           count: 1,
           tasks: [
-            { task: 'Define Endpoint Schemas', taskCode: 'TC-03-F', jobCode: 'API01', effort: 15, duration: 3, description: 'Document OpenAPI specs', department: 'R & D', role: 'Aarav Shah', planStart: '2026-05-13', planEnd: '2026-05-15', actualStart: '', actualEnd: '', eta: '2026-05-15', actualHours: 0, expenses: '₹0', priority: 'Medium' }
+            { task: 'Define Endpoint Schemas', taskCode: 'TC-03-F', jobCode: 'API01', effort: 15, duration: 3, description: 'Document OpenAPI specs', department: 'R & D', role: 'Aarav Shah', section: 'Section A', planStart: '2026-05-13', planEnd: '2026-05-15', actualStart: '', actualEnd: '', eta: '2026-05-15', actualHours: 0, expenses: '₹0', priority: 'Medium' }
           ]
         }
       ]
@@ -204,22 +230,26 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       gateCode: 'GT003',
       status: true,
       setupCount: 5,
+      bars: [
+        { name: 'UX Wireframe Sprint', planStart: '2026-01-11', planEnd: '2026-01-19', planEffort: '75 hrs' },
+        { name: 'Detail Specification & UX', planStart: '2026-05-16', planEnd: '2026-06-30', planEffort: '200 hrs' }
+      ],
       modules: [
         {
           name: 'UX Mockups',
           count: 3,
           tasks: [
-            { task: 'Figma Prototyping', taskCode: 'TC-04', jobCode: 'DSGN1', effort: 30, duration: 8, description: 'Create Figma design system', department: 'Management', role: 'Olivia Brown', planStart: '2026-05-16', planEnd: '2026-05-25', actualStart: '2026-05-16', actualEnd: '', eta: '2026-05-25', actualHours: 30, expenses: '₹0', priority: 'Medium' },
-            { task: 'High-Fidelity Wireframes', taskCode: 'TC-04-B', jobCode: 'DSGN1', effort: 40, duration: 10, description: 'Design actual page templates', department: 'Management', role: 'Olivia Brown', planStart: '2026-05-26', planEnd: '2026-06-05', actualStart: '', actualEnd: '', eta: '2026-06-05', actualHours: 0, expenses: '₹0', priority: 'Medium' },
-            { task: 'Responsive Layout Specs', taskCode: 'TC-04-C', jobCode: 'DSGN1', effort: 20, duration: 5, description: 'Document mobile & tablet breakpoints', department: 'Management', role: 'Olivia Brown', planStart: '2026-06-06', planEnd: '2026-06-11', actualStart: '', actualEnd: '', eta: '2026-06-11', actualHours: 0, expenses: '₹0', priority: 'Low' }
+            { task: 'Figma Prototyping', taskCode: 'TC-04', jobCode: 'DSGN1', effort: 30, duration: 8, description: 'Create Figma design system', department: 'Management', role: 'Olivia Brown', section: 'Section A', planStart: '2026-05-16', planEnd: '2026-05-25', actualStart: '2026-05-16', actualEnd: '', eta: '2026-05-25', actualHours: 30, expenses: '₹0', priority: 'Medium' },
+            { task: 'High-Fidelity Wireframes', taskCode: 'TC-04-B', jobCode: 'DSGN1', effort: 40, duration: 10, description: 'Design actual page templates', department: 'Management', role: 'Olivia Brown', section: 'Section B', planStart: '2026-05-26', planEnd: '2026-06-05', actualStart: '', actualEnd: '', eta: '2026-06-05', actualHours: 0, expenses: '₹0', priority: 'Medium' },
+            { task: 'Responsive Layout Specs', taskCode: 'TC-04-C', jobCode: 'DSGN1', effort: 20, duration: 5, description: 'Document mobile & tablet breakpoints', department: 'Management', role: 'Olivia Brown', section: 'Section C', planStart: '2026-06-06', planEnd: '2026-06-11', actualStart: '', actualEnd: '', eta: '2026-06-11', actualHours: 0, expenses: '₹0', priority: 'Low' }
           ]
         },
         {
           name: 'Technical Specifications',
           count: 2,
           tasks: [
-            { task: 'Write System SRS Document', taskCode: 'TC-04-D', jobCode: 'SRS01', effort: 50, duration: 12, description: 'Compile detailed specification document', department: 'Management', role: 'Olivia Brown', planStart: '2026-06-12', planEnd: '2026-06-25', actualStart: '', actualEnd: '', eta: '2026-06-25', actualHours: 0, expenses: '₹0', priority: 'High' },
-            { task: 'Review Specifications with Leads', taskCode: 'TC-04-E', jobCode: 'SRS01', effort: 10, duration: 2, description: 'Resolve specs checklist discrepancies', department: 'R & D', role: 'Diego Ruiz', planStart: '2026-06-26', planEnd: '2026-06-28', actualStart: '', actualEnd: '', eta: '2026-06-28', actualHours: 0, expenses: '₹0', priority: 'High' }
+            { task: 'Write System SRS Document', taskCode: 'TC-04-D', jobCode: 'SRS01', effort: 50, duration: 12, description: 'Compile detailed specification document', department: 'Management', role: 'Olivia Brown', section: 'Section A', planStart: '2026-06-12', planEnd: '2026-06-25', actualStart: '', actualEnd: '', eta: '2026-06-25', actualHours: 0, expenses: '₹0', priority: 'High' },
+            { task: 'Review Specifications with Leads', taskCode: 'TC-04-E', jobCode: 'SRS01', effort: 10, duration: 2, description: 'Resolve specs checklist discrepancies', department: 'R & D', role: 'Diego Ruiz', section: 'Section B', planStart: '2026-06-26', planEnd: '2026-06-28', actualStart: '', actualEnd: '', eta: '2026-06-28', actualHours: 0, expenses: '₹0', priority: 'High' }
           ]
         }
       ]
@@ -241,6 +271,11 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       gateCode: 'GT004',
       status: true,
       setupCount: 5,
+      bars: [
+        { name: 'Early Tooling Setup', planStart: '2026-02-01', planEnd: '2026-02-25', planEffort: '40 hrs' },
+        { name: 'Prototype & Tooling', planStart: '2026-07-01', planEnd: '2026-07-31', planEffort: '150 hrs' },
+        { name: 'Field Hardware Tooling', planStart: '2026-11-01', planEnd: '2026-11-25', planEffort: '50 hrs' }
+      ],
       modules: [
         {
           name: 'Project Initiation & Planning',
@@ -278,6 +313,12 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       gateCode: 'GT005',
       status: true,
       setupCount: 6,
+      bars: [
+        { name: 'Core PoC Sprint 1', planStart: '2026-01-08', planEnd: '2026-01-14', planEffort: '60 hrs' },
+        { name: 'Core PoC Sprint 2 (Overlap)', planStart: '2026-01-12', planEnd: '2026-01-21', planEffort: '90 hrs' },
+        { name: 'Core PoC Development', planStart: '2026-03-01', planEnd: '2026-03-25', planEffort: '80 hrs' },
+        { name: 'Core Development', planStart: '2026-08-01', planEnd: '2026-09-15', planEffort: '450 hrs' }
+      ],
       modules: [
         {
           name: 'Frontend Development',
@@ -316,6 +357,10 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       gateCode: 'GT006',
       status: true,
       setupCount: 5,
+      bars: [
+        { name: 'Early QA Automation', planStart: '2026-01-16', planEnd: '2026-01-24', planEffort: '55 hrs' },
+        { name: 'Integration & QA', planStart: '2026-09-16', planEnd: '2026-10-31', planEffort: '200 hrs' }
+      ],
       modules: [
         {
           name: 'Unit & Integration Testing',
@@ -353,21 +398,27 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       gateCode: 'GT007',
       status: true,
       setupCount: 4,
+      bars: [
+        { name: 'Compliance Pre-Audit', planStart: '2026-01-14', planEnd: '2026-01-23', planEffort: '65 hrs' },
+        { name: 'Compliance Audit Phase 2', planStart: '2026-03-01', planEnd: '2026-03-25', planEffort: '35 hrs' },
+        { name: 'Mid-Year Security Audit', planStart: '2026-06-01', planEnd: '2026-06-25', planEffort: '45 hrs' },
+        { name: 'UAT & Compliance Audit', planStart: '2026-11-01', planEnd: '2026-11-30', planEffort: '140 hrs' }
+      ],
       modules: [
         {
           name: 'UAT Testing',
           count: 3,
           tasks: [
-            { task: 'Client User Acceptance', taskCode: 'TC-800', jobCode: 'UAT0', effort: 30, duration: 7, description: 'Client verification session', department: 'Testing', role: 'Priya Nair', planStart: '2026-11-01', planEnd: '2026-11-10', actualStart: '', actualEnd: '', eta: '2026-11-10', actualHours: 0, expenses: '₹0', priority: 'High' },
-            { task: 'Collect UAT Feedback Log', taskCode: 'TC-801', jobCode: 'UAT0', effort: 15, duration: 3, description: 'Log client requests & remarks', department: 'Management', role: 'Olivia Brown', planStart: '2026-11-11', planEnd: '2026-11-14', actualStart: '', actualEnd: '', eta: '2026-11-14', actualHours: 0, expenses: '₹0', priority: 'Medium' },
-            { task: 'Bug Hotfixing & Resolution', taskCode: 'TC-802', jobCode: 'UAT0', effort: 25, duration: 5, description: 'Address client blocker bugs', department: 'Developer', role: 'Mei Tanaka', planStart: '2026-11-15', planEnd: '2026-11-20', actualStart: '', actualEnd: '', eta: '2026-11-20', actualHours: 0, expenses: '₹0', priority: 'High' }
+            { task: 'Client User Acceptance', taskCode: 'TC-800', jobCode: 'UAT0', effort: 30, duration: 7, description: 'Client verification session', department: 'Testing', role: 'Priya Nair', section: 'Section A', planStart: '2026-11-01', planEnd: '2026-11-10', actualStart: '', actualEnd: '', eta: '2026-11-10', actualHours: 0, expenses: '₹0', priority: 'High' },
+            { task: 'Collect UAT Feedback Log', taskCode: 'TC-801', jobCode: 'UAT0', effort: 15, duration: 3, description: 'Log client requests & remarks', department: 'Management', role: 'Olivia Brown', section: 'Section B', planStart: '2026-11-11', planEnd: '2026-11-14', actualStart: '', actualEnd: '', eta: '2026-11-14', actualHours: 0, expenses: '₹0', priority: 'Medium' },
+            { task: 'Bug Hotfixing & Resolution', taskCode: 'TC-802', jobCode: 'UAT0', effort: 25, duration: 5, description: 'Address client blocker bugs', department: 'Developer', role: 'Mei Tanaka', section: 'Section C', planStart: '2026-11-15', planEnd: '2026-11-20', actualStart: '', actualEnd: '', eta: '2026-11-20', actualHours: 0, expenses: '₹0', priority: 'High' }
           ]
         },
         {
           name: 'Compliance Sign-off',
           count: 1,
           tasks: [
-            { task: 'Perform Compliance Review Audit', taskCode: 'TC-803', jobCode: 'UAT1', effort: 20, duration: 4, description: 'Check system specifications list', department: 'Testing', role: 'Priya Nair', planStart: '2026-11-21', planEnd: '2026-11-25', actualStart: '', actualEnd: '', eta: '2026-11-25', actualHours: 0, expenses: '₹0', priority: 'High' }
+            { task: 'Perform Compliance Review Audit', taskCode: 'TC-803', jobCode: 'UAT1', effort: 20, duration: 4, description: 'Check system specifications list', department: 'Testing', role: 'Priya Nair', section: 'Section A', planStart: '2026-11-21', planEnd: '2026-11-25', actualStart: '', actualEnd: '', eta: '2026-11-25', actualHours: 0, expenses: '₹0', priority: 'High' }
           ]
         }
       ]
@@ -389,14 +440,18 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       gateCode: 'GT008',
       status: true,
       setupCount: 3,
+      bars: [
+        { name: 'Release Prep Kickoff', planStart: '2026-01-22', planEnd: '2026-01-28', planEffort: '40 hrs' },
+        { name: 'Final Release & Deployment', planStart: '2026-12-01', planEnd: '2026-12-25', planEffort: '100 hrs' }
+      ],
       modules: [
         {
           name: 'Go-Live Release',
           count: 3,
           tasks: [
-            { task: 'Production Deployment', taskCode: 'TC-900', jobCode: 'DEPL0', effort: 20, duration: 3, description: 'Deploy to Cloud Server', department: 'Developer', role: 'Diego Ruiz', planStart: '2026-12-01', planEnd: '2026-12-05', actualStart: '', actualEnd: '', eta: '2026-12-05', actualHours: 0, expenses: '₹0', priority: 'High' },
-            { task: 'Database Production Migration', taskCode: 'TC-901', jobCode: 'DEPL0', effort: 15, duration: 2, description: 'Migrate user databases & keys', department: 'R & D', role: 'Aarav Shah', planStart: '2026-12-06', planEnd: '2026-12-08', actualStart: '', actualEnd: '', eta: '2026-12-08', actualHours: 0, expenses: '₹0', priority: 'High' },
-            { task: 'Verify Production Live Operations', taskCode: 'TC-902', jobCode: 'DEPL0', effort: 10, duration: 2, description: 'Run sanity testing suite on production', department: 'Testing', role: 'Priya Nair', planStart: '2026-12-09', planEnd: '2026-12-11', actualStart: '', actualEnd: '', eta: '2026-12-11', actualHours: 0, expenses: '₹0', priority: 'High' }
+            { task: 'Production Deployment', taskCode: 'TC-900', jobCode: 'DEPL0', effort: 20, duration: 3, description: 'Deploy to Cloud Server', department: 'Developer', role: 'Diego Ruiz', section: 'Section A', planStart: '2026-12-01', planEnd: '2026-12-05', actualStart: '', actualEnd: '', eta: '2026-12-05', actualHours: 0, expenses: '₹0', priority: 'High' },
+            { task: 'Database Production Migration', taskCode: 'TC-901', jobCode: 'DEPL0', effort: 15, duration: 2, description: 'Migrate user databases & keys', department: 'R & D', role: 'Aarav Shah', section: 'Section B', planStart: '2026-12-06', planEnd: '2026-12-08', actualStart: '', actualEnd: '', eta: '2026-12-08', actualHours: 0, expenses: '₹0', priority: 'High' },
+            { task: 'Verify Production Live Operations', taskCode: 'TC-902', jobCode: 'DEPL0', effort: 10, duration: 2, description: 'Run sanity testing suite on production', department: 'Testing', role: 'Priya Nair', section: 'Section C', planStart: '2026-12-09', planEnd: '2026-12-11', actualStart: '', actualEnd: '', eta: '2026-12-11', actualHours: 0, expenses: '₹0', priority: 'High' }
           ]
         }
       ]
@@ -473,13 +528,16 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
     let maxDate: Date | null = null;
 
     for (const s of this.stages) {
-      if (!s.planStart || !s.planEnd) continue;
-      const start = new Date(s.planStart);
-      const finish = new Date(s.planEnd);
-      if (isNaN(start.getTime()) || isNaN(finish.getTime())) continue;
+      const bars = this.getStageBars(s);
+      for (const bar of bars) {
+        if (!bar.planStart || !bar.planEnd) continue;
+        const start = new Date(bar.planStart);
+        const finish = new Date(bar.planEnd);
+        if (isNaN(start.getTime()) || isNaN(finish.getTime())) continue;
 
-      if (!minDate || start < minDate) minDate = start;
-      if (!maxDate || finish > maxDate) maxDate = finish;
+        if (!minDate || start < minDate) minDate = start;
+        if (!maxDate || finish > maxDate) maxDate = finish;
+      }
     }
 
     if (!minDate || !maxDate) return [];
@@ -499,12 +557,26 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
     return new Date(year, monthIndex + 1, 0).getDate();
   }
 
-  getGanttBarStyle(s: StageItem): any {
-    if (!s.planStart || !s.planEnd) return { display: 'none' };
+  getStageBars(s: StageItem): GanttBar[] {
+    if (s.bars && s.bars.length > 0) {
+      return s.bars;
+    }
+    return [{
+      name: s.name,
+      planStart: s.planStart,
+      planEnd: s.planEnd,
+      planEffort: s.planEffort
+    }];
+  }
+
+  getGanttBarStyle(s: { planStart?: string; planEnd?: string }, index: number = 0): any {
+    if (!s || !s.planStart || !s.planEnd) return { display: 'none' };
 
     const start = new Date(s.planStart);
     const finish = new Date(s.planEnd);
     if (isNaN(start.getTime()) || isNaN(finish.getTime())) return { display: 'none' };
+
+    let styleObj: any = {};
 
     if (this.ganttScale === 'monthly') {
       const totalMonths = 12;
@@ -521,7 +593,7 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       const leftPercent = (startVal / totalMonths) * 100;
       const widthPercent = Math.max(0.5, ((finishVal - startVal) / totalMonths) * 100);
 
-      return {
+      styleObj = {
         left: `${leftPercent.toFixed(2)}%`,
         width: `${widthPercent.toFixed(2)}%`
       };
@@ -540,7 +612,7 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       const leftPercent = (startWeekVal / totalWeeks) * 100;
       const widthPercent = Math.max(0.5, ((finishWeekVal - startWeekVal) / totalWeeks) * 100);
 
-      return {
+      styleObj = {
         left: `${leftPercent.toFixed(2)}%`,
         width: `${widthPercent.toFixed(2)}%`
       };
@@ -578,11 +650,21 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       const leftPercent = (startIndex / totalDays) * 100;
       const widthPercent = (spanDays / totalDays) * 100;
 
-      return {
+      styleObj = {
         left: `${leftPercent.toFixed(2)}%`,
         width: `${widthPercent.toFixed(2)}%`
       };
     }
+
+    if (index > 0) {
+      styleObj.top = `${6 + (index % 3) * 12}px`;
+      styleObj.height = '26px';
+      styleObj.zIndex = `${index + 1}`;
+      styleObj.opacity = '0.94';
+      styleObj.boxShadow = '-2px 2px 6px rgba(0,0,0,0.12)';
+    }
+
+    return styleObj;
   }
 
   getStageGanttClass(stageName: string): string {
@@ -590,8 +672,8 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
     if (name.includes('feasibility') || name.includes('concept') || name.includes('requirement')) return 'gantt-bar-feasibility';
     if (name.includes('design') || name.includes('architecture') || name.includes('specification')) return 'gantt-bar-design';
     if (name.includes('development') || name.includes('implementation') || name.includes('core')) return 'gantt-bar-development';
-    if (name.includes('testing') || name.includes('qa') || name.includes('uat')) return 'gantt-bar-testing';
-    if (name.includes('deployment') || name.includes('release') || name.includes('prototype')) return 'gantt-bar-deployment';
+    if (name.includes('testing') || name.includes('qa') || name.includes('uat') || name.includes('audit') || name.includes('compliance')) return 'gantt-bar-testing';
+    if (name.includes('deployment') || name.includes('release') || name.includes('prototype') || name.includes('tooling')) return 'gantt-bar-deployment';
     return 'gantt-bar-default';
   }
 
@@ -732,6 +814,8 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
   // Stimulation (Add Module) Modal state
   showStimulationModal = false;
   newModuleName = '';
+  newModulePlanStart = '';
+  newModulePlanEnd = '';
 
   private subs = new Subscription();
 
@@ -954,6 +1038,8 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
   // --- Modules (Stimulation) CRUD ---
   openStimulationModal() {
     this.newModuleName = '';
+    this.newModulePlanStart = '2026-01-05';
+    this.newModulePlanEnd = '2026-01-25';
     this.showStimulationModal = true;
     this.setBodyScrollLock(true);
   }
@@ -973,6 +1059,8 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
 
     this.activeStage.modules.push({
       name,
+      planStart: this.newModulePlanStart,
+      planEnd: this.newModulePlanEnd,
       count: 0,
       tasks: []
     });

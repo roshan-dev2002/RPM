@@ -38,6 +38,12 @@ export class FreezepanesDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.data && this.data.allColumns && this.data.allColumns.length > 0) {
+      this.allColumns = this.data.allColumns.map((c: GridColumn) => ({ ...c }));
+    }
+    if (this.data && this.data.freezeCount !== undefined) {
+      this.freezeCount = this.data.freezeCount;
+    }
     // Initialize selected columns from visible ones
     this.selectedColumns = this.allColumns.filter(c => c.visible).map(c => ({ ...c }));
     this.updateFreezeOptions();

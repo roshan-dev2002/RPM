@@ -35,8 +35,8 @@
     <div class="tab-bar__spacer"></div>
 
     <span style="font-weight: 600; font-size: 13px; color: #333; margin-right: 8px; align-self: center;">Stages:</span>
-    <select class="stage-select" [(ngModel)]="stageFilter">
-      <option value="all">All Stages</option>
+    <select class="stage-select" [(ngModel)]="stageFilter" (change)="initViewData()">
+      <!-- <option value="all">All Stages</option> -->
       <option *ngFor="let st of stages" [value]="st">{{ st }}</option>
     </select>
   </div>
@@ -86,7 +86,7 @@
             <th *ngIf="activeSprint.kind !== 'backlog'" class="text-center" style="min-width: 130px;">Progress</th>
             <th *ngIf="activeSprint.kind === 'backlog'" class="text-center" style="min-width: 90px;">Effort (hrs)</th>
             <th *ngIf="activeSprint.kind === 'backlog'" class="text-center" style="min-width: 95px;">Duration (days)</th>
-            <th class="text-left" style="min-width: 100px;">Stage</th>
+            <th class="text-left" style="min-width: 100px;">Status</th>
             <th *ngIf="activeSprint.kind === 'backlog'" class="text-left" style="min-width: 250px;">Description</th>
             <th class="text-center" style="min-width: 90px;">Timeline</th>
           </tr>
@@ -94,7 +94,7 @@
         <tbody>
           <ng-container *ngFor="let t of filteredTasks; trackBy: trackById">
             <tr>
-              <td class="text-center" style="vertical-align: middle;">
+              <td class="col-actions text-center" style="vertical-align: middle;">
                 <div style="display: flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;">
                   <i class="fa fa-pencil text-primary" style="cursor: pointer; font-size: 16px;"
                     (click)="editAsset(t)"></i>
@@ -102,45 +102,51 @@
                     (click)="deleteAsset(t)"></i>
                 </div>
               </td>
+              <td class="text-left" style="font-weight: 600; vertical-align: middle;">{{ t.task }}</td>
+              <td class="text-center" style="vertical-align: middle;"><span class="code-badge">{{ t.taskCode }}</span></td>
+              <td class="text-center" style="vertical-align: middle;"><span class="code-badge">{{ t.jobCode }}</span></td>
 
-              <td class="text-left" style="vertical-align: middle;"><strong>{{ t.task }}</strong></td>
-              <td class="text-center" style="vertical-align: middle;"><span class="code-text">{{ t.taskCode }}</span></td>
-              <td class="text-center" style="vertical-align: middle;"><span class="code-text">{{ t.jobCode }}</span></td>
-
+              <!-- Sprint-only columns -->
               <td *ngIf="activeSprint.kind !== 'backlog'" class="text-left" style="vertical-align: middle;">
-                <span class="assignee-chip" *ngIf="t.assigned">
-                  <span class="assignee-avatar">{{ initials(t.assigned) }}</span>
-                  {{ t.assigned }}
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div class="user-avatar" *ngIf="t.assigned">{{ initials(t.assigned) }}</div>
+                  <span>{{ t.assigned || '—' }}</span>
+                </div>
+              </td>
+              <td *ngIf="activeSprint.kind !== 'backlog'" class="text-center" style="vertical-align: middle;">
+                <span [class]="getStatusClasses(t.status || 'Pending')">
+                  {{ getStatusLabel(t.status || 'Pending') }}
                 </span>
-                <span *ngIf="!t.assigned" class="assignee-empty">—</span>
               </td>
               <td *ngIf="activeSprint.kind !== 'backlog'" class="text-center" style="vertical-align: middle;">
-                <span *ngIf="t.status" [class]="getStatusClasses(t.status)">{{ getStatusLabel(t.status) }}</span>
-                <span *ngIf="!t.status">—</span>
+                <input type="checkbox" [checked]="t.approved" (change)="t.approved = !t.approved" />
               </td>
               <td *ngIf="activeSprint.kind !== 'backlog'" class="text-center" style="vertical-align: middle;">
-                <input type="checkbox" class="custom-checkbox cb-green" [(ngModel)]="t.approved">
-              </td>
-              <td *ngIf="activeSprint.kind !== 'backlog'" class="text-center" style="vertical-align: middle;">
-                <a class="tdLink" style="text-decoration: underline; cursor: pointer;" (click)="openNotesDialog(t)">
+                <a class="notes-link" (click)="openNotesDialog(t)" matTooltip="View Notes / Messages" style="cursor: pointer;">
                   {{ t.notes?.length || 0 }}
                 </a>
               </td>
-              <td *ngIf="activeSprint.kind !== 'backlog'" class="text-center" style="vertical-align: middle; min-width: 130px;">
-                <input type="range" min="0" max="100" [(ngModel)]="t.progress" class="custom-range"
-                  [style.--slider-color]="getSliderColor(t.progress || 0)"
-                  [style.--slider-fill]="(t.progress || 0) + '%'" matTooltip="{{ t.progress || 0 }}%">
+              <td *ngIf="activeSprint.kind !== 'backlog'" class="text-center" style="vertical-align: middle;">
+                <div style="display: flex; align-items: center; gap: 8px; justify-content: center;">
+                  <input type="range" min="0" max="100" [ngModel]="t.progress || 0"
+                    (ngModelChange)="t.progress = $event" class="custom-range-slider"
+                    [style.accent-color]="getSliderColor(t.progress || 0)" style="width: 70px;" />
+                  <span style="font-size: 12px; font-weight: 600; min-width: 32px; text-align: right;">
+                    {{ t.progress || 0 }}%
+                  </span>
+                </div>
               </td>
 
-              <td *ngIf="activeSprint.kind === 'backlog'" class="text-center" style="vertical-align: middle;">{{ t.effort }}</td>
-              <td *ngIf="activeSprint.kind === 'backlog'" class="text-center" style="vertical-align: middle;">{{ t.duration }}</td>
-              <td class="text-left" style="vertical-align: middle;">
-                <span [class]="getStageClasses(t.stage)">{{ t.stage }}</span>
+              <!-- Backlog-only columns -->
+              <td *ngIf="activeSprint.kind === 'backlog'" class="text-center" style="vertical-align: middle;">{{ t.effort }}h</td>
+              <td *ngIf="activeSprint.kind === 'backlog'" class="text-center" style="vertical-align: middle;">{{ t.duration }}d</td>
+              <td class="text-left" style="vertical-align: middle;"><span [class]="getStageClasses(t.stage)">{{ t.stage }}</span></td>
+              <td *ngIf="activeSprint.kind === 'backlog'" class="text-left" style="max-width: 300px; white-space: normal; vertical-align: middle;">
+                {{ t.description }}
               </td>
-              <td *ngIf="activeSprint.kind === 'backlog'" class="text-left" style="vertical-align: middle;">{{ t.description }}</td>
 
               <!-- Timeline Action -->
-              <td style="vertical-align: middle;" class="text-center">
+              <td class="text-center" style="vertical-align: middle;">
                 <button mat-icon-button (click)="openTimelineModal(t)" matTooltip="View Timeline" style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
                   <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
                     calendar_today
@@ -161,18 +167,22 @@
 
     <!-- ============ KANBAN VIEW ============ -->
     <div class="kanban-view" *ngIf="activeView === 'kanban'">
-      <div class="kanban-board" cdkDropListGroup>
-        <div *ngFor="let stage of stages" class="kanban-column">
+      <div class="kanban-board" cdkDropListGroup style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px;">
+        <div *ngFor="let status of kanbanStatuses" class="kanban-column" style="flex: 1; min-width: 230px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px;">
           <!-- Column Header -->
-          <div class="kanban-column-header">
-            <span [class]="getStageClasses(stage)">{{ stage }}</span>
-            <span class="kanban-column-count">{{ kanbanCards[stage]?.length || 0 }}</span>
+          <div style="background-color: #374151; color: white; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span [class]="getStatusClasses(status)">{{ status }}</span>
+            </div>
+            <span style="background-color: white; color: #1e293b; font-weight: 700; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px;">
+              {{ kanbanCards[status]?.length || 0 }}
+            </span>
           </div>
           <!-- Card List Drop Zone -->
-          <div cdkDropList [id]="stage" [cdkDropListData]="kanbanCards[stage]"
-            (cdkDropListDropped)="drop($event, stage)" class="kanban-cards-container" style="min-height: 150px;">
+          <div cdkDropList [id]="status" [cdkDropListData]="kanbanCards[status]"
+            (cdkDropListDropped)="dropStatus($event, status)" class="kanban-cards-container" style="min-height: 150px;">
 
-            <div *ngFor="let t of kanbanCards[stage]; trackBy: trackById" cdkDrag class="kanban-card">
+            <div *ngFor="let t of kanbanCards[status]; trackBy: trackById" cdkDrag class="kanban-card">
               <div class="kanban-card-header">
                 <span class="kanban-card-title">{{ t.task }}</span>
                 <div class="kanban-card-actions">
@@ -192,7 +202,7 @@
               </div>
             </div>
             <!-- Empty state for column -->
-            <div *ngIf="(!kanbanCards[stage] || kanbanCards[stage].length === 0)" class="kanban-empty-state">
+            <div *ngIf="(!kanbanCards[status] || kanbanCards[status].length === 0)" class="kanban-empty-state">
               No tasks
             </div>
           </div>
@@ -239,11 +249,29 @@
     </div>
 
     <!-- ============ GANTT VIEW ============ -->
-    <div class="gantt-view" *ngIf="activeView === 'gantt'">
-      <div class="gantt-container" *ngIf="ganttDays.length > 0; else noGanttTasks">
+    <div class="gantt-view" *ngIf="activeView === 'gantt'" style="padding: 0;">
+      <!-- Scale Toggler Bar (Right-aligned) -->
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+        <div class="view-toggle" style="margin-bottom: 0;">
+          <button mat-button class="view-btn" [class.active]="ganttScale === 'monthly'"
+            (click)="setGanttScale('monthly')">
+            Monthly
+          </button>
+          <button mat-button class="view-btn" [class.active]="ganttScale === 'weekly'"
+            (click)="setGanttScale('weekly')">
+            Weekly
+          </button>
+          <button mat-button class="view-btn" [class.active]="ganttScale === 'daily'"
+            (click)="setGanttScale('daily')">
+            Daily
+          </button>
+        </div>
+      </div>
+
+      <div class="gantt-container" *ngIf="filteredTasks.length > 0; else noGanttTasks">
         <!-- Left vertical Task Column -->
         <div class="gantt-tasks-column">
-          <div class="gantt-header-cell">TASK</div>
+          <div class="gantt-header-cell" [class.gantt-header-cell--two-rows]="ganttScale === 'weekly' || ganttScale === 'daily'">TASK</div>
           <div *ngFor="let t of filteredTasks" class="gantt-task-cell">
             <div class="gantt-task-name">{{ t.task }}</div>
             <div class="gantt-task-code">{{ t.taskCode }}</div>
@@ -252,27 +280,52 @@
 
         <!-- Right scrollable Timeline Area -->
         <div class="gantt-timeline-area">
-          <!-- Timeline Header Dates -->
-          <div class="gantt-header-row">
-            <div *ngFor="let day of ganttDays" class="gantt-header-date-cell">
-              <div class="gantt-header-month">{{ day | date:'MMM' }}</div>
-              <div class="gantt-header-day">{{ day | date:'d' }}</div>
-            </div>
-          </div>
-
-          <!-- Timeline Rows -->
-          <div class="gantt-rows-container">
-            <div *ngFor="let t of filteredTasks" class="gantt-row">
-              <!-- Grid background line indicators -->
-              <div class="gantt-grid-background">
-                <div *ngFor="let day of ganttDays" class="gantt-grid-column"></div>
+          <div [style.min-width]="ganttScale === 'daily' ? 'max-content' : '100%'" style="display: inline-block; width: 100%;">
+            <!-- Timeline Header: MONTHLY -->
+            <div class="gantt-header-row" *ngIf="ganttScale === 'monthly'">
+              <div *ngFor="let m of ganttMonths" class="gantt-header-date-cell gantt-header-month-cell">
+                <div class="gantt-header-month-title">{{ m.name }}</div>
               </div>
+            </div>
 
-              <!-- Bar -->
-              <div [ngClass]="getStageClasses(t.stage)" [ngStyle]="getGanttBarStyle(t, ganttDays)"
-                class="gantt-task-bar" (click)="editAsset(t)"
-                [matTooltip]="t.task + ' - Effort: ' + t.effort + 'h. Click to Edit'">
-                <span class="gantt-bar-label">{{ t.stage }} &middot; {{ t.effort }}h</span>
+            <!-- Timeline Header: WEEKLY -->
+            <div class="gantt-header-row gantt-header-row--two-rows" *ngIf="ganttScale === 'weekly'">
+              <div *ngFor="let w of ganttWeeks" class="gantt-header-date-cell gantt-header-week-cell">
+                <div class="gantt-header-month">{{ w.monthName }}</div>
+                <div class="gantt-header-day">{{ w.label }}</div>
+              </div>
+            </div>
+
+            <!-- Timeline Header: DAILY -->
+            <div class="gantt-header-row gantt-header-row--two-rows" *ngIf="ganttScale === 'daily'">
+              <div *ngFor="let day of ganttDays" class="gantt-header-date-cell gantt-header-day-cell">
+                <div class="gantt-header-month">{{ day | date:'MMM' }}</div>
+                <div class="gantt-header-day">{{ day | date:'d' }}</div>
+              </div>
+            </div>
+
+            <!-- Timeline Rows -->
+            <div class="gantt-rows-container">
+              <div *ngFor="let t of filteredTasks" class="gantt-row">
+                <!-- Grid background line indicators -->
+                <div class="gantt-grid-background">
+                  <ng-container *ngIf="ganttScale === 'monthly'">
+                    <div *ngFor="let m of ganttMonths" class="gantt-grid-column"></div>
+                  </ng-container>
+                  <ng-container *ngIf="ganttScale === 'weekly'">
+                    <div *ngFor="let w of ganttWeeks" class="gantt-grid-column gantt-grid-column--week"></div>
+                  </ng-container>
+                  <ng-container *ngIf="ganttScale === 'daily'">
+                    <div *ngFor="let day of ganttDays" class="gantt-grid-column gantt-grid-column--day"></div>
+                  </ng-container>
+                </div>
+
+                <!-- Bar -->
+                <div [ngClass]="getStageClasses(t.stage)" [ngStyle]="getGanttBarStyle(t)"
+                  class="gantt-task-bar" (click)="editAsset(t)"
+                  [matTooltip]="t.task + ' (' + (t.planStart | date:'dd MMM yyyy') + ' to ' + (t.planFinish | date:'dd MMM yyyy') + ') - Effort: ' + t.effort + 'h. Click to Edit'">
+                  <span class="gantt-bar-label">{{ t.stage }} &middot; {{ t.effort }}h</span>
+                </div>
               </div>
             </div>
           </div>
@@ -336,17 +389,19 @@
     <div style="display: flex; justify-content: space-between; align-items: stretch; gap: 24px; flex-wrap: wrap;">
       
       <!-- Available Tasks Card -->
-      <div style="flex: 1; min-width: 400px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
-          <h2 style="font-size: 16px; font-weight: 600; color: #0f172a; margin: 0;">Available Tasks</h2>
-          <span style="background-color: #3b82f6; color: white; border-radius: 50%; min-width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; padding: 0 6px;">{{ assignAvailableTasks.length }}</span>
+      <div style="flex: 1; min-width: 400px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden;">
+        <div style="background-color: #286ba5; color: white; padding: 12px 16px; font-weight: 600; font-size: 15px; display: flex; justify-content: space-between; align-items: center; margin: -20px -20px 16px -20px; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+          <span>Available Tasks</span>
+          <span style="background-color: rgba(255,255,255,0.25); color: white; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">
+            {{ assignAvailableTasks.length }}
+          </span>
         </div>
 
         <div style="overflow-x: auto;">
-          <table class="table table-bordered table-hover text-center" style="width: 100%; border-collapse: collapse;">
+          <table class="table table-bordered table-hover text-center" style="width: 100%; border-collapse: collapse; margin-bottom: 0;">
             <thead class="tbl-head">
               <tr>
-                <th style="width: 40px; text-align: center; vertical-align: middle;"></th>
+                <th style="width: 60px; text-align: center; vertical-align: middle;">Select</th>
                 <th style="text-align: left; padding: 10px 12px; font-size: 13px; font-weight: 600;">Task Name</th>
                 <th style="padding: 10px 12px; font-size: 13px; font-weight: 600;">Task Code</th>
                 <th style="padding: 10px 12px; font-size: 13px; font-weight: 600;">Module</th>
@@ -355,15 +410,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let t of assignAvailableTasks" class="assign-row" (click)="toggleAssignAvailable(t)" style="cursor: pointer;">
-                <td style="text-align: center; vertical-align: middle; padding: 10px 4px;" (click)="$event.stopPropagation()">
-                  <input type="checkbox" [checked]="t.selected" (change)="toggleAssignAvailable(t)" style="cursor: pointer; width: 16px; height: 16px;">
+              <tr *ngFor="let t of assignAvailableTasks" class="assign-row" [style.background-color]="t.selected ? '#eff6ff' : 'transparent'" (click)="toggleAssignAvailable(t)" style="cursor: pointer;">
+                <td style="text-align: center; vertical-align: middle; padding: 10px 12px;" (click)="$event.stopPropagation()">
+                  <input type="checkbox" [checked]="t.selected" (change)="toggleAssignAvailable(t)" style="cursor: pointer; width: 15px; height: 15px; vertical-align: middle; margin: 0;">
                 </td>
-                <td style="text-align: left; padding: 10px 12px; font-size: 13px; font-weight: 500; color: #2563eb;">{{ t.name }}</td>
+                <td style="text-align: left; padding: 10px 12px; font-size: 13px; font-weight: 500; color: #2563eb; vertical-align: middle;">{{ t.name }}</td>
                 <td style="padding: 10px 12px; font-size: 13px; color: #64748b; vertical-align: middle;">{{ t.code }}</td>
                 <td style="padding: 10px 12px; font-size: 13px; color: #64748b; vertical-align: middle;">{{ t.module }}</td>
                 <td style="padding: 10px 12px; font-size: 13px; color: #64748b; vertical-align: middle;">{{ t.duration }}</td>
                 <td style="padding: 10px 12px; font-size: 13px; color: #64748b; vertical-align: middle;">{{ t.effort }}</td>
+              </tr>
+              <tr *ngIf="assignAvailableTasks.length === 0">
+                <td colspan="6" style="text-align: center; color: #94a3b8; padding: 20px;">No available tasks.</td>
               </tr>
             </tbody>
           </table>
@@ -379,14 +437,16 @@
       </div>
 
       <!-- Assigned Tasks Card -->
-      <div style="flex: 1; min-width: 400px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
-          <h2 style="font-size: 16px; font-weight: 600; color: #0f172a; margin: 0;">Assigned Tasks</h2>
-          <span style="background-color: #3b82f6; color: white; border-radius: 50%; min-width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; padding: 0 6px;">{{ assignAssignedTasks.length }}</span>
+      <div style="flex: 1; min-width: 400px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden;">
+        <div style="background-color: #286ba5; color: white; padding: 12px 16px; font-weight: 600; font-size: 15px; display: flex; justify-content: space-between; align-items: center; margin: -20px -20px 16px -20px; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+          <span>Assigned Tasks</span>
+          <span style="background-color: rgba(255,255,255,0.25); color: white; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">
+            {{ assignAssignedTasks.length }}
+          </span>
         </div>
 
         <div style="overflow-x: auto;">
-          <table class="table table-bordered table-hover text-center" style="width: 100%; border-collapse: collapse;">
+          <table class="table table-bordered table-hover text-center" style="width: 100%; border-collapse: collapse; margin-bottom: 0;">
             <thead class="tbl-head">
               <tr>
                 <th style="text-align: left; padding: 10px 12px; font-size: 13px; font-weight: 600;">Task Name</th>
@@ -398,11 +458,14 @@
             </thead>
             <tbody>
               <tr *ngFor="let t of assignAssignedTasks">
-                <td style="text-align: left; padding: 10px 12px; font-size: 13px; font-weight: 500; color: #2563eb;">{{ t.name }}</td>
+                <td style="text-align: left; padding: 10px 12px; font-size: 13px; font-weight: 500; color: #2563eb; vertical-align: middle;">{{ t.name }}</td>
                 <td style="padding: 10px 12px; font-size: 13px; color: #64748b; vertical-align: middle;">{{ t.code }}</td>
                 <td style="padding: 10px 12px; font-size: 13px; color: #64748b; vertical-align: middle;">{{ t.module }}</td>
                 <td style="padding: 10px 12px; font-size: 13px; color: #64748b; vertical-align: middle;">{{ t.duration }}</td>
                 <td style="padding: 10px 12px; font-size: 13px; color: #64748b; vertical-align: middle;">{{ t.effort }}</td>
+              </tr>
+              <tr *ngIf="assignAssignedTasks.length === 0">
+                <td colspan="5" style="text-align: center; color: #94a3b8; padding: 20px;">No assigned tasks.</td>
               </tr>
             </tbody>
           </table>

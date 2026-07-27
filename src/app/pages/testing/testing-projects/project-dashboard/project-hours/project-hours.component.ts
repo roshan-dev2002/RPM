@@ -62,7 +62,7 @@ export class ProjectHoursComponent implements OnInit {
 
   // Pagination variables
   paginatedEntries: HourEntry[] = [];
-  pageSize: number = 5;
+  pageSize: number = 10;
   currentPage: number = 1;
   pageSizeOptions: number[] = [5, 10, 15, 20];
 
@@ -122,6 +122,85 @@ export class ProjectHoursComponent implements OnInit {
       declined: false,
       pending: false,
       messages: [{ sender: 'Vijay Verma', date: '2025-06-02', text: 'Audit passed successfully' }]
+    },
+    {
+      dateObj: new Date(2025, 5, 2),
+      jobCode: 'JB-211',
+      name: 'Siddharth Rao',
+      tasksList: [
+        { module: 'Core Development', task: 'API Gateway Implementation', hours: 3.0, description: 'Built authentication endpoints' },
+        { module: 'Core Development', task: 'Database ORM Mapping', hours: 2.0, description: 'Mapped relational schema' }
+      ],
+      totalHours: 5.0,
+      approved: true,
+      declined: false,
+      pending: false,
+      messages: [{ sender: 'Siddharth Rao', date: '2025-06-02', text: 'API endpoints ready for testing' }]
+    },
+    {
+      dateObj: new Date(2025, 5, 2),
+      jobCode: 'JB-212',
+      name: 'Ananya Mishra',
+      tasksList: [
+        { module: 'UX & Specification', task: 'Wireframe Validation', hours: 4.0, description: 'Figma mockups review with leads' }
+      ],
+      totalHours: 4.0,
+      approved: false,
+      declined: false,
+      pending: true,
+      messages: []
+    },
+    {
+      dateObj: new Date(2025, 5, 2),
+      jobCode: 'JB-213',
+      name: 'Karan Malhotra',
+      tasksList: [
+        { module: 'Process & Design Engineering', task: 'Structural CAD Model', hours: 2.5, description: 'Revised load bearing specs' }
+      ],
+      totalHours: 2.5,
+      approved: true,
+      declined: false,
+      pending: false,
+      messages: [{ sender: 'Karan Malhotra', date: '2025-06-02', text: 'CAD files uploaded to server' }]
+    },
+    {
+      dateObj: new Date(2025, 5, 2),
+      jobCode: 'JB-214',
+      name: 'Deepak Nambiar',
+      tasksList: [
+        { module: 'Testing & QA', task: 'Security Scan Audit', hours: 6.0, description: 'Executed OWASP security scan' }
+      ],
+      totalHours: 6.0,
+      approved: false,
+      declined: true,
+      pending: false,
+      messages: [{ sender: 'Security Team', date: '2025-06-02', text: 'Overtime hours not pre-approved' }]
+    },
+    {
+      dateObj: new Date(2025, 5, 2),
+      jobCode: 'JB-215',
+      name: 'Pooja Hegde',
+      tasksList: [
+        { module: 'Testing & QA', task: 'Unit Test Suites', hours: 3.5, description: 'Wrote unit test cases for auth service' }
+      ],
+      totalHours: 3.5,
+      approved: true,
+      declined: false,
+      pending: false,
+      messages: []
+    },
+    {
+      dateObj: new Date(2025, 5, 2),
+      jobCode: 'JB-216',
+      name: 'Arjun Reddy',
+      tasksList: [
+        { module: 'UAT & Compliance', task: 'Client Verification Session', hours: 4.5, description: 'Staging environment demo' }
+      ],
+      totalHours: 4.5,
+      approved: false,
+      declined: false,
+      pending: true,
+      messages: [{ sender: 'Arjun Reddy', date: '2025-06-02', text: 'Awaiting client sign-off' }]
     },
     {
       dateObj: new Date(2025, 5, 9),

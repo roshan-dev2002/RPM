@@ -13,6 +13,7 @@ interface ScheduleTask {
   status: 'Pending' | 'Ongoing' | 'Completed' | 'Exceeded';
   completion: number;
   stage: 'Design' | 'Development' | 'Testing' | 'Deployment';
+  sprint?: string;
 }
 
 interface TimelineDay {
@@ -44,19 +45,41 @@ export class ProjectScheduleComponent implements OnInit {
   viewMode: 'grid' | 'gantt' = 'gantt';
   isMaskingPending = false;
 
+  filterToggle = false;
   stages = ['Design', 'Development', 'Testing', 'Deployment'];
-  stageFilter = 'all';
+  stageFilter = 'Design';
+  sprints = ['Sprint 1', 'Sprint 2', 'Sprint 3', 'Sprint 4', 'Sprint 5'];
+  sprintFilter = 'all';
+  modules = ['Concept & Feasibility', 'Process & Design Engineering', 'Tooling & Prototyping', 'Pilot Production Run'];
+  moduleFilter = 'all';
 
   get stats() {
-    const tasks = this.stageFilter === 'all' 
-      ? this.allTasks 
-      : this.allTasks.filter(t => t.stage === this.stageFilter);
+    let tasks = this.allTasks;
+    if (this.stageFilter && this.stageFilter !== 'all') {
+      tasks = tasks.filter(t => t.stage === this.stageFilter);
+    }
+    if (this.sprintFilter && this.sprintFilter !== 'all') {
+      tasks = tasks.filter(t => t.sprint === this.sprintFilter);
+    }
+    if (this.moduleFilter && this.moduleFilter !== 'all') {
+      tasks = tasks.filter(t => t.module === this.moduleFilter);
+    }
     return {
       pending: tasks.filter(t => t.status === 'Pending').length,
       ongoing: tasks.filter(t => t.status === 'Ongoing').length,
       completed: tasks.filter(t => t.status === 'Completed').length,
       exceeded: tasks.filter(t => t.status === 'Exceeded').length
     };
+  }
+
+  applyFilter() {
+    // Reactive getters automatically refresh displayedTasks and stats
+  }
+
+  clearFilter() {
+    this.stageFilter = 'Design';
+    this.sprintFilter = 'all';
+    this.moduleFilter = 'all';
   }
 
   // Custom splitter state
@@ -66,6 +89,7 @@ export class ProjectScheduleComponent implements OnInit {
   dayWidth: number = 40; // width in pixels of each day column
 
   allTasks: ScheduleTask[] = [
+    // ─── Design stage ───────────────────────────────────────────────
     {
       id: 'T1',
       name: 'Requirements gathering',
@@ -94,7 +118,7 @@ export class ProjectScheduleComponent implements OnInit {
     },
     {
       id: 'T3',
-      name: 'UI Mockups',
+      name: 'UI Mockups & Wireframes',
       module: 'Process & Design Engineering',
       assignee: 'Mia Chen',
       planStart: new Date(2026, 5, 5),
@@ -105,6 +129,60 @@ export class ProjectScheduleComponent implements OnInit {
       completion: 100,
       stage: 'Design'
     },
+    {
+      id: 'T10',
+      name: 'Design System & Tokens',
+      module: 'Concept & Feasibility',
+      assignee: 'Mia Chen',
+      planStart: new Date(2026, 5, 2),
+      planEnd: new Date(2026, 5, 6),
+      actualStartObj: new Date(2026, 5, 2),
+      actualEndObj: new Date(2026, 5, 6),
+      status: 'Completed',
+      completion: 100,
+      stage: 'Design'
+    },
+    {
+      id: 'T11',
+      name: 'Ergonomic Specs & Layout',
+      module: 'Process & Design Engineering',
+      assignee: 'Ana Vega',
+      planStart: new Date(2026, 5, 8),
+      planEnd: new Date(2026, 5, 13),
+      actualStartObj: new Date(2026, 5, 8),
+      actualEndObj: null,
+      status: 'Ongoing',
+      completion: 80,
+      stage: 'Design'
+    },
+    {
+      id: 'T12',
+      name: 'CAD Model Verification',
+      module: 'Process & Design Engineering',
+      assignee: 'Ravi Shah',
+      planStart: new Date(2026, 5, 12),
+      planEnd: new Date(2026, 5, 17),
+      actualStartObj: new Date(2026, 5, 12),
+      actualEndObj: null,
+      status: 'Ongoing',
+      completion: 50,
+      stage: 'Design'
+    },
+    {
+      id: 'T13',
+      name: 'Final Design Documentation',
+      module: 'Concept & Feasibility',
+      assignee: 'Ana Vega',
+      planStart: new Date(2026, 5, 18),
+      planEnd: new Date(2026, 5, 22),
+      actualStartObj: null,
+      actualEndObj: null,
+      status: 'Pending',
+      completion: 0,
+      stage: 'Design'
+    },
+
+    // ─── Development stage ──────────────────────────────────────────
     {
       id: 'T4',
       name: 'Database Schema',
@@ -145,6 +223,60 @@ export class ProjectScheduleComponent implements OnInit {
       stage: 'Development'
     },
     {
+      id: 'T14',
+      name: 'Microservices Gateway',
+      module: 'Tooling & Prototyping',
+      assignee: 'Diego Ruiz',
+      planStart: new Date(2026, 5, 3),
+      planEnd: new Date(2026, 5, 9),
+      actualStartObj: new Date(2026, 5, 3),
+      actualEndObj: new Date(2026, 5, 8),
+      status: 'Completed',
+      completion: 100,
+      stage: 'Development'
+    },
+    {
+      id: 'T15',
+      name: 'Event Streaming Engine',
+      module: 'Tooling & Prototyping',
+      assignee: 'Leo Park',
+      planStart: new Date(2026, 5, 7),
+      planEnd: new Date(2026, 5, 13),
+      actualStartObj: new Date(2026, 5, 7),
+      actualEndObj: new Date(2026, 5, 15),
+      status: 'Exceeded',
+      completion: 100,
+      stage: 'Development'
+    },
+    {
+      id: 'T16',
+      name: 'User Auth & Role Policies',
+      module: 'Process & Design Engineering',
+      assignee: 'Priya Nair',
+      planStart: new Date(2026, 5, 15),
+      planEnd: new Date(2026, 5, 21),
+      actualStartObj: new Date(2026, 5, 15),
+      actualEndObj: null,
+      status: 'Ongoing',
+      completion: 30,
+      stage: 'Development'
+    },
+    {
+      id: 'T17',
+      name: 'Analytics & Reporting Engine',
+      module: 'Tooling & Prototyping',
+      assignee: 'Diego Ruiz',
+      planStart: new Date(2026, 5, 20),
+      planEnd: new Date(2026, 5, 26),
+      actualStartObj: null,
+      actualEndObj: null,
+      status: 'Pending',
+      completion: 0,
+      stage: 'Development'
+    },
+
+    // ─── Testing stage ─────────────────────────────────────────────
+    {
       id: 'T7',
       name: 'QA & Testing',
       module: 'Tooling & Prototyping',
@@ -161,7 +293,7 @@ export class ProjectScheduleComponent implements OnInit {
       id: 'T8',
       name: 'Security Review',
       module: 'Tooling & Prototyping',
-      assignee: 'Unassigned',
+      assignee: 'Sara Iqbal',
       planStart: new Date(2026, 5, 21),
       planEnd: new Date(2026, 5, 25),
       actualStartObj: null,
@@ -171,12 +303,157 @@ export class ProjectScheduleComponent implements OnInit {
       stage: 'Testing'
     },
     {
+      id: 'T18',
+      name: 'Unit Test Suite Setup',
+      module: 'Tooling & Prototyping',
+      assignee: 'Sara Iqbal',
+      planStart: new Date(2026, 5, 4),
+      planEnd: new Date(2026, 5, 8),
+      actualStartObj: new Date(2026, 5, 4),
+      actualEndObj: new Date(2026, 5, 7),
+      status: 'Completed',
+      completion: 100,
+      stage: 'Testing'
+    },
+    {
+      id: 'T19',
+      name: 'API Contract Validation',
+      module: 'Process & Design Engineering',
+      assignee: 'Mei Tanaka',
+      planStart: new Date(2026, 5, 10),
+      planEnd: new Date(2026, 5, 15),
+      actualStartObj: new Date(2026, 5, 10),
+      actualEndObj: null,
+      status: 'Ongoing',
+      completion: 70,
+      stage: 'Testing'
+    },
+    {
+      id: 'T20',
+      name: 'Load & Performance Stress Test',
+      module: 'Tooling & Prototyping',
+      assignee: 'Mei Tanaka',
+      planStart: new Date(2026, 5, 16),
+      planEnd: new Date(2026, 5, 21),
+      actualStartObj: new Date(2026, 5, 16),
+      actualEndObj: null,
+      status: 'Ongoing',
+      completion: 45,
+      stage: 'Testing'
+    },
+    {
+      id: 'T21',
+      name: 'Cross-browser Smoke Suite',
+      module: 'Process & Design Engineering',
+      assignee: 'Sara Iqbal',
+      planStart: new Date(2026, 5, 22),
+      planEnd: new Date(2026, 5, 26),
+      actualStartObj: null,
+      actualEndObj: null,
+      status: 'Pending',
+      completion: 0,
+      stage: 'Testing'
+    },
+    {
+      id: 'T22',
+      name: 'Client UAT Sign-off',
+      module: 'Pilot Production Run',
+      assignee: 'Mei Tanaka',
+      planStart: new Date(2026, 5, 25),
+      planEnd: new Date(2026, 5, 29),
+      actualStartObj: null,
+      actualEndObj: null,
+      status: 'Pending',
+      completion: 0,
+      stage: 'Testing'
+    },
+
+    // ─── Deployment stage ───────────────────────────────────────────
+    {
       id: 'T9',
-      name: 'Deployment',
+      name: 'Staging Pipeline Deployment',
       module: 'Pilot Production Run',
       assignee: 'Leo Park',
       planStart: new Date(2026, 5, 24),
       planEnd: new Date(2026, 5, 28),
+      actualStartObj: null,
+      actualEndObj: null,
+      status: 'Pending',
+      completion: 0,
+      stage: 'Deployment'
+    },
+    {
+      id: 'T23',
+      name: 'Docker Base Image Build',
+      module: 'Pilot Production Run',
+      assignee: 'Olivia Brown',
+      planStart: new Date(2026, 5, 2),
+      planEnd: new Date(2026, 5, 6),
+      actualStartObj: new Date(2026, 5, 2),
+      actualEndObj: new Date(2026, 5, 5),
+      status: 'Completed',
+      completion: 100,
+      stage: 'Deployment'
+    },
+    {
+      id: 'T24',
+      name: 'Infrastructure Terraform Setup',
+      module: 'Pilot Production Run',
+      assignee: 'Olivia Brown',
+      planStart: new Date(2026, 5, 6),
+      planEnd: new Date(2026, 5, 12),
+      actualStartObj: new Date(2026, 5, 6),
+      actualEndObj: new Date(2026, 5, 14),
+      status: 'Exceeded',
+      completion: 100,
+      stage: 'Deployment'
+    },
+    {
+      id: 'T25',
+      name: 'Kubernetes Cluster Config',
+      module: 'Pilot Production Run',
+      assignee: 'Diego Ruiz',
+      planStart: new Date(2026, 5, 13),
+      planEnd: new Date(2026, 5, 18),
+      actualStartObj: new Date(2026, 5, 13),
+      actualEndObj: null,
+      status: 'Ongoing',
+      completion: 60,
+      stage: 'Deployment'
+    },
+    {
+      id: 'T26',
+      name: 'SSL & Domain Routing',
+      module: 'Pilot Production Run',
+      assignee: 'Olivia Brown',
+      planStart: new Date(2026, 5, 17),
+      planEnd: new Date(2026, 5, 22),
+      actualStartObj: new Date(2026, 5, 17),
+      actualEndObj: null,
+      status: 'Ongoing',
+      completion: 35,
+      stage: 'Deployment'
+    },
+    {
+      id: 'T27',
+      name: 'CI/CD Release Automation',
+      module: 'Pilot Production Run',
+      assignee: 'Diego Ruiz',
+      planStart: new Date(2026, 5, 22),
+      planEnd: new Date(2026, 5, 27),
+      actualStartObj: null,
+      actualEndObj: null,
+      status: 'Pending',
+      completion: 0,
+      stage: 'Deployment'
+    },
+    {
+      id: 'T28',
+      name: 'Production Rollout & Telemetry',
+      module: 'Pilot Production Run',
+      assignee: 'Olivia Brown',
+      planStart: new Date(2026, 5, 26),
+      planEnd: new Date(2026, 5, 30),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
@@ -190,8 +467,14 @@ export class ProjectScheduleComponent implements OnInit {
     if (this.isMaskingPending) {
       tasks = tasks.filter(x => x.status !== 'Pending');
     }
-    if (this.stageFilter !== 'all') {
+    if (this.stageFilter && this.stageFilter !== 'all') {
       tasks = tasks.filter(x => x.stage === this.stageFilter);
+    }
+    if (this.sprintFilter && this.sprintFilter !== 'all') {
+      tasks = tasks.filter(x => x.sprint === this.sprintFilter);
+    }
+    if (this.moduleFilter && this.moduleFilter !== 'all') {
+      tasks = tasks.filter(x => x.module === this.moduleFilter);
     }
     return tasks;
   }

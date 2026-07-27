@@ -66,15 +66,13 @@ $c-pending: #a1a1aa;
 
 
 .back-btn {
-  margin-left: auto;
+  margin-left: 0;
   display: flex;
   align-items: center;
   gap: 6px;
-  height: 40px;
+  height: 38px;
   padding: 0 16px;
   border-radius: 4px;
-  // margin-right: -31px;
-  // margin-bottom: -50px;
 }
 
 .stats-badges {

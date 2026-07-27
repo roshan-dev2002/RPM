@@ -190,11 +190,12 @@
                   </ng-container>
                 </div>
 
-                <!-- Bar -->
-                <div [ngClass]="getStageGanttClass(s.name)" [ngStyle]="getGanttBarStyle(s)"
+                <!-- Bars -->
+                <div *ngFor="let b of getStageBars(s); let i = index"
+                  [ngClass]="getStageGanttClass(b.name)" [ngStyle]="getGanttBarStyle(b, i)"
                   class="gantt-task-bar" (click)="openEditStage(s, -1)"
-                  [matTooltip]="s.name + ' (' + (s.planStart | date:'dd MMM yyyy') + ' to ' + (s.planEnd | date:'dd MMM yyyy') + ') - Effort: ' + s.planEffort + '. Click to Edit'">
-                  <span class="gantt-bar-label">{{ s.name }} &middot; {{ s.planEffort }}</span>
+                  [matTooltip]="b.name + ' (' + (b.planStart | date:'dd MMM yyyy') + ' to ' + (b.planEnd | date:'dd MMM yyyy') + ') - Effort: ' + b.planEffort + '. Click to Edit'">
+                  <span class="gantt-bar-label">{{ b.name }} &middot; {{ b.planEffort }}</span>
                 </div>
               </div>
             </div>
@@ -325,12 +326,9 @@
               <tr>
                 <th class="text-center" style="width: 112px !important">Actions</th>
                 <th class="text-left">Task</th>
-                <th class="text-center">Task Code</th>
                 <th class="text-center">Job Code</th>
-                <th class="text-center">Effort</th>
                 <th class="text-left">Department</th>
                 <th class="text-left">Responsibility</th>
-                <th class="text-left">Section</th>
                 <th class="text-center">Expenses</th>
                 <th class="text-center">Priority</th>
                 <th class="text-center">Timeline</th>
@@ -351,12 +349,9 @@
                     </td>
 
                     <td class="text-left"><strong>{{ t.task }}</strong></td>
-                    <td class="text-center"><span class="code-badge">{{ t.taskCode }}</span></td>
                     <td class="text-center"><span class="code-badge">{{ t.jobCode }}</span></td>
-                    <td class="text-center">{{ t.effort }}h</td>
                     <td class="text-left">{{ t.department }}</td>
                     <td class="text-left">{{ t.role }}</td>
-                    <td class="text-left">{{ t.section || '—' }}</td>
                     <td class="text-center">{{ t.expenses }}</td>
                     <td class="text-center">
                       <span class="priority-label" [class]="'priority-label--' + t.priority.toLowerCase()">
@@ -375,12 +370,12 @@
                   </tr>
                 </ng-container>
                 <tr *ngIf="getFilteredTasks(currentMod.tasks).length === 0">
-                  <td colspan="11" class="empty-table-cell">No tasks match the filters inside this module. Click "Add Task" to create one.
+                  <td colspan="8" class="empty-table-cell">No tasks match the filters inside this module. Click "Add Task" to create one.
                   </td>
                 </tr>
               </ng-container>
               <tr *ngIf="!activeStage.modules || activeStage.modules.length === 0">
-                <td colspan="11" class="empty-table-cell">Please add a Stimulation module from the sidebar first.</td>
+                <td colspan="8" class="empty-table-cell">Please add a Stimulation module from the sidebar first.</td>
               </tr>
             </tbody>
           </table>
@@ -887,12 +882,33 @@
     <!-- Body -->
     <div style="flex-grow: 1; overflow-y: auto; overflow-x: hidden; width: 100%; padding-top: 10px;">
       <div class="col-sm-12" style="padding: 0;">
+        <!-- Module Name -->
         <div class="row" style="margin-bottom: 12px; display: flex; align-items: center; margin-left: 0; margin-right: 0;">
           <div class="col-sm-4 text-end">
             <label class="control-label" style="font-weight: 500; margin: 0; line-height: 35px; white-space: nowrap;">Module Name:</label>
           </div>
           <div class="col-sm-8">
             <input type="text" class="form-control back" [(ngModel)]="newModuleName" placeholder="Enter module name" style="height: 35px;" />
+          </div>
+        </div>
+
+        <!-- Planned Start Date -->
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center; margin-left: 0; margin-right: 0;">
+          <div class="col-sm-4 text-end">
+            <label class="control-label" style="font-weight: 500; margin: 0; line-height: 35px; white-space: nowrap;">Planned Start Date:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="date" class="form-control back" [(ngModel)]="newModulePlanStart" style="height: 35px;" />
+          </div>
+        </div>
+
+        <!-- Planned End Date -->
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center; margin-left: 0; margin-right: 0;">
+          <div class="col-sm-4 text-end">
+            <label class="control-label" style="font-weight: 500; margin: 0; line-height: 35px; white-space: nowrap;">Planned End Date:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="date" class="form-control back" [(ngModel)]="newModulePlanEnd" style="height: 35px;" />
           </div>
         </div>
       </div>
@@ -957,7 +973,7 @@
 
         <div class="timeline-row-divider"></div>
 
-        <!-- Row 2: Actual End Date, ETA -->
+        <!-- Row 2: Actual End Date, ETA, Actual Hours -->
         <div class="timeline-grid-row">
           <div class="timeline-date-col">
             <div class="timeline-date-label">Actual End Date</div>
@@ -975,6 +991,30 @@
             <div class="timeline-date-label">Actual Hours</div>
             <div class="timeline-date-value">
               {{ (selectedTimelineItem?.actualHours !== undefined && selectedTimelineItem?.actualHours !== null) ? selectedTimelineItem.actualHours + ' hrs' : '—' }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Section, Task Code, Effort -->
+        <div class="timeline-row-divider"></div>
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Section</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineItem?.section || 'Section A' }}
+            </div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Task Code</div>
+            <div class="timeline-date-value">
+              <span class="code-badge" *ngIf="selectedTimelineItem?.taskCode">{{ selectedTimelineItem.taskCode }}</span>
+              <span *ngIf="!selectedTimelineItem?.taskCode">&mdash;</span>
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Effort</div>
+            <div class="timeline-date-value">
+              {{ (selectedTimelineItem?.effort !== undefined && selectedTimelineItem?.effort !== null) ? selectedTimelineItem.effort + 'h' : '—' }}
             </div>
           </div>
         </div>

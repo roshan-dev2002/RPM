@@ -296,27 +296,30 @@ $bg-light: #f9fafb;
 
   .table-responsive {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
     scroll-behavior: smooth; // Allows the scrolling jump to look fluid
   }
 
   .expenses-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 850px;
+    min-width: 100%;
 
     th,
     td {
-      padding: 16px;
-      text-align: left;
+      padding: 10px 15px;
       font-size: 13px;
-      border-bottom: 1px solid $border-color;
+      color: #1e293b;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: middle;
     }
 
     th {
-      color: $text-secondary;
-      font-weight: 500;
-      background-color: rgb(249, 251, 254);
+      color: #ffffff !important;
+      font-weight: 600;
+      font-size: 13px;
+      background-color: #3f3f3f !important;
+      padding: 12px 15px;
     }
 
     .actions-header {
@@ -732,8 +735,9 @@ $bg-light: #f9fafb;
 }
 
 .tdLink {
-  color: #206095 !important;
+  color: #2563eb !important;
   font-weight: 600;
+  font-size: 13px;
   text-decoration: underline;
   cursor: pointer;
 }

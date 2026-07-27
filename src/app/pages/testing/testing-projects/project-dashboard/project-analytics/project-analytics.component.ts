@@ -205,7 +205,7 @@ export class ProjectAnalyticsComponent implements OnInit {
   // UPDATED: Buffer Bar Chart with alternating green and pink colors
   bufferBarChartOptions: Highcharts.Options = {
     chart: { type: 'column', backgroundColor: 'transparent' },
-    title: { text: '' },
+    title: { text: undefined },
     credits: { enabled: false },
     xAxis: {
       title: { text: '% completion' },
@@ -459,6 +459,8 @@ export class ProjectAnalyticsComponent implements OnInit {
 
     this.bufferStageChartOptions = {
       chart: { type: 'column', backgroundColor: 'transparent' },
+      title: { text: '' },
+      credits: { enabled: false },
       xAxis: { categories: this.gateHeaders.map(g => g.label) },
       series: [
         {

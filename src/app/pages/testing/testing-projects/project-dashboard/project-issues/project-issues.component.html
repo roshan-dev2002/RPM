@@ -133,12 +133,11 @@
               <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">Actions</th>
               <th class="text-center" style="min-width: 250px; background-color: #3f3f3f; color: white; padding: 12px;">Issue Description</th>
               <th class="text-center" style="min-width: 180px; background-color: #3f3f3f; color: white; padding: 12px;">Subject</th>
-              <th class="text-center" style="min-width: 150px; background-color: #3f3f3f; color: white; padding: 12px;">Responsibility</th>
-              <th class="text-center" style="min-width: 130px; background-color: #3f3f3f; color: white; padding: 12px;">Due Date</th>
               <th class="text-center" style="min-width: 200px; background-color: #3f3f3f; color: white; padding: 12px;">Remarks</th>
               <th class="text-center" style="min-width: 120px; background-color: #3f3f3f; color: white; padding: 12px;">Status</th>
               <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">Image</th>
               <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">Document</th>
+              <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">Timeline</th>
             </tr>
           </thead>
 
@@ -154,8 +153,6 @@
               </td>
               <td class="text-left" style="white-space: normal; padding: 10px; vertical-align: middle; font-size: 13px; color: #1e293b;">{{ applicant.issueDescription }}</td>
               <td class="text-center" style="padding: 10px; vertical-align: middle; font-weight: 600; font-size: 13px;">{{ applicant.subject }}</td>
-              <td class="text-center" style="padding: 10px; vertical-align: middle; font-size: 13px;">{{ applicant.responsibility }}</td>
-              <td class="text-center" style="padding: 10px; vertical-align: middle; font-size: 13px;">{{ applicant.targetDate }}</td>
               <td class="text-left" style="white-space: normal; padding: 10px; vertical-align: middle; font-size: 13px; color: #475569;">{{ applicant.remarks }}</td>
               <td class="text-center" style="padding: 10px; vertical-align: middle;">
                 <span class="badge" [ngStyle]="{'background-color': getColor(applicant.status), 'color': 'white', 'padding': '4px 8px', 'border-radius': '4px', 'font-size': '11px', 'font-weight': '600'}">
@@ -184,20 +181,27 @@
                 </ng-container>
                 <ng-template #noDoc>NA</ng-template>
               </td>
+              <td class="text-center" style="padding: 10px; vertical-align: middle;">
+                <button mat-icon-button (click)="openTimelineModal(applicant)" matTooltip="View Timeline" style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                  <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                    calendar_today
+                  </mat-icon>
+                </button>
+              </td>
             </tr>
             <tr *ngIf="!tableList || tableList.length === 0">
-              <td colspan="9" class="text-center" style="padding: 25px;">No issues found match the selected filters.</td>
+              <td colspan="8" class="text-center" style="padding: 25px;">No issues found match the selected filters.</td>
             </tr>
           </tbody>
         </table>
 
         <!-- Floating Bottom Scroll Action Buttons matching img1 -->
-        <button class="mine" mat-fab (click)="scrollRight()">
+        <!-- <button class="mine" mat-fab (click)="scrollRight()">
           <mat-icon style="color: #37474f">fast_forward</mat-icon>
         </button>
         <button class="mine" mat-fab style="margin-right: 78px !important" (click)="scrollLeft()">
           <mat-icon style="color: #37474f">fast_rewind</mat-icon>
-        </button>
+        </button> -->
       </div>
 
       <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageIndex]="currentPage" [pageSizeOptions]="[5, 10, 25, 50]" (page)="fnHandlePage($event)" showFirstLastButtons style="margin-top: 10px;"></mat-paginator>
@@ -205,4 +209,69 @@
 
   </div>
 
+</div>
+
+<!-- ============ TIMELINE POP-UP MODAL (IMG1 DESIGN) ============ -->
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+    <!-- Header Row -->
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedTimelineItem?.subject }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Dates Grid -->
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+
+      <div class="timeline-grid-content">
+        <!-- Row 1: Responsibility, Due Date, Status -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Responsibility</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineItem?.responsibility || '&mdash;' }}
+            </div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Due Date</div>
+            <div class="timeline-date-value">
+              {{ (selectedTimelineItem?.targetDate || selectedTimelineItem?.dueDate) ? ((selectedTimelineItem.targetDate || selectedTimelineItem.dueDate) | date:'dd-MMM-yyyy') : '&mdash;' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Status</div>
+            <div class="timeline-date-value">
+              <span class="badge" [ngStyle]="{'background-color': getColor(selectedTimelineItem?.status), 'color': 'white', 'padding': '4px 8px', 'border-radius': '4px', 'font-size': '11px', 'font-weight': '600'}">
+                {{ selectedTimelineItem?.status }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Box (Positioned at bottom) -->
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+        <span>Issue Details</span>
+      </div>
+      <p class="timeline-desc-text">
+        <strong>Description:</strong> {{ selectedTimelineItem?.issueDescription || '&mdash;' }}
+      </p>
+      <p class="timeline-desc-text" style="margin-top: 6px;">
+        <strong>Remarks:</strong> {{ selectedTimelineItem?.remarks || '&mdash;' }}
+      </p>
+    </div>
+  </div>
 </div>

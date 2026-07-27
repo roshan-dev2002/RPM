@@ -68,7 +68,7 @@ export class ProjectBacklogComponent {
 
   team = ['Aarav Shah', 'Priya Nair', 'Diego Ruiz', 'Mei Tanaka', 'Olivia Brown'];
   stages: Stage[] = ['Design', 'Development', 'Testing', 'Deployment'];
-  stageFilter: 'all' | Stage = 'all';
+  stageFilter: 'all' | Stage = 'Design';
 
   showAssignmentView = false;
 
@@ -143,9 +143,8 @@ export class ProjectBacklogComponent {
   activeTabId = 'backlog';
   activeView: 'grid' | 'kanban' | 'calendar' | 'gantt' = 'grid';
 
-  kanbanCards: Record<Stage, Task[]> = {
-    Design: [], Development: [], Testing: [], Deployment: []
-  };
+  kanbanStatuses: string[] = ['Pending', 'Allocated', 'In Process', 'On Hold', 'Cancelled', 'Completed'];
+  kanbanCards: Record<string, Task[]> = {};
 
   // Calendar state
   monthNames = [
@@ -161,46 +160,81 @@ export class ProjectBacklogComponent {
     {
       id: 'backlog', label: 'Backlog', kind: 'backlog',
       tasks: [
-        this.t('Design login screen wireframes', 'TSK-101', 'JOB-21', '2026-07-01', '2026-07-03', 8, 3, 'Initial wireframes for the new login flow.', 'Design'),
-        this.t('Implement OAuth provider', 'TSK-102', 'JOB-21', '2026-07-02', '2026-07-08', 24, 6, 'Add Google and Apple sign-in providers.', 'Development'),
-        this.t('Write E2E tests for checkout', 'TSK-103', 'JOB-22', '2026-07-04', '2026-07-07', 12, 3, 'Cover the happy path and edge cases.', 'Testing'),
-        this.t('Configure staging deployment', 'TSK-104', 'JOB-23', '2026-07-05', '2026-07-06', 6, 1, 'Set up the staging environment pipeline.', 'Deployment'),
-        this.t('Develop dashboard widgets', 'TSK-105', 'JOB-21', '2026-07-03', '2026-07-08', 16, 5, 'Implement widgets for main analytics panel.', 'Development'),
-        this.t('Security pen testing', 'TSK-106', 'JOB-22', '2026-07-05', '2026-07-08', 10, 3, 'Perform vulnerability analysis.', 'Testing'),
-        this.t('Configure SSL certificates', 'TSK-107', 'JOB-23', '2026-07-06', '2026-07-07', 4, 1, 'Deploy LetsEncrypt certs on staging.', 'Deployment'),
-        this.t('Design branding & style guides', 'TSK-108', 'JOB-21', '2026-07-02', '2026-07-05', 12, 3, 'Create assets and typography guides.', 'Design')
+        // Design stage (9 records)
+        this.t('Design login screen wireframes', 'TSK-101', 'JOB-21', '2026-01-05', '2026-01-20', 16, 15, 'Initial wireframes for the new login flow.', 'Design', 'Pending'),
+        this.t('Design branding & style guides', 'TSK-108', 'JOB-21', '2026-02-01', '2026-02-25', 24, 25, 'Create assets and typography guides.', 'Design', 'Pending'),
+        this.t('UX Navigation & User Flows', 'TSK-109', 'JOB-22', '2026-03-02', '2026-03-20', 20, 18, 'Map navigation journeys and site hierarchy.', 'Design', 'Allocated'),
+        this.t('Design Component Library', 'TSK-110', 'JOB-22', '2026-04-05', '2026-04-26', 32, 21, 'Build reusable UI design tokens and components.', 'Design', 'In Process'),
+        this.t('Interactive Dashboard Mockups', 'TSK-111', 'JOB-23', '2026-05-02', '2026-05-28', 28, 26, 'Clickable Figma prototypes for executive dashboard.', 'Design', 'In Process'),
+        this.t('Mobile Responsive UI Specs', 'TSK-112', 'JOB-23', '2026-06-01', '2026-06-22', 18, 21, 'Mobile viewport layout and breakpoint specs.', 'Design', 'On Hold'),
+        this.t('Accessibility & Contrast Audit', 'TSK-113', 'JOB-24', '2026-07-01', '2026-07-15', 14, 15, 'Ensure WCAG AAA color and contrast compliance.', 'Design', 'Cancelled'),
+        this.t('Dark Theme Color Palette', 'TSK-114', 'JOB-24', '2026-08-03', '2026-08-25', 22, 22, 'Color specs and tokens for dark theme mode.', 'Design', 'Completed'),
+        this.t('Final UX Handoff & Specs', 'TSK-115', 'JOB-25', '2026-09-01', '2026-09-18', 16, 18, 'Handoff design documentation to engineering.', 'Design', 'Completed'),
+
+        // Development stage (9 records)
+        this.t('Implement OAuth provider', 'TSK-102', 'JOB-21', '2026-01-10', '2026-01-28', 24, 18, 'Add Google and Apple sign-in providers.', 'Development', 'Pending'),
+        this.t('Develop dashboard widgets', 'TSK-105', 'JOB-21', '2026-02-05', '2026-02-22', 16, 17, 'Implement widgets for main analytics panel.', 'Development', 'Pending'),
+        this.t('Core Microservices Architecture', 'TSK-120', 'JOB-21', '2026-03-01', '2026-03-25', 40, 24, 'Establish decoupled backend service architecture.', 'Development', 'Allocated'),
+        this.t('REST API Gateway Endpoints', 'TSK-121', 'JOB-22', '2026-04-02', '2026-04-24', 32, 22, 'Expose secure REST API routes and rate limits.', 'Development', 'In Process'),
+        this.t('Database ORM & Migration Scripts', 'TSK-122', 'JOB-22', '2026-05-05', '2026-05-27', 28, 22, 'Schema migrations and entity model mapping.', 'Development', 'In Process'),
+        this.t('Webhooks & Event Messaging', 'TSK-123', 'JOB-23', '2026-06-03', '2026-06-25', 20, 22, 'Configure RabbitMQ event bus handlers.', 'Development', 'On Hold'),
+        this.t('Real-time Notification Service', 'TSK-124', 'JOB-23', '2026-07-02', '2026-07-20', 18, 18, 'WebSocket connection push engine.', 'Development', 'Cancelled'),
+        this.t('User Roles & RBAC Middleware', 'TSK-125', 'JOB-24', '2026-08-01', '2026-08-22', 22, 21, 'Granular access control policies.', 'Development', 'Completed'),
+        this.t('Performance Caching with Redis', 'TSK-126', 'JOB-24', '2026-09-02', '2026-09-24', 16, 22, 'In-memory caching layer for queries.', 'Development', 'Completed'),
+
+        // Testing stage (9 records)
+        this.t('Write E2E tests for checkout', 'TSK-103', 'JOB-22', '2026-01-12', '2026-01-26', 12, 14, 'Cover the happy path and edge cases.', 'Testing', 'Pending'),
+        this.t('Security pen testing', 'TSK-106', 'JOB-22', '2026-02-08', '2026-02-24', 10, 16, 'Perform vulnerability analysis.', 'Testing', 'Pending'),
+        this.t('Unit Testing Framework Suite', 'TSK-130', 'JOB-22', '2026-03-04', '2026-03-22', 18, 18, 'Setup Jest unit test coverage runner.', 'Testing', 'Allocated'),
+        this.t('API Integration & Contract Tests', 'TSK-131', 'JOB-23', '2026-04-06', '2026-04-25', 24, 19, 'Validate API schema payload responses.', 'Testing', 'In Process'),
+        this.t('Cross-browser Compatibility Tests', 'TSK-132', 'JOB-23', '2026-05-08', '2026-05-26', 16, 18, 'Verify Safari, Chrome, and Firefox layout.', 'Testing', 'In Process'),
+        this.t('Load & Performance Stress Testing', 'TSK-133', 'JOB-24', '2026-06-05', '2026-06-24', 22, 19, 'JMeter load test up to 10k concurrent users.', 'Testing', 'On Hold'),
+        this.t('Automated Regression Pipeline', 'TSK-134', 'JOB-24', '2026-07-03', '2026-07-22', 20, 19, 'Cypress automated regression suite in CI.', 'Testing', 'Cancelled'),
+        this.t('Vulnerability & Compliance Audit', 'TSK-135', 'JOB-25', '2026-08-05', '2026-08-24', 15, 19, 'Execute OWASP Top 10 security audit.', 'Testing', 'Completed'),
+        this.t('User Acceptance Test (UAT) Sign-off', 'TSK-136', 'JOB-25', '2026-09-03', '2026-09-22', 14, 19, 'Client walkthrough and sign-off verification.', 'Testing', 'Completed'),
+
+        // Deployment stage (9 records)
+        this.t('Configure staging deployment', 'TSK-104', 'JOB-23', '2026-01-15', '2026-01-28', 6, 13, 'Set up the staging environment pipeline.', 'Deployment', 'Pending'),
+        this.t('Configure SSL certificates', 'TSK-107', 'JOB-23', '2026-02-10', '2026-02-22', 4, 12, 'Deploy LetsEncrypt certs on staging.', 'Deployment', 'Pending'),
+        this.t('Docker Container Orchestration', 'TSK-140', 'JOB-23', '2026-03-06', '2026-03-24', 16, 18, 'Containerize microservices with Dockerfile.', 'Deployment', 'Allocated'),
+        this.t('Kubernetes Cluster Provisioning', 'TSK-141', 'JOB-24', '2026-04-08', '2026-04-26', 28, 18, 'Provision EKS cluster with Terraform.', 'Deployment', 'In Process'),
+        this.t('CI/CD Pipeline Automation', 'TSK-142', 'JOB-24', '2026-05-10', '2026-05-28', 20, 18, 'GitHub Actions workflow for auto deploy.', 'Deployment', 'In Process'),
+        this.t('Cloud Infra Terraform Setup', 'TSK-143', 'JOB-24', '2026-06-06', '2026-06-24', 24, 18, 'Infrastructure as Code IaC scripts.', 'Deployment', 'On Hold'),
+        this.t('Zero-Downtime Blue-Green Deploy', 'TSK-144', 'JOB-25', '2026-07-04', '2026-07-22', 18, 18, 'Traffic switching deployment strategy.', 'Deployment', 'Cancelled'),
+        this.t('Automated Rollback & Recovery', 'TSK-145', 'JOB-25', '2026-08-06', '2026-08-25', 15, 19, 'Configure failover monitoring alerts.', 'Deployment', 'Completed'),
+        this.t('Production Release Kickoff', 'TSK-146', 'JOB-25', '2026-09-04', '2026-09-22', 12, 18, 'Production environment launch & telemetry.', 'Deployment', 'Completed')
       ]
     },
     {
       id: 'sprint-1', label: 'Sprint 1', kind: 'completed',
       tasks: [
-        { ...this.t('Project kickoff brief', 'TSK-001', 'JOB-10', '2026-06-01', '2026-06-02', 4, 1, 'Stakeholder kickoff and goals.', 'Design'), assigned: 'Aarav Shah', status: 'completed', approved: true, progress: 100, eta: '2026-06-02', actualStart: '2026-06-01', actualFinish: '2026-06-02', expenses: 250 },
-        { ...this.t('Set up repository', 'TSK-002', 'JOB-10', '2026-06-02', '2026-06-03', 6, 1, 'Bootstrap repo, CI, lint.', 'Development'), assigned: 'Diego Ruiz', status: 'completed', approved: true, progress: 85, eta: '2026-06-03', actualStart: '2026-06-02', actualFinish: '2026-06-03', expenses: 0 },
-        { ...this.t('QA environment baseline', 'TSK-003', 'JOB-11', '2026-06-03', '2026-06-04', 8, 1, 'Initial QA env smoke tests.', 'Testing'), assigned: 'Mei Tanaka', status: 'inprocess', approved: false, progress: 60, eta: '2026-06-04', actualStart: '2026-06-03', actualFinish: '', expenses: 50 },
-        { ...this.t('Initial server setup', 'TSK-004', 'JOB-12', '2026-06-03', '2026-06-05', 6, 2, 'Spin up instances in EC2.', 'Deployment'), assigned: 'Olivia Brown', status: 'completed', approved: true, progress: 100, eta: '2026-06-05', actualStart: '2026-06-03', actualFinish: '2026-06-05', expenses: 1200 },
-        { ...this.t('User access credentials', 'TSK-005', 'JOB-12', '2026-06-02', '2026-06-04', 8, 2, 'Configure user access levels.', 'Development'), assigned: 'Diego Ruiz', status: 'allocated', approved: false, progress: 25, eta: '2026-06-04', actualStart: '2026-06-02', actualFinish: '', expenses: 0 },
-        { ...this.t('Database schema review', 'TSK-006', 'JOB-13', '2026-06-04', '2026-06-05', 4, 1, 'Validate design with DB architects.', 'Design'), assigned: 'Aarav Shah', status: 'completed', approved: true, progress: 90, eta: '2026-06-05', actualStart: '2026-06-04', actualFinish: '2026-06-05', expenses: 150 },
-        { ...this.t('API endpoints contract', 'TSK-007', 'JOB-13', '2026-06-05', '2026-06-08', 12, 3, 'Create OpenAPI specification.', 'Development'), assigned: 'Priya Nair', status: 'inprocess', approved: false, progress: 50, eta: '2026-06-08', actualStart: '2026-06-05', actualFinish: '', expenses: 0 },
-        { ...this.t('UI kit styling alignment', 'TSK-008', 'JOB-14', '2026-06-06', '2026-06-07', 8, 1, 'Import core style guidelines.', 'Design'), assigned: 'Priya Nair', status: 'onhold', approved: false, progress: 30, eta: '2026-06-07', actualStart: '2026-06-06', actualFinish: '', expenses: 300 }
+        { ...this.t('Project kickoff brief', 'TSK-001', 'JOB-10', '2026-06-01', '2026-06-02', 4, 1, 'Stakeholder kickoff and goals.', 'Design', 'Completed'), assigned: 'Aarav Shah', status: 'completed', approved: true, progress: 100, eta: '2026-06-02', actualStart: '2026-06-01', actualFinish: '2026-06-02', expenses: 250 },
+        { ...this.t('Set up repository', 'TSK-002', 'JOB-10', '2026-06-02', '2026-06-03', 6, 1, 'Bootstrap repo, CI, lint.', 'Development', 'Completed'), assigned: 'Diego Ruiz', status: 'completed', approved: true, progress: 85, eta: '2026-06-03', actualStart: '2026-06-02', actualFinish: '2026-06-03', expenses: 0 },
+        { ...this.t('QA environment baseline', 'TSK-003', 'JOB-11', '2026-06-03', '2026-06-04', 8, 1, 'Initial QA env smoke tests.', 'Testing', 'In Process'), assigned: 'Mei Tanaka', status: 'inprocess', approved: false, progress: 60, eta: '2026-06-04', actualStart: '2026-06-03', actualFinish: '', expenses: 50 },
+        { ...this.t('Initial server setup', 'TSK-004', 'JOB-12', '2026-06-03', '2026-06-05', 6, 2, 'Spin up instances in EC2.', 'Deployment', 'Completed'), assigned: 'Olivia Brown', status: 'completed', approved: true, progress: 100, eta: '2026-06-05', actualStart: '2026-06-03', actualFinish: '2026-06-05', expenses: 1200 },
+        { ...this.t('User access credentials', 'TSK-005', 'JOB-12', '2026-06-02', '2026-06-04', 8, 2, 'Configure user access levels.', 'Development', 'Allocated'), assigned: 'Diego Ruiz', status: 'allocated', approved: false, progress: 25, eta: '2026-06-04', actualStart: '2026-06-02', actualFinish: '', expenses: 0 },
+        { ...this.t('Database schema review', 'TSK-006', 'JOB-13', '2026-06-04', '2026-06-05', 4, 1, 'Validate design with DB architects.', 'Design', 'Completed'), assigned: 'Aarav Shah', status: 'completed', approved: true, progress: 90, eta: '2026-06-05', actualStart: '2026-06-04', actualFinish: '2026-06-05', expenses: 150 },
+        { ...this.t('API endpoints contract', 'TSK-007', 'JOB-13', '2026-06-05', '2026-06-08', 12, 3, 'Create OpenAPI specification.', 'Development', 'In Process'), assigned: 'Priya Nair', status: 'inprocess', approved: false, progress: 50, eta: '2026-06-08', actualStart: '2026-06-05', actualFinish: '', expenses: 0 },
+        { ...this.t('UI kit styling alignment', 'TSK-008', 'JOB-14', '2026-06-06', '2026-06-07', 8, 1, 'Import core style guidelines.', 'Design', 'On Hold'), assigned: 'Priya Nair', status: 'onhold', approved: false, progress: 30, eta: '2026-06-07', actualStart: '2026-06-06', actualFinish: '', expenses: 300 }
       ]
     },
     {
       id: 'sprint-2', label: 'Sprint 2', kind: 'active',
       tasks: [
-        { ...this.t('Build dashboard widgets', 'TSK-201', 'JOB-30', '2026-06-25', '2026-07-02', 16, 5, 'Three KPI widgets for the home dashboard.', 'Development'), assigned: 'Priya Nair', status: 'inprocess', approved: false, progress: 75, eta: '2026-07-02', actualStart: '2026-06-26', actualFinish: '', expenses: 120, notes: [{sender: 'Admin', date: '2026-07-02', text: 'Almost complete, waiting on widget styling.'}] },
-        { ...this.t('Refine empty states', 'TSK-202', 'JOB-30', '2026-06-26', '2026-06-30', 6, 2, 'Empty states for tables and lists.', 'Design'), assigned: 'Priya Nair', status: 'completed', approved: true, progress: 100, eta: '2026-06-30', actualStart: '2026-06-26', actualFinish: '2026-06-29', expenses: 0 },
-        { ...this.t('Regression test suite', 'TSK-203', 'JOB-31', '2026-06-27', '2026-07-03', 10, 4, 'Add regression cases for sprint-1 features.', 'Testing'), assigned: 'Mei Tanaka', status: 'inprocess', approved: false, progress: 40, eta: '2026-07-03', actualStart: '2026-06-28', actualFinish: '', expenses: 50 },
-        { ...this.t('Sprint review & feedback', 'TSK-204', 'JOB-31', '2026-06-29', '2026-07-01', 4, 2, 'Walkthrough sprint outcomes.', 'Design'), assigned: 'Aarav Shah', status: 'allocated', approved: false, progress: 0, eta: '2026-07-01', actualStart: '', actualFinish: '', expenses: 0 },
-        { ...this.t('Automate deploy scripts', 'TSK-205', 'JOB-32', '2026-06-30', '2026-07-03', 12, 3, 'Create CI CD scripts.', 'Deployment'), assigned: 'Diego Ruiz', status: 'inprocess', approved: false, progress: 60, eta: '2026-07-03', actualStart: '2026-07-01', actualFinish: '', expenses: 0 },
-        { ...this.t('Optimize database indexes', 'TSK-206', 'JOB-33', '2026-07-01', '2026-07-04', 8, 3, 'Tune slow queries on customer tables.', 'Development'), assigned: 'Diego Ruiz', status: 'allocated', approved: false, progress: 10, eta: '2026-07-04', actualStart: '', actualFinish: '', expenses: 0 },
-        { ...this.t('End-to-end user tests', 'TSK-207', 'JOB-33', '2026-07-02', '2026-07-05', 12, 3, 'Coordinate feedback sessions.', 'Testing'), assigned: 'Mei Tanaka', status: 'onhold', approved: false, progress: 20, eta: '2026-07-05', actualStart: '2026-07-02', actualFinish: '', expenses: 80, notes: [{sender: 'Admin', date: '2026-07-03', text: 'Blocked by regression test suite stability.'}] },
-        { ...this.t('Deploy container images', 'TSK-208', 'JOB-34', '2026-07-03', '2026-07-04', 6, 1, 'Publish Docker images to AWS ECR.', 'Deployment'), assigned: 'Olivia Brown', status: 'allocated', approved: false, progress: 0, eta: '2026-07-04', actualStart: '', actualFinish: '', expenses: 150 }
+        { ...this.t('Build dashboard widgets', 'TSK-201', 'JOB-30', '2026-06-25', '2026-07-02', 16, 5, 'Three KPI widgets for the home dashboard.', 'Development', 'In Process'), assigned: 'Priya Nair', status: 'inprocess', approved: false, progress: 75, eta: '2026-07-02', actualStart: '2026-06-26', actualFinish: '', expenses: 120, notes: [{sender: 'Admin', date: '2026-07-02', text: 'Almost complete, waiting on widget styling.'}] },
+        { ...this.t('Refine empty states', 'TSK-202', 'JOB-30', '2026-06-26', '2026-06-30', 6, 2, 'Empty states for tables and lists.', 'Design', 'Completed'), assigned: 'Priya Nair', status: 'completed', approved: true, progress: 100, eta: '2026-06-30', actualStart: '2026-06-26', actualFinish: '2026-06-29', expenses: 0 },
+        { ...this.t('Regression test suite', 'TSK-203', 'JOB-31', '2026-06-27', '2026-07-03', 10, 4, 'Add regression cases for sprint-1 features.', 'Testing', 'In Process'), assigned: 'Mei Tanaka', status: 'inprocess', approved: false, progress: 40, eta: '2026-07-03', actualStart: '2026-06-28', actualFinish: '', expenses: 50 },
+        { ...this.t('Sprint review & feedback', 'TSK-204', 'JOB-31', '2026-06-29', '2026-07-01', 4, 2, 'Walkthrough sprint outcomes.', 'Design', 'Allocated'), assigned: 'Aarav Shah', status: 'allocated', approved: false, progress: 0, eta: '2026-07-01', actualStart: '', actualFinish: '', expenses: 0 },
+        { ...this.t('Automate deploy scripts', 'TSK-205', 'JOB-32', '2026-06-30', '2026-07-03', 12, 3, 'Create CI CD scripts.', 'Deployment', 'In Process'), assigned: 'Diego Ruiz', status: 'inprocess', approved: false, progress: 60, eta: '2026-07-03', actualStart: '2026-07-01', actualFinish: '', expenses: 0 },
+        { ...this.t('Optimize database indexes', 'TSK-206', 'JOB-33', '2026-07-01', '2026-07-04', 8, 3, 'Tune slow queries on customer tables.', 'Development', 'Allocated'), assigned: 'Diego Ruiz', status: 'allocated', approved: false, progress: 10, eta: '2026-07-04', actualStart: '', actualFinish: '', expenses: 0 },
+        { ...this.t('End-to-end user tests', 'TSK-207', 'JOB-33', '2026-07-02', '2026-07-05', 12, 3, 'Coordinate feedback sessions.', 'Testing', 'On Hold'), assigned: 'Mei Tanaka', status: 'onhold', approved: false, progress: 20, eta: '2026-07-05', actualStart: '2026-07-02', actualFinish: '', expenses: 80, notes: [{sender: 'Admin', date: '2026-07-03', text: 'Blocked by regression test suite stability.'}] },
+        { ...this.t('Deploy container images', 'TSK-208', 'JOB-34', '2026-07-03', '2026-07-04', 6, 1, 'Publish Docker images to AWS ECR.', 'Deployment', 'Allocated'), assigned: 'Olivia Brown', status: 'allocated', approved: false, progress: 0, eta: '2026-07-04', actualStart: '', actualFinish: '', expenses: 150 }
       ]
     }
   ];
 
-  private t(task: string, taskCode: string, jobCode: string, ps: string, pf: string, eff: number, dur: number, desc: string, stage: Stage): Task {
-    return { id: taskCode, task, taskCode, jobCode, planStart: ps, planFinish: pf, effort: eff, duration: dur, description: desc, stage };
+  private t(task: string, taskCode: string, jobCode: string, ps: string, pf: string, eff: number, dur: number, desc: string, stage: Stage, status: string = 'Pending'): Task {
+    return { id: taskCode, task, taskCode, jobCode, planStart: ps, planFinish: pf, effort: eff, duration: dur, description: desc, stage, status };
   }
 
   get activeSprint(): Sprint {
@@ -321,15 +355,23 @@ export class ProjectBacklogComponent {
       this.calendarDate = new Date(2026, 6, 1);
     }
 
-    // Re-group tasks by stage for Kanban columns
-    this.stages.forEach(st => {
-      this.kanbanCards[st] = tasks.filter(t => t.stage === st);
+    // Group tasks by status for Kanban columns
+    const cards: Record<string, Task[]> = {};
+    this.kanbanStatuses.forEach(status => {
+      cards[status] = tasks.filter(t => {
+        const s = t.status || 'Pending';
+        if (status === 'In Process') return s === 'In Process' || s === 'inprocess' || s === 'Process';
+        if (status === 'On Hold') return s === 'On Hold' || s === 'onhold' || s === 'Hold';
+        if (status === 'Completed') return s === 'Completed' || s === 'completed' || s === 'Closed';
+        return s.toLowerCase() === status.toLowerCase();
+      });
     });
+    this.kanbanCards = cards;
 
     this.buildCalendar();
   }
 
-  drop(event: CdkDragDrop<Task[]>, targetStage: Stage) {
+  dropStatus(event: CdkDragDrop<Task[]>, targetStatus: string) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -340,29 +382,73 @@ export class ProjectBacklogComponent {
         event.currentIndex
       );
       const task = event.container.data[event.currentIndex];
-      task.stage = targetStage;
+      task.status = targetStatus;
     }
   }
 
   // --- Gantt View logic ---
+  ganttScale: 'monthly' | 'weekly' | 'daily' = 'monthly';
+
+  setGanttScale(scale: 'monthly' | 'weekly' | 'daily') {
+    this.ganttScale = scale;
+  }
+
+  get ganttMonths(): { name: string; fullYear: number; monthIndex: number }[] {
+    return [
+      { name: 'JAN', fullYear: 2026, monthIndex: 0 },
+      { name: 'FEB', fullYear: 2026, monthIndex: 1 },
+      { name: 'MAR', fullYear: 2026, monthIndex: 2 },
+      { name: 'APR', fullYear: 2026, monthIndex: 3 },
+      { name: 'MAY', fullYear: 2026, monthIndex: 4 },
+      { name: 'JUN', fullYear: 2026, monthIndex: 5 },
+      { name: 'JUL', fullYear: 2026, monthIndex: 6 },
+      { name: 'AUG', fullYear: 2026, monthIndex: 7 },
+      { name: 'SEP', fullYear: 2026, monthIndex: 8 },
+      { name: 'OCT', fullYear: 2026, monthIndex: 9 },
+      { name: 'NOV', fullYear: 2026, monthIndex: 10 },
+      { name: 'DEC', fullYear: 2026, monthIndex: 11 }
+    ];
+  }
+
+  get ganttWeeks(): { label: string; monthName: string; monthIndex: number; weekInMonth: number }[] {
+    const weeks: { label: string; monthName: string; monthIndex: number; weekInMonth: number }[] = [];
+    const months = this.ganttMonths;
+    months.forEach(m => {
+      ['W1', 'W2', 'W3', 'W4'].forEach((wLabel, wIdx) => {
+        weeks.push({
+          label: wLabel,
+          monthName: m.name,
+          monthIndex: m.monthIndex,
+          weekInMonth: wIdx + 1
+        });
+      });
+    });
+    return weeks;
+  }
+
   get ganttDays(): Date[] {
     const tasks = this.filteredTasks;
-    if (tasks.length === 0) return [];
+    if (!tasks || tasks.length === 0) return [];
 
-    let minDate = new Date(tasks[0].planStart);
-    let maxDate = new Date(tasks[0].planFinish);
+    let minDate: Date | null = null;
+    let maxDate: Date | null = null;
 
     for (const t of tasks) {
+      if (!t.planStart || !t.planFinish) continue;
       const start = new Date(t.planStart);
       const finish = new Date(t.planFinish);
-      if (start < minDate) minDate = start;
-      if (finish > maxDate) maxDate = finish;
+      if (isNaN(start.getTime()) || isNaN(finish.getTime())) continue;
+
+      if (!minDate || start < minDate) minDate = start;
+      if (!maxDate || finish > maxDate) maxDate = finish;
     }
+
+    if (!minDate || !maxDate) return [];
 
     const days: Date[] = [];
     let current = new Date(minDate);
     let count = 0;
-    while (current <= maxDate && count < 35) {
+    while (current <= maxDate && count < 120) {
       days.push(new Date(current));
       current.setDate(current.getDate() + 1);
       count++;
@@ -370,37 +456,94 @@ export class ProjectBacklogComponent {
     return days;
   }
 
-  getGanttBarStyle(t: Task, days: Date[]): any {
-    const totalDays = days.length;
-    if (totalDays === 0) return {};
+  private getDaysInMonth(year: number, monthIndex: number): number {
+    return new Date(year, monthIndex + 1, 0).getDate();
+  }
 
-    const start = this.stripTime(new Date(t.planStart));
-    const finish = this.stripTime(new Date(t.planFinish));
+  getGanttBarStyle(t: Task): any {
+    if (!t || !t.planStart || !t.planFinish) return { display: 'none' };
 
-    let startIndex = -1;
-    for (let i = 0; i < days.length; i++) {
-      if (this.stripTime(days[i]).getTime() === start.getTime()) {
-        startIndex = i;
-        break;
+    const start = new Date(t.planStart);
+    const finish = new Date(t.planFinish);
+    if (isNaN(start.getTime()) || isNaN(finish.getTime())) return { display: 'none' };
+
+    if (this.ganttScale === 'monthly') {
+      const totalMonths = 12;
+      const startM = start.getMonth();
+      const startD = start.getDate();
+      const startDaysTotal = this.getDaysInMonth(start.getFullYear(), startM);
+      const startVal = startM + (startD - 1) / startDaysTotal;
+
+      const finishM = finish.getMonth();
+      const finishD = finish.getDate();
+      const finishDaysTotal = this.getDaysInMonth(finish.getFullYear(), finishM);
+      const finishVal = finishM + finishD / finishDaysTotal;
+
+      const leftPercent = (startVal / totalMonths) * 100;
+      const widthPercent = Math.max(0.5, ((finishVal - startVal) / totalMonths) * 100);
+
+      return {
+        left: `${leftPercent.toFixed(2)}%`,
+        width: `${widthPercent.toFixed(2)}%`
+      };
+    } else if (this.ganttScale === 'weekly') {
+      const totalWeeks = 48; // 12 months * 4 weeks
+      const startM = start.getMonth();
+      const startD = start.getDate();
+      const startDaysTotal = this.getDaysInMonth(start.getFullYear(), startM);
+      const startWeekVal = startM * 4 + ((startD - 1) / startDaysTotal) * 4;
+
+      const finishM = finish.getMonth();
+      const finishD = finish.getDate();
+      const finishDaysTotal = this.getDaysInMonth(finish.getFullYear(), finishM);
+      const finishWeekVal = finishM * 4 + (finishD / finishDaysTotal) * 4;
+
+      const leftPercent = (startWeekVal / totalWeeks) * 100;
+      const widthPercent = Math.max(0.5, ((finishWeekVal - startWeekVal) / totalWeeks) * 100);
+
+      return {
+        left: `${leftPercent.toFixed(2)}%`,
+        width: `${widthPercent.toFixed(2)}%`
+      };
+    } else { // daily
+      const days = this.ganttDays;
+      const totalDays = days.length;
+      if (totalDays === 0) return { display: 'none' };
+
+      const startStripped = this.stripTime(start);
+      const finishStripped = this.stripTime(finish);
+
+      let startIndex = -1;
+      for (let i = 0; i < days.length; i++) {
+        if (this.stripTime(days[i]).getTime() === startStripped.getTime()) {
+          startIndex = i;
+          break;
+        }
       }
+
+      if (startIndex === -1) {
+        if (startStripped < this.stripTime(days[0])) {
+          startIndex = 0;
+        } else {
+          return { display: 'none' };
+        }
+      }
+
+      let spanDays = Math.round((finishStripped.getTime() - startStripped.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+      if (spanDays <= 0) spanDays = 1;
+
+      if (startIndex + spanDays > totalDays) {
+        spanDays = totalDays - startIndex;
+      }
+
+      const leftPercent = (startIndex / totalDays) * 100;
+      const widthPercent = (spanDays / totalDays) * 100;
+
+      return {
+        left: `${leftPercent.toFixed(2)}%`,
+        width: `${widthPercent.toFixed(2)}%`
+      };
     }
-
-    if (startIndex === -1) startIndex = 0;
-
-    let spanDays = Math.round((finish.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-    if (spanDays <= 0) spanDays = 1;
-
-    if (startIndex + spanDays > totalDays) {
-      spanDays = totalDays - startIndex;
-    }
-
-    const leftPercent = (startIndex / totalDays) * 100;
-    const widthPercent = (spanDays / totalDays) * 100;
-
-    return {
-      left: `${leftPercent}%`,
-      width: `${widthPercent}%`
-    };
   }
 
   // --- class helpers (replace former inline style helpers) ---

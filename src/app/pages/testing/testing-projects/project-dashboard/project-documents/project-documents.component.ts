@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddReferralDocComponent } from './add-referral-doc/add-referral-doc.component';
 import { Location } from '@angular/common';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { FreezepanesDialogComponent, GridColumn } from '../../freezepanes-dialog/freezepanes-dialog.component';
 
 export interface DocumentItem {
   documentType: string;
@@ -43,15 +44,57 @@ export class ProjectDocumentsComponent implements OnInit {
   selectedCategory: string | null = null;
   filterToggle: boolean = false;
 
+  freezeCount: number = 0;
+  allColumns: GridColumn[] = [
+    { key: 'actions', label: 'Actions', visible: true },
+    { key: 'documentType', label: 'Document Type', visible: true },
+    { key: 'documentTitle', label: 'Document Title', visible: true },
+    { key: 'description', label: 'Description', visible: true },
+    { key: 'uploadFile', label: 'PDF', visible: true },
+    { key: 'uploadedDate', label: 'Uploaded Date', visible: true },
+    { key: 'uploadedBy', label: 'Uploaded By', visible: true },
+    { key: 'remarks', label: 'Remarks', visible: true }
+  ];
+  selectedColumns: GridColumn[] = [];
+
   constructor(private dialog: MatDialog, private location: Location) { }
 
   ngOnInit(): void {
+    this.selectedColumns = [...this.allColumns];
+    this.displayedColumns = this.selectedColumns.map(c => c.key);
     this.categories = Array.from(new Set(ELEMENT_DATA.map(d => d.category).filter(Boolean)));
     this.applyDocFilter();
   }
 
   toggleView(): void {
     this.isGridView = !this.isGridView;
+  }
+
+  gridview(): void {
+    let dialogRef = this.dialog.open(FreezepanesDialogComponent, {
+      width: 'auto',
+      height: 'auto',
+      data: {
+        allColumns: this.allColumns,
+        freezeCount: this.freezeCount
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.selectedColumns = result.selectedColumns;
+        this.freezeCount = Number(result.freezeCount) || 0;
+        this.displayedColumns = this.selectedColumns.map((c: GridColumn) => c.key);
+        this.allColumns.forEach(col => {
+          col.visible = this.selectedColumns.some(s => s.key === col.key);
+        });
+      }
+    });
+  }
+
+  isColumnFrozen(colKey: string): boolean {
+    const index = this.displayedColumns.indexOf(colKey);
+    return index >= 0 && index < this.freezeCount;
   }
 
   applyDocFilter(): void {

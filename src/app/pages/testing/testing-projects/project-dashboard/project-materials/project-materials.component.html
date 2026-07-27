@@ -43,19 +43,14 @@
             <th class="text-left">Modules</th>
             <th class="text-left">Tasks</th>
             <th class="text-left">Item Name</th>
-            <th class="text-center">Quantity</th>
-            <th class="text-center">Unit Rate</th>
-            <th class="text-center">Material Cost</th>
+
             <th class="text-left">Remarks</th>
-            <th class="text-center">Target Date</th>
             <th class="text-left">Requested By</th>
-            <th class="text-center">Request Date</th>
             <th class="text-center">Available</th>
             <th class="text-center">Reserved</th>
-            <th class="text-center">Requested Quantity</th>
-            <th class="text-center">Issued Quantity</th>
+
             <th class="text-center">Issued</th>
-            <th class="text-center">Issue Date</th>
+            <th class="text-center" style="min-width: 80px;">Timeline</th>
           </tr>
         </thead>
         <tbody>
@@ -72,13 +67,9 @@
             <td class="text-left">{{ row.module }}</td>
             <td class="text-left">{{ row.task }}</td>
             <td class="text-left">{{ row.itemName }}</td>
-            <td class="text-center">{{ row.quantity }}</td>
-            <td class="text-center">{{ row.unitRate | currency:'INR' }}</td>
-            <td class="text-center">{{ row.materialCost | currency:'INR' }}</td>
+
             <td class="text-left">{{ row.remarks }}</td>
-            <td class="text-center">{{ row.targetDate }}</td>
             <td class="text-left">{{ row.requestedBy }}</td>
-            <td class="text-center">{{ row.requestDate }}</td>
             
             <td class="text-center">
               <input type="checkbox" [checked]="row.available" (change)="row.available = !row.available">
@@ -87,17 +78,21 @@
               <input type="checkbox" [checked]="row.reserved" (change)="row.reserved = !row.reserved">
             </td>
             
-            <td class="text-center">{{ row.requestedQuantity }}</td>
-            <td class="text-center">{{ row.issuedQuantity }}</td>
+
             
             <td class="text-center">
               <input type="checkbox" [checked]="row.issued" (change)="row.issued = !row.issued">
             </td>
-            
-            <td class="text-center">{{ row.issueDate }}</td>
+            <td class="text-center">
+              <button mat-icon-button (click)="openTimelineModal(row)" matTooltip="View Timeline" style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                  calendar_today
+                </mat-icon>
+              </button>
+            </td>
           </tr>
           <tr *ngIf="displayedRows.length === 0">
-            <td colspan="18" class="text-center">No records found</td>
+            <td colspan="11" class="text-center">No records found</td>
           </tr>
         </tbody>
       </table>
@@ -105,9 +100,93 @@
   </div>
 </div>
 
-<button class="mine" mat-fab (click)="scrollRight()">
+<!-- <button class="mine" mat-fab (click)="scrollRight()">
   <mat-icon style="color: #37474f">fast_forward</mat-icon>
 </button>
 <button class="mine" mat-fab style="margin-right: 78px !important" (click)="scrollLeft()">
   <mat-icon style="color: #37474f">fast_rewind</mat-icon>
-</button>
+</button> -->
+
+<!-- ============ TIMELINE POP-UP MODAL ============ -->
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+    <!-- Header Row -->
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedTimelineItem?.itemName || selectedTimelineItem?.task }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Dates Grid -->
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+
+      <div class="timeline-grid-content">
+        <!-- Row 1: Target Date, Request Date, Issue Date -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Target Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineItem?.targetDate || '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Request Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineItem?.requestDate || '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Issue Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineItem?.issueDate || '—' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row-divider"></div>
+
+        <!-- Row 2: Requested Quantity, Issued Quantity, Material Cost -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Requested Quantity</div>
+            <div class="timeline-date-value" style="color: #1e293b;">
+              {{ selectedTimelineItem?.requestedQuantity ?? '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Issued Quantity</div>
+            <div class="timeline-date-value" style="color: #1e293b;">
+              {{ selectedTimelineItem?.issuedQuantity ?? '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Material Cost</div>
+            <div class="timeline-date-value" style="color: #10b981;">
+              {{ selectedTimelineItem?.materialCost ? (selectedTimelineItem.materialCost | currency:'INR') : '—' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Box (Positioned at bottom) -->
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+        <span>Remarks & Details</span>
+      </div>
+      <p class="timeline-desc-text">
+        {{ selectedTimelineItem?.remarks || 'This timeline provides an overview of target, request, and issue dates for material allocation and tracking.' }}
+      </p>
+    </div>
+  </div>
+</div>

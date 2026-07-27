@@ -815,6 +815,38 @@
   }
 }
 
+.view-toggle {
+  display: inline-flex;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  height: 36px;
+  box-sizing: border-box;
+}
+
+.view-btn {
+  border-radius: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  border: none !important;
+  padding: 0 16px !important;
+  height: 100% !important;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &.active {
+    background-color: black !important;
+    color: white !important;
+  }
+
+  &:not(.active) {
+    background-color: white !important;
+    color: black !important;
+  }
+}
+
 // ---------- Gantt View ----------
 .gantt-view {
   padding: 20px;
@@ -849,6 +881,42 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
+
+  &--two-rows {
+    height: 52px;
+  }
+}
+
+.gantt-header-row--two-rows {
+  height: 52px;
+}
+
+.gantt-header-month-cell {
+  min-width: 60px;
+}
+
+.gantt-header-week-cell {
+  min-width: 32px;
+}
+
+.gantt-header-day-cell {
+  min-width: 45px;
+}
+
+.gantt-header-month-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gantt-grid-column--week {
+  min-width: 32px;
+}
+
+.gantt-grid-column--day {
+  min-width: 45px;
 }
 
 .gantt-task-cell {

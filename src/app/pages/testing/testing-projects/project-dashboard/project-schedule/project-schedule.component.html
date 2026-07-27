@@ -3,12 +3,68 @@
 
     <div class="header-section" style="margin-bottom: 20px;">
       <div class="header-content" style="display: flex; justify-content: flex-end; width: 100%;">
-        <button mat-raised-button class="back-btn" (click)="goBack()"
-          style="background-color: rgb(130, 130, 130); color: white; margin-top: 0;">
-          <mat-icon>arrow_back</mat-icon>
-          Back
-        </button>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button mat-raised-button (click)="filterToggle = !filterToggle" style="background-color: black; color: white; height: 38px;">
+            <mat-icon>filter_list</mat-icon> Filter
+          </button>
+          <button mat-raised-button class="back-btn" (click)="goBack()"
+            style="background-color: rgb(130, 130, 130); color: white; margin-top: 0; margin-left: 0 !important; height: 38px;">
+            <mat-icon>arrow_back</mat-icon>
+            Back
+          </button>
+        </div>
       </div>
+    </div>
+
+    <!-- Toggleable Filter Card Matching Application Design -->
+    <div *ngIf="filterToggle" style="margin-bottom: 15px; width: 100%;">
+      <mat-card class="filter" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
+        <mat-card-content style="padding: 15px;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; width: 100%; gap: 15px; box-sizing: border-box;">
+            
+            <!-- Stage Field -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Stage:</label>
+              <select [(ngModel)]="stageFilter" class="form-control" style="height: 36px; min-width: 150px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px; background: white; font-weight: 500; cursor: pointer;">
+                <option value="all">All Stages</option>
+                <option *ngFor="let st of stages" [value]="st">{{ st }}</option>
+              </select>
+            </div>
+
+            <!-- Sprint Field -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Sprint:</label>
+              <select [(ngModel)]="sprintFilter" class="form-control" style="height: 36px; min-width: 150px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px; background: white; font-weight: 500; cursor: pointer;">
+                <option value="all">All Sprints</option>
+                <option *ngFor="let sp of sprints" [value]="sp">{{ sp }}</option>
+              </select>
+            </div>
+
+            <!-- Modules Field -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Modules:</label>
+              <select [(ngModel)]="moduleFilter" class="form-control" style="height: 36px; min-width: 210px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px; background: white; font-weight: 500; cursor: pointer;">
+                <option value="all">All Modules</option>
+                <option *ngFor="let mod of modules" [value]="mod">{{ mod }}</option>
+              </select>
+            </div>
+
+            <!-- Action Buttons Right Aligned -->
+            <div style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+              <button mat-raised-button color="primary" (click)="applyFilter()" style="height: 36px;">
+                <mat-icon>search</mat-icon> Search
+              </button>
+              <button mat-raised-button (click)="clearFilter()" style="height: 36px; background-color: #f1f5f9; color: #334155;">
+                <mat-icon>settings_backup_restore</mat-icon> Clear
+              </button>
+              <a (click)="filterToggle = !filterToggle" style="font-size: 22px; cursor: pointer; color: #475569; display: flex; align-items: center; margin-left: 5px;">
+                <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+              </a>
+            </div>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 15px;">
@@ -43,7 +99,7 @@
         <span style="font-weight: 600; font-size: 13px; color: #333;">Stages:</span>
         <select [(ngModel)]="stageFilter"
           style="padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: white; outline: none; cursor: pointer; min-width: 130px; font-weight: 500;">
-          <option value="all">All Stages</option>
+          <!-- <option value="all">All Stages</option> -->
           <option *ngFor="let st of stages" [value]="st">{{ st }}</option>
         </select>
       </div>

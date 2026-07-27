@@ -44,6 +44,23 @@ export class ProjectMaterialsComponent implements OnInit {
     private dialog: MatDialog,private location: Location
   ) { }
 
+  showTimelineModal = false;
+  selectedTimelineItem: ProjectMaterial | null = null;
+
+  openTimelineModal(item: ProjectMaterial) {
+    this.selectedTimelineItem = item;
+    this.showTimelineModal = true;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  closeTimelineModal() {
+    this.showTimelineModal = false;
+    this.selectedTimelineItem = null;
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+  }
+
   ngOnInit(): void {
     this.loadData();
   }

@@ -67,6 +67,10 @@
 
         </div>
 
+        <button mat-raised-button color="primary" class="add-btn" style="height: 38px; background-color: #286ba5; color: white;" (click)="openAddResourceScheduleDialog()">
+          <mat-icon style="margin-right: 4px; vertical-align: middle;">add</mat-icon> Add Resource
+        </button>
+
         <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
           <mat-icon>arrow_back</mat-icon> Back
         </button>
@@ -76,7 +80,7 @@
       <!-- Right: Add Button for Allocation Tab -->
       <div *ngIf="activeTab === 'Allocation'" style="display: flex; gap: 10px;">
         <button mat-raised-button color="primary" style="height: 38px;" (click)="openAddResourceDialog()">
-          <mat-icon style="margin-right: 4px; vertical-align: middle;">add</mat-icon> Add
+          <mat-icon style="margin-right: 4px; vertical-align: middle;">add</mat-icon> Add Resource
         </button>
         <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
           <mat-icon>arrow_back</mat-icon> Back
@@ -95,36 +99,31 @@
         <table class="table table-bordered table-hover text-nowrap" style="width: 100%; margin-bottom: 0;">
           <thead class="tbl-head" style="background-color: #3f3f3f !important;">
             <tr>
+              <th class="text-center" style="color: white; width: 90px;">Actions</th>
               <th class="text-left" style="color: white;">Resource</th>
               <th class="text-left" style="color: white;">Stage</th>
               <th class="text-left" style="color: white;">Module</th>
               <th class="text-left" style="color: white;">Task</th>
-              <th class="text-center" style="color: white;">From Date</th>
-              <th class="text-center" style="color: white;">From Time</th>
-              <th class="text-center" style="color: white;">To Date</th>
-              <th class="text-center" style="color: white;">To Time</th>
               <th class="text-center" style="color: white;">Plan Duration</th>
               <th class="text-center" style="color: white;">Actual Duration</th>
               <th class="text-center" style="color: white;">Status</th>
+              <th class="text-center" style="color: white; min-width: 80px;">Timeline</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let s of paginatedSchedules">
-              <td class="text-left" style="vertical-align: middle; font-weight: 500;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <div class="avatar" style="background-color: #e0f2fe; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #0369a1;">
-                    {{ s.initials }}
-                  </div>
-                  {{ s.resource }}
-                </div>
+              <td class="text-center" style="vertical-align: middle;">
+                <a style="cursor: pointer; margin-right: 10px;" matTooltip="Edit Resource" (click)="editSchedule(s)">
+                  <i class="fa fa-edit" style="color: cornflowerblue; font-size: 16px;"></i>
+                </a>
+                <a style="cursor: pointer;" matTooltip="Delete Resource" (click)="deleteSchedule(s)">
+                  <i class="fa fa-trash" style="color: red; font-size: 16px;"></i>
+                </a>
               </td>
+              <td class="text-left" style="vertical-align: middle; font-weight: 500;">{{ s.resource }}</td>
               <td class="text-left" style="vertical-align: middle;">{{ s.stage }}</td>
               <td class="text-left" style="vertical-align: middle;">{{ s.module }}</td>
               <td class="text-left" style="vertical-align: middle; font-weight: 500; color: #1e3a8a;">{{ s.task }}</td>
-              <td class="text-center" style="vertical-align: middle;">{{ s.fromDate }}</td>
-              <td class="text-center" style="vertical-align: middle;">{{ s.fromTime }}</td>
-              <td class="text-center" style="vertical-align: middle;">{{ s.toDate }}</td>
-              <td class="text-center" style="vertical-align: middle;">{{ s.toTime }}</td>
               <td class="text-center" style="vertical-align: middle;">{{ s.planDuration }}</td>
               <td class="text-center" style="vertical-align: middle;">{{ s.actualDuration }}</td>
               <td class="text-center" style="vertical-align: middle;">
@@ -137,9 +136,17 @@
                   {{ s.status }}
                 </span>
               </td>
+              <td class="text-center" style="vertical-align: middle;">
+                <button mat-icon-button (click)="openTimelineModal(s)" matTooltip="View Timeline"
+                  style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                  <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                    calendar_today
+                  </mat-icon>
+                </button>
+              </td>
             </tr>
             <tr *ngIf="paginatedSchedules.length === 0">
-              <td colspan="11" class="text-center" style="padding: 20px;">No schedules available.</td>
+              <td colspan="9" class="text-center" style="padding: 20px;">No schedules available.</td>
             </tr>
           </tbody>
         </table>
@@ -313,9 +320,74 @@
 </div>
 
 <!-- Floating fixed scroll buttons matching Issues design -->
-<button class="mine" mat-fab (click)="scrollRight()">
+<!-- <button class="mine" mat-fab (click)="scrollRight()">
   <mat-icon style="color: #37474f">fast_forward</mat-icon>
 </button>
 <button class="mine" mat-fab style="margin-right: 78px !important" (click)="scrollLeft()">
   <mat-icon style="color: #37474f">fast_rewind</mat-icon>
-</button>
+</button> -->
+
+<!-- ============ TIMELINE POP-UP MODAL ============ -->
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedScheduleItem?.resource }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Dates Grid -->
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+      <div class="timeline-grid-content">
+        <!-- Row 1: From Date, To Date -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">From Date</div>
+            <div class="timeline-date-value">{{ selectedScheduleItem?.fromDate || '&mdash;' }}</div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">To Date</div>
+            <div class="timeline-date-value">{{ selectedScheduleItem?.toDate || '&mdash;' }}</div>
+          </div>
+        </div>
+
+        <div class="timeline-row-divider"></div>
+
+        <!-- Row 2: From Time, To Time -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">From Time</div>
+            <div class="timeline-date-value">{{ selectedScheduleItem?.fromTime || '&mdash;' }}</div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">To Time</div>
+            <div class="timeline-date-value">{{ selectedScheduleItem?.toTime || '&mdash;' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task Info Box -->
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">assignment</mat-icon>
+        <span>Task &amp; Stage Details</span>
+      </div>
+      <p class="timeline-desc-text">
+        <strong>Stage:</strong> {{ selectedScheduleItem?.stage }}&nbsp;&nbsp;
+        <strong>Module:</strong> {{ selectedScheduleItem?.module }}&nbsp;&nbsp;
+        <strong>Task:</strong> {{ selectedScheduleItem?.task }}
+      </p>
+    </div>
+  </div>
+</div>

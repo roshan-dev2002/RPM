@@ -348,7 +348,7 @@
   .view-toggle-btn {
     background-color: #000;
     color: #fff;
-    margin-left: auto; /* Pushes toggle to the right */
+    margin-left: 0;
   }
 }
 
@@ -400,14 +400,19 @@
   background: white;
   border-radius: 6px;
   border: 1px solid #cbd5e1;
-  overflow: hidden;
+  overflow: auto;
+  max-height: calc(100vh - 220px);
 
   table {
     width: 100%;
     margin-bottom: 0;
 
     th.mat-header-cell,
-    tr.mat-mdc-header-row th {
+    tr.mat-mdc-header-row th,
+    tr.mat-header-row th {
+      position: sticky;
+      top: 0;
+      z-index: 10;
       background-color: #3f3f3f !important;
       color: white !important;
       text-align: center;
@@ -419,6 +424,18 @@
       text-align: center;
       padding: 12px;
       vertical-align: middle;
+    }
+
+    th.mat-table-sticky,
+    th.mat-mdc-table-sticky {
+      z-index: 20 !important;
+      background-color: #3f3f3f !important;
+    }
+
+    td.mat-table-sticky,
+    td.mat-mdc-table-sticky {
+      z-index: 9 !important;
+      background-color: #ffffff !important;
     }
   }
 }

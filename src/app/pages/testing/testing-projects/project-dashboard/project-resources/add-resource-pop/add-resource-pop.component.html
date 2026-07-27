@@ -1,33 +1,126 @@
-<div class="NewHeader">
-  <h3 style="padding-top:10px;">Add Resource</h3>
+<div class="NewHeader" style="background-color: #286ba5; color: white; padding: 12px 20px;">
+  <h3 style="margin: 0; font-size: 18px; font-weight: 600;">
+    {{ isEditMode ? 'Edit Resource' : 'Add Resource' }}
+  </h3>
 </div>
 
-<div style="padding: 15px 20px;">
-  <form style="padding: 10px 0;">
-    <div class="row" style="margin-bottom: 15px; display: flex; align-items: center;">
-      <div class="col-sm-4">
-        <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Resource Code:</label>
-      </div>
-      <div class="col-sm-8">
-        <input type="text" style="height:35px;" class="form-control" [(ngModel)]="code" name="code" placeholder="e.g. RES014">
-      </div>
-    </div>
+<div style="padding: 20px 25px;">
+  <form style="padding: 5px 0;">
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-sm-6">
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Resource Name:<span style="color: red;">*</span></label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="resource" name="resource" placeholder="Enter Resource Name">
+          </div>
+        </div>
 
-    <div class="row" style="margin-bottom: 15px; display: flex; align-items: center;">
-      <div class="col-sm-4">
-        <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Resource Name:</label>
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Stage:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="stage" name="stage" placeholder="Enter Stage">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Module:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="module" name="module" placeholder="Enter Module">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Task:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="task" name="task" placeholder="Enter Task Name">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">From Date:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="date" style="height:35px;" class="form-control" [(ngModel)]="fromDate" name="fromDate">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">To Date:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="date" style="height:35px;" class="form-control" [(ngModel)]="toDate" name="toDate">
+          </div>
+        </div>
       </div>
-      <div class="col-sm-8">
-        <input type="text" style="height:35px;" class="form-control" [(ngModel)]="name" name="name" placeholder="Enter Full Name">
+
+      <!-- Right Column -->
+      <div class="col-sm-6">
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">From Time:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="fromTime" name="fromTime" placeholder="e.g. 09:00 AM">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">To Time:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="toTime" name="toTime" placeholder="e.g. 05:00 PM">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Plan Duration:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="planDuration" name="planDuration" placeholder="e.g. 4 hours">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Actual Duration:</label>
+          </div>
+          <div class="col-sm-8">
+            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="actualDuration" name="actualDuration" placeholder="e.g. 4 hours">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+          <div class="col-sm-4">
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Status:</label>
+          </div>
+          <div class="col-sm-8">
+            <mat-select style="height:35px; line-height: 24px; padding: 0 10px;" class="form-control" [(ngModel)]="status" name="status" placeholder="Select Status">
+              <mat-option *ngFor="let st of statuses" [value]="st">{{ st }}</mat-option>
+            </mat-select>
+          </div>
+        </div>
       </div>
     </div>
   </form>
 
-  <mat-dialog-actions align="end" style="margin-top: 15px; padding: 10px 0 0 0;">
-    <button mat-raised-button class="ms-2 add-dark-hover btn-default" (click)="close()" style="background-color: lightgray; color: red; margin-right: 8px;">
+  <mat-dialog-actions align="end" style="margin-top: 15px; padding: 10px 0 0 0; border-top: 1px solid #cbd5e1;">
+    <button mat-raised-button class="ms-2 add-dark-hover btn-default" (click)="close()" style="background-color: lightgray; color: red; margin-right: 8px; height: 38px;">
       <mat-icon>cancel</mat-icon> Close
     </button>
-    <button mat-raised-button type="button" class="save" color="primary" (click)="save()">
+    <button mat-raised-button type="button" class="save" color="primary" (click)="save()" style="height: 38px;">
       <mat-icon>save</mat-icon> Save
     </button>
   </mat-dialog-actions>

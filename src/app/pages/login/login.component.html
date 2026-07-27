@@ -1,88 +1,138 @@
-<mat-sidenav-container>
-
-    <div fxLayout="row" fxLayoutAlign="center center" class="h-100 login-bg">
-
-
-        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" fxFlex="80" fxFlex.gt-sm="30" fxFlex.sm="60" style="position: relative;
-         left: 0%;
-         top: 0%;
-         margin-bottom: 0%;">
-
-            <!-- First Card half up-->
-            <mat-card class="p-0 mat-elevation-z24 box">
-                <div fxLayout="column" fxLayoutAlign="center center" class="bg-secondary box-header">
-                    <div style="margin-top: auto;margin-bottom: auto;">
-
-
-
-                        <!-- <h3><SPAN style="color:white"> OPTION MATRIX </SPAN><span style="color: coral;"> </span></h3> -->
-
-
-                        <img alt="logo" class="logo-default logo-img box-content-center"
-                            style="height: 70px;  margin-bottom: 20px; margin-right:0px;" src="../../../assets//optionmatrixlogo.png">
-
-
-
-
-
-
-                    </div>
-
-
-                    <!-- <img alt="logo" class="logo-default logo-img"
-                        style="height: 60px;margin-bottom: 20px;background: white;"
-                        src="../../../assets/wise_working.png"> -->
-                </div>
-
-
-
-
-                <!-- First Card half down-->
-                <mat-card-content fxLayout="column" fxLayoutAlign="end center" class=" box-content">
-                    <mat-card fxLayout="column" fxLayoutAlign="center center"
-                        class="mat-elevation-z12 box-content-inner">
-
-                        <mat-form-field class="w-100">
-                            <input matInput placeholder="Email" formControlName="email">
-                            <mat-error *ngIf="form.controls.email.errors?.required">Email is required</mat-error>
-                            <mat-error *ngIf="form.controls.email.hasError('invalidEmail')">Invalid email address
-                            </mat-error>
-                        </mat-form-field>
-                        <mat-form-field class="w-100">
-                            <input matInput [type]="passwordType" placeholder="Password" formControlName="password"><i
-                                class="fa fa-eye pull-right" style="position: absolute; top: 2px; right: 5px;"
-                                (click)="togglePassword()"></i>
-                            <mat-error *ngIf="form.controls.password.errors?.required">Password is required</mat-error>
-                            <mat-error *ngIf="form.controls.password.hasError('minlength')">Password isn't long enough,
-                                minimum of 6 characters</mat-error>
-                        </mat-form-field>
-                        <div class="w-100">
-                            <a [routerLink]="['/login/forgot']" class="pull-right" style="color:blue">Forgot
-                                Password?</a>
-                        </div>
-                    </mat-card>
-                    <button mat-raised-button class="bg-secondary mat-elevation-z12 box-button text-white"
-                        type="submit">SIGN IN</button>
-                </mat-card-content>
-
-            </mat-card>
-            <div class="col-12 " style="position: relative;
-            left: 0%;
-            top: 50%;
-            margin-top: 20px; 
-            margin-bottom: 0%;">
-                <div class="col-12" style="margin-left: 5%;">
-                    <!-- <a href="#/home" style="color: #1c76c3; font-size: 18px;"><b>Public Home Page |</b>
-                    </a>
-                    <a [routerLink]="['/register']" style="color: #1c76c3;font-size: 18px;"> <b> RegistrationPage</b>
-                    </a> -->
-                </div>
-
-
-            </div>
-
-        </form>
-
+<div class="login-wrapper">
+  <!-- LEFT COLUMN: HERO / BRANDING SECTION -->
+  <div class="login-hero-section">
+    <!-- Top Branding -->
+    <div class="hero-brand">
+      <h1 class="brand-title">RPM</h1>
+      <p class="brand-subtitle">R&D PROJECT MANAGEMENT</p>
     </div>
 
-</mat-sidenav-container>
+    <!-- Center Graphic with Constellation and Metric Cards -->
+    <div class="hero-graphic-container">
+      <svg class="constellation-svg" viewBox="0 0 500 350" preserveAspectRatio="none">
+        <line x1="80" y1="180" x2="200" y2="70" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="200" y1="70" x2="330" y2="120" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="200" y1="70" x2="250" y2="210" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="80" y1="180" x2="250" y2="210" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="80" y1="180" x2="310" y2="300" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="250" y1="210" x2="430" y2="160" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="250" y1="210" x2="310" y2="300" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="330" y1="120" x2="430" y2="160" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="310" y1="300" x2="380" y2="340" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="430" y1="160" x2="380" y2="340" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+        <line x1="430" y1="160" x2="310" y2="300" stroke="#93c5fd" stroke-width="1.8" vector-effect="non-scaling-stroke" />
+
+        <circle cx="200" cy="70" r="5" fill="#3b82f6" />
+        <circle cx="250" cy="210" r="6" fill="#2563eb" />
+        <circle cx="330" cy="120" r="4" fill="#93c5fd" />
+        <circle cx="80" cy="180" r="4" fill="#93c5fd" />
+        <circle cx="310" cy="300" r="5" fill="#2563eb" />
+        <circle cx="430" cy="160" r="4" fill="#93c5fd" />
+        <circle cx="380" cy="340" r="4" fill="#3b82f6" />
+      </svg>
+
+      <!-- Floating Stage Pill -->
+      <div class="stage-pill">
+        <span class="dot"></span> STAGE 3 – VALIDATION
+      </div>
+
+      <!-- Floating Active Projects Card -->
+      <div class="metric-card active-projects-card">
+        <div class="card-header-label blue-label">ACTIVE PROJECTS</div>
+        <div class="card-stat-value">14</div>
+        <div class="card-stat-sub green-sub">▲ 3 this quarter</div>
+      </div>
+
+      <!-- Floating Milestones Card -->
+      <div class="metric-card milestones-card">
+        <div class="card-header-label purple-label">MILESTONES</div>
+        <div class="card-stat-value">3</div>
+        <div class="card-stat-sub red-sub">! due this week</div>
+      </div>
+
+      <!-- Floating Sprint Progress Card -->
+      <div class="metric-card sprint-card">
+        <div class="card-header-label orange-label">SPRINT PROGRESS</div>
+        <div class="card-stat-value">87%</div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: 87%;"></div>
+        </div>
+        <div class="card-stat-sub grey-sub">cycle ends in 4 days</div>
+      </div>
+    </div>
+
+    <!-- Bottom Footer Tagline & Features -->
+    <div class="hero-footer">
+      <h2 class="footer-tagline">Leading innovative projects to create new products.</h2>
+      <div class="footer-features">
+        <span>INNOVATION TRACKING</span>
+        <span>PHASE MANAGEMENT</span>
+        <span>TEAM VELOCITY</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN: SIGN IN FORM SECTION -->
+  <div class="login-form-section">
+    <div class="login-card-box">
+      <!-- App Logo -->
+      <div class="brand-logo-container">
+        <div class="brand-logo-pill">
+          <img src="assets/q2_logo.png" style="height: 36px; width: 36px; object-fit: contain; border-radius: 6px;" alt="Logo" />
+          <h1 class="brand-title" style="margin: 0;">RPM</h1>
+        </div>
+      </div>
+
+      <!-- Welcome Headings -->
+      <h2 class="welcome-title">Welcome back</h2>
+      <p class="welcome-subtitle">Sign in to continue to your research workspace.</p>
+
+      <!-- Form -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+        <!-- Email Field -->
+        <div class="form-group-custom">
+          <label class="form-label-custom">Email</label>
+          <input type="email" class="form-input-custom" placeholder="you@company.com" formControlName="email" />
+          <div class="error-msg" *ngIf="form.controls.email.touched && form.controls.email.errors?.required">
+            Email is required
+          </div>
+          <div class="error-msg" *ngIf="form.controls.email.touched && form.controls.email.hasError('invalidEmail')">
+            Invalid email address
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group-custom">
+          <label class="form-label-custom">Password</label>
+          <div class="password-input-wrapper">
+            <input [type]="passwordType" class="form-input-custom" placeholder="••••••••" formControlName="password" />
+            <i class="fa" [ngClass]="passwordType === 'password' ? 'fa-eye' : 'fa-eye-slash'" class="password-toggle-icon" (click)="togglePassword()"></i>
+          </div>
+          <div class="error-msg" *ngIf="form.controls.password.touched && form.controls.password.errors?.required">
+            Password is required
+          </div>
+          <div class="error-msg" *ngIf="form.controls.password.touched && form.controls.password.hasError('minlength')">
+            Password isn't long enough, minimum of 6 characters
+          </div>
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="form-options-row">
+          <label class="remember-me-label">
+            <input type="checkbox" class="custom-checkbox" />
+            <span>Remember me</span>
+          </label>
+          <a [routerLink]="['/login/forgot']" class="forgot-password-link">Forgot password?</a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn-custom">Sign in</button>
+
+        <!-- Sign up footer -->
+        <div class="signup-footer-text">
+          Don't have an account? <a href="javascript:void(0)" class="signup-link">Sign up</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

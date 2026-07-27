@@ -34,10 +34,13 @@ export class ProjectIssuesComponent implements OnInit {
   filterToggle: boolean = false;
   totalSize = 0;
   currentPage: number = 0;
-  pageSize: number = 5;
+  pageSize: number = 10;
   myGroup!: FormGroup;
   
   isKanbanView: boolean = false;
+
+  showTimelineModal: boolean = false;
+  selectedTimelineItem: any = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -53,6 +56,16 @@ export class ProjectIssuesComponent implements OnInit {
     });
 
     this.go();
+  }
+
+  openTimelineModal(item: any): void {
+    this.selectedTimelineItem = item;
+    this.showTimelineModal = true;
+  }
+
+  closeTimelineModal(): void {
+    this.showTimelineModal = false;
+    this.selectedTimelineItem = null;
   }
 
   // Sample data for Project Issues
@@ -111,6 +124,61 @@ export class ProjectIssuesComponent implements OnInit {
       image: 'assets/sample-image.jpg',
       document: 'assets/sample-1.pdf',
       responsibility: 'Vikram Joshi'
+    },
+    {
+      id: 6,
+      subject: 'Thermal Sensor Drifting',
+      issueDescription: 'Chamber temperature sensor reading fluctuating by ±5°C during burn-in phase',
+      targetDate: '2026-08-22',
+      remarks: 'Recalibrating RTD sensors and inspecting thermal paste application.',
+      status: 'Pending',
+      image: 'assets/sample-image.jpg',
+      document: 'assets/sample-1.pdf',
+      responsibility: 'Suresh Patel'
+    },
+    {
+      id: 7,
+      subject: 'Pneumatic Actuator Leakage',
+      issueDescription: 'Air leakage detected at cylinder head gasket of pick-and-place unit',
+      targetDate: '2026-08-10',
+      remarks: 'Replaced damaged O-rings and verified holding pressure at 6 bar.',
+      status: 'Process',
+      image: 'assets/sample-image.jpg',
+      document: 'assets/sample-1.pdf',
+      responsibility: 'Ananya Verma'
+    },
+    {
+      id: 8,
+      subject: 'Vision System Lens Fogging',
+      issueDescription: 'High humidity causing lens condensation on inspection station camera',
+      targetDate: '2026-07-30',
+      remarks: 'Installed inline air dryer and enclosure heating module.',
+      status: 'Closed',
+      image: 'assets/sample-image.jpg',
+      document: 'assets/sample-1.pdf',
+      responsibility: 'Karan Malhotra'
+    },
+    {
+      id: 9,
+      subject: 'Emergency Stop Relay Intermittent Fail',
+      issueDescription: 'Safety circuit trips randomly on line startup due to chatter in E-stop relay',
+      targetDate: '2026-08-25',
+      remarks: 'Ordered SIL3 safety relay module for immediate replacement.',
+      status: 'Hold',
+      image: 'assets/sample-image.jpg',
+      document: 'assets/sample-1.pdf',
+      responsibility: 'Deepak Nair'
+    },
+    {
+      id: 10,
+      subject: 'Coolant Pump Motor Overheating',
+      issueDescription: 'Pump motor temperature exceeding 90°C during continuous 8-hour shift',
+      targetDate: '2026-08-15',
+      remarks: 'Flushed coolant lines and replaced clogged impeller filter.',
+      status: 'Allocated',
+      image: 'assets/sample-image.jpg',
+      document: 'assets/sample-1.pdf',
+      responsibility: 'Meera Deshmukh'
     }
   ];
 
