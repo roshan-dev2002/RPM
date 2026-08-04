@@ -17,8 +17,11 @@ import { AddTaskComponent } from './add-task/add-task.component';
 export class RpmTasksComponent implements OnInit {
 
   showFilter: boolean = false;
+  showTimelineModal: boolean = false;
+  selectedTimelineTask: any = null;
   isNavOpen: boolean | undefined;
-
+  excludeCompleted: boolean = false;
+  rawProjects: any[] = [];
   allProjects: any[] = [];
   currentPage: number = 0;
   pageSize: number = 10;
@@ -347,12 +350,24 @@ export class RpmTasksComponent implements OnInit {
       }
     ];
 
-    this.totalSize = mockData.length;
+    this.rawProjects = mockData;
+    this.applyFilter();
+  }
+
+  onExcludeCompletedChange(): void {
+    this.currentPage = 0;
+    this.applyFilter();
+  }
+
+  applyFilter(): void {
+    let filtered = this.rawProjects;
+    if (this.excludeCompleted) {
+      filtered = filtered.filter(p => p.Status !== 'Completed' && p.PercentCompletion !== 100);
+    }
+    this.totalSize = filtered.length;
     const start = this.currentPage * this.pageSize;
     const end = start + this.pageSize;
-    this.allProjects = mockData.slice(start, end);
-
-    // Generate calendar data based directly on grid data
+    this.allProjects = filtered.slice(start, end);
     this.generateCalendarData();
   }
 
@@ -481,7 +496,7 @@ export class RpmTasksComponent implements OnInit {
   fnHandlePage(event: any): void {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.getAllProjects();
+    this.applyFilter();
   }
 
   scrollRight() {
@@ -526,4 +541,13 @@ export class RpmTasksComponent implements OnInit {
   clearFilter() { }
   go() { }
 
+  openTimelineModal(task: any): void {
+    this.selectedTimelineTask = task;
+    this.showTimelineModal = true;
+  }
+
+  closeTimelineModal(): void {
+    this.showTimelineModal = false;
+    this.selectedTimelineTask = null;
+  }
 }

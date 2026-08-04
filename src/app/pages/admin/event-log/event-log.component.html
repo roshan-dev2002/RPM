@@ -1,4 +1,4 @@
-<div fxLayout="row wrap" #resizedDiv>
+<div fxLayout="row wrap" #resizedDiv style="margin-top: 25px;margin-left: 10px;">
     <div class="flex-p w-100">
 
         <div class="row" style="margin-bottom:14px;">
@@ -45,9 +45,9 @@
                                             <!-- <input type="text" formControlName="Keyword" onCopy="return false"
                                                 onPaste="return false" class="form-control"
                                                 placeholder="Search by Event Type"> -->
-                                                <mat-select class="form-control" formControlName="Keyword" multiple
+                                            <mat-select class="form-control" formControlName="Keyword" multiple
                                                 placeholder="Search by Event Type">
-                                               
+
                                                 <mat-option value="READ">READ</mat-option>
                                                 <mat-option value="GET">GET</mat-option>
                                                 <mat-option value="POST">POST</mat-option>
@@ -66,16 +66,16 @@
                                             <!-- <input type="text" formControlName="Keyword" onCopy="return false"
                                                 onPaste="return false" class="form-control"
                                                 placeholder="Search by Module"> -->
-                                                 <mat-select class="form-control" formControlName="Keyword"
+                                            <mat-select class="form-control" formControlName="Keyword"
                                                 placeholder="Search by Module">
-                                               
+
                                                 <mat-option value="READ">Admin</mat-option>
                                                 <mat-option value="GET">Complaints</mat-option>
                                                 <mat-option value="READ">Testing</mat-option>
                                                 <mat-option value="READ">PRTS</mat-option>
                                                 <mat-option value="READ">SUB Audits</mat-option>
-                                                 <mat-option value="READ">OBJ Audits</mat-option>
-                                               
+                                                <mat-option value="READ">OBJ Audits</mat-option>
+
                                             </mat-select>
                                         </div>
                                     </div>
@@ -99,7 +99,7 @@
                                         </div>
                                     </div>
 
-                                      <div class="col-sm-4 mt-3">
+                                    <div class="col-sm-4 mt-3">
                                         <div class="col-sm-3 newMarginClass">
                                             Role:
                                         </div>
@@ -107,13 +107,13 @@
                                             <!-- <input type="text" formControlName="Keyword" onCopy="return false"
                                                 onPaste="return false" class="form-control"
                                                 placeholder="Search by Module"> -->
-                                                 <mat-select class="form-control" formControlName="Keyword"
+                                            <mat-select class="form-control" formControlName="Keyword"
                                                 placeholder="Search by Role">
-                                               
+
                                                 <mat-option value="READ">Admin</mat-option>
                                                 <mat-option value="GET">Manager</mat-option>
-                                               
-                                               
+
+
                                             </mat-select>
                                         </div>
                                     </div>
@@ -122,14 +122,15 @@
                                             style="font-size: 25px; cursor: pointer; margin-left: -7px">
                                             <i class="fa fa-angle-double-up" aria-hidden="true"></i>
                                         </a>
-                                        
+
                                         <button mat-raised-button class="pull-right btn-default margin-right-10"
                                             (click)="clearFilter()">
-                                           <mat-icon>settings_backup_restore</mat-icon> Clear
+                                            <mat-icon>settings_backup_restore</mat-icon> Clear
 
                                         </button>
-                                        <button mat-raised-button color="primary" class="pull-right margin-right-10" (click)="filter()">
-                                           <mat-icon>search</mat-icon> Search
+                                        <button mat-raised-button color="primary" class="pull-right margin-right-10"
+                                            (click)="filter()">
+                                            <mat-icon>search</mat-icon> Search
                                         </button>
                                     </div>
 
@@ -151,13 +152,13 @@
                     <thead class="tbl-head">
                         <tr class="tr-grid-header">
                             <th>Event Name</th>
-                              <th>Event Type</th>
+                            <th>Event Type</th>
                             <th>Module</th>
-                             <th>Date & Time</th>
+                            <th>Date & Time</th>
                             <th>User Name</th>
                             <th>User Role</th>
                             <th>IP Address</th>
-                          
+
 
 
                         </tr>
@@ -168,13 +169,13 @@
                         </tr>
                         <tr *ngFor="let item of eventDetails">
                             <td>{{item.Eventname}}</td>
-                              <td>{{item.eventtype}}</td>
-                             <td>{{item.Module}}</td>
-                             <td>{{item.createddate}}</td>
+                            <td>{{item.eventtype}}</td>
+                            <td>{{item.Module}}</td>
+                            <td>{{item.createddate}}</td>
                             <td>{{item.Username}}</td>
                             <td>{{item.Userrole}}</td>
                             <td>{{item.ip}}</td>
-                          
+
 
 
                         </tr>

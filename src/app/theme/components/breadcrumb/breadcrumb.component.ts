@@ -1,16 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, ActivatedRouteSnapshot, UrlSegment, NavigationEnd } from "@angular/router"; 
 import { Title } from '@angular/platform-browser';
 import { AppSettings } from '../../../app.settings';
 import { Settings } from '../../../app.settings.model';
+import { Subject, Subscription } from 'rxjs';
 
+export interface BreadcrumbUpdate {
+    header: string;
+    description: string;
+}
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss']
 })
-export class BreadcrumbComponent implements OnInit {
+export class BreadcrumbComponent implements OnInit, OnDestroy {
+    public static update$ = new Subject<BreadcrumbUpdate>();
+    private updateSub!: Subscription;
 
     public pageTitle!: string;
     public Header!: string;
@@ -41,6 +48,18 @@ export class BreadcrumbComponent implements OnInit {
     // ✅ This fires on refresh/first load when NavigationEnd is already done
     ngOnInit(): void {
         this.buildBreadcrumbs();
+        this.updateSub = BreadcrumbComponent.update$.subscribe(info => {
+            if (info) {
+                this.Header = info.header;
+                this.Description = info.description;
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        if (this.updateSub) {
+            this.updateSub.unsubscribe();
+        }
     }
 
   private buildBreadcrumbs(): void {

@@ -104,10 +104,11 @@
             <div style="margin-bottom: 10px; margin-top: 20px;">
                 <div class="pull-right" style="display: flex; gap: 10px; justify-content: flex-end;">
                     <button mat-raised-button type="button" (click)="close()"
-                        style="background-color: lightgray; color: red">
+                        style="background-color: lightgray; color: red; height: 38px;">
                         <mat-icon>cancel</mat-icon> Close
                     </button>
-                    <button mat-raised-button type="submit" color="primary" [disabled]="!form.valid">
+                    <button mat-raised-button type="submit" class="save" color="primary" [disabled]="!form.valid"
+                        style="background-color: #0284c7 !important; color: white !important; height: 38px; border-radius: 6px; font-weight: 500;">
                         <mat-icon>save</mat-icon> Save
                     </button>
                 </div>

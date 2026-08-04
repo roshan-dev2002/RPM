@@ -1,12 +1,12 @@
-<div class="page-container" style="padding: 0 10px; box-sizing: border-box; width: 100%;">
+<div class="page-container" style="padding-left: 30px; box-sizing: border-box; width: 100%;">
 
   <!-- Header Section with Buttons -->
   <div class="header-section"
     style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 20px; width: 100%;">
     <div>
       <button mat-raised-button class="custom-back-btn" (click)="goBack()"
-        style="background-color: rgb(130, 130, 130); color: white;">
-        <mat-icon style="margin-bottom: -4px;">arrow_back</mat-icon> Back
+        style="background-color: rgb(130, 130, 130); color: white; margin-left: 20px;">
+        <mat-icon style="">arrow_back</mat-icon> Back
       </button>
     </div>
   </div>
@@ -191,12 +191,14 @@
     </form>
   </div>
 
-  <div style="display: flex !important; justify-content: flex-end !important; gap: 10px !important; border-top: 1px solid #cbd5e1 !important; margin-top: 15px !important; padding: 15px 25px !important; width: 100% !important; box-sizing: border-box !important;">
+  <div
+    style="display: flex !important; justify-content: flex-end !important; gap: 10px !important; border-top: 1px solid #cbd5e1 !important; margin-top: 15px !important; padding: 15px 25px !important; width: 100% !important; box-sizing: border-box !important;">
     <button mat-raised-button class="close-btn" (click)="closeEditDialog()"
       style="background-color: lightgray !important; color: red !important; height: 38px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important;">
       <mat-icon style="margin-right: 4px !important;">cancel</mat-icon> Close
     </button>
-    <button mat-raised-button color="primary" class="save-btn" (click)="saveEditDialog()" style="height: 38px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important;">
+    <button mat-raised-button color="primary" class="save-btn" (click)="saveEditDialog()"
+      style="height: 38px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important;">
       Save <mat-icon style="margin-left: 5px !important;">save</mat-icon>
     </button>
   </div>

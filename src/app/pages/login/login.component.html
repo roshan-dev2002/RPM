@@ -106,7 +106,7 @@
           <label class="form-label-custom">Password</label>
           <div class="password-input-wrapper">
             <input [type]="passwordType" class="form-input-custom" placeholder="••••••••" formControlName="password" />
-            <i class="fa" [ngClass]="passwordType === 'password' ? 'fa-eye' : 'fa-eye-slash'" class="password-toggle-icon" (click)="togglePassword()"></i>
+            <i [ngClass]="['fa', 'password-toggle-icon', passwordType === 'password' ? 'fa-eye' : 'fa-eye-slash']" (click)="togglePassword()"></i>
           </div>
           <div class="error-msg" *ngIf="form.controls.password.touched && form.controls.password.errors?.required">
             Password is required

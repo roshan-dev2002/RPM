@@ -22,8 +22,14 @@ import { GateImplimentationComponent } from './gate-implimentation/gate-implimen
 import { DragulaModule } from "ng2-dragula";
 import { AddcriteriaComponent } from './addcriteria/addcriteria.component';
 import { AddGateComponent } from './add-gate/add-gate.component';
+import { GridcolumnFeasibilityComponent } from './gate-feasibility/gridcolumn-feasibility/gridcolumn-feasibility.component';
+import { GridcolumnDesignComponent } from './gate-design/gridcolumn-design/gridcolumn-design.component';
+import { GridcolumnImplimentationComponent } from './gate-implimentation/gridcolumn-implimentation/gridcolumn-implimentation.component';
+import { GridcolumnLaunchComponent } from './gate-launch/gridcolumn-launch/gridcolumn-launch.component';
+import { GridcolumnPrototypingComponent } from './gate-prototyping/gridcolumn-prototyping/gridcolumn-prototyping.component';
+import { GridcolumnTestingComponent } from './gate-testing/gridcolumn-testing/gridcolumn-testing.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
-// ✅ routes definition was missing
 const routes: Routes = [
     {
         path: '',
@@ -35,7 +41,6 @@ const routes: Routes = [
                     description: 'The list of acceptance criteria along with priority are managed here.'
                 }
             },
-
             { path: 'design', component: GateDesignComponent, data: { breadcrumb: 'Design', description: 'Design phase acceptance criteria and management.' } },
             { path: 'prototyping', component: GatePrototypingComponent, data: { breadcrumb: 'Prototyping', description: 'Prototyping phase acceptance criteria and management.' } },
             { path: 'testing', component: GateTestingComponent, data: { breadcrumb: 'Testing', description: 'Testing phase acceptance criteria and management.' } },
@@ -55,11 +60,17 @@ const routes: Routes = [
         GateLaunchComponent,
         GateImplimentationComponent,
         AddcriteriaComponent,
-        AddGateComponent
+        AddGateComponent,
+        GridcolumnFeasibilityComponent,
+        GridcolumnDesignComponent,
+        GridcolumnImplimentationComponent,
+        GridcolumnLaunchComponent,
+        GridcolumnPrototypingComponent,
+        GridcolumnTestingComponent
     ],
     imports: [
         CommonModule,
-        RouterModule.forChild(routes), // ✅ routes now defined above
+        RouterModule.forChild(routes),
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
@@ -70,7 +81,8 @@ const routes: Routes = [
         MatCardModule,
         MatSelectModule,
         MatRadioModule,
-        DragulaModule   // ✅ no .forRoot() — that goes in AppModule only
+        DragulaModule,
+        DragDropModule
     ],
     providers: []
 })

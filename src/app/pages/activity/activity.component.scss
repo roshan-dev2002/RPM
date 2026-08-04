@@ -1,0 +1,77 @@
+.custom-black-btn {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+    height: 38px !important;
+    padding: 0 16px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-size: 14px !important;
+    border: none !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    mat-icon {
+        color: #ffffff !important;
+        font-size: 20px !important;
+        width: 20px !important;
+        height: 20px !important;
+        line-height: 20px !important;
+        margin-right: 8px !important;
+    }
+
+    &:hover {
+        background-color: #1f1f1f !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+}
+
+.custom-outline-btn {
+    background-color: #ffffff !important;
+    color: #334155 !important;
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+    height: 38px !important;
+    padding: 0 16px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-size: 14px !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    mat-icon {
+        color: #64748b !important;
+        font-size: 20px !important;
+        width: 20px !important;
+        height: 20px !important;
+        line-height: 20px !important;
+        margin-right: 8px !important;
+    }
+
+    &:hover {
+        background-color: #f8fafc !important;
+        border-color: #94a3b8 !important;
+        color: #0f172a !important;
+
+        mat-icon {
+            color: #0f172a !important;
+        }
+    }
+}
+
+.custom-black-btn,
+.custom-outline-btn {
+    .mat-button-wrapper {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}

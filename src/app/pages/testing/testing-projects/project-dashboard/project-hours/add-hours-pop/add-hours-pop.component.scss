@@ -45,3 +45,51 @@
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
+
+mat-select.form-control {
+  padding: 0 10px !important;
+  height: 35px !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+::ng-deep .mat-select-trigger {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+::ng-deep .mat-select-arrow-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+  height: 100% !important;
+}
+
+::ng-deep .mat-select-placeholder {
+  color: #6b7280 !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  line-height: normal !important;
+}
+
+::ng-deep .mat-select-value {
+  color: #1e293b !important;
+  font-size: 13px !important;
+  display: flex !important;
+  align-items: center !important;
+  line-height: normal !important;
+  max-width: calc(100% - 20px) !important;
+}
+
+::ng-deep .mat-select-value-text {
+  display: flex !important;
+  align-items: center !important;
+  line-height: normal !important;
+}

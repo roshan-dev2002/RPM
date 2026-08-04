@@ -6,8 +6,10 @@
     margin-right: 20px;
     width: 16px;
     height: 16px;
-    accent-color: #2563eb; /* Matches the blue theme when checked */
-    pointer-events: none; /* Allows the parent row click event to handle toggling cleanly */
+    accent-color: #2563eb;
+    /* Matches the blue theme when checked */
+    pointer-events: none;
+    /* Allows the parent row click event to handle toggling cleanly */
 
 }
 
@@ -15,13 +17,14 @@
 
 /* --- Typography & Layout --- */
 .dialog-container {
-     min-width: 1250px;
-  width: 100%;
-  padding: 24px;
-  // background-color: $bg-color;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  min-height: 100vh;
-  margin-top: 15px;
+    min-width: 1230px;
+    width: 100%;
+    //   padding: 24px;
+    padding-left: 24px;
+    // background-color: $bg-color;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    margin-top: 15px;
 }
 
 .text-center {
@@ -46,7 +49,7 @@
     color: #6b7280;
     margin: 0;
     display: flex;
-    justify-content: flex-start; 
+    justify-content: flex-start;
 }
 
 /* --- Transfer Box Layout --- */
@@ -170,7 +173,7 @@
     border-radius: 6px;
     font-weight: 500;
     letter-spacing: 0.3px;
-    
+
     mat-icon {
         margin: 0 4px;
     }
@@ -203,7 +206,7 @@
     gap: 12px;
     padding: 16px 24px;
     border-top: 1px solid #f3f4f6;
-     
+
 }
 
 .save-btn {
@@ -219,43 +222,44 @@
     background-color: grey;
     font-weight: 500;
 }
+
 .header-section {
-  width: 100%;
-  margin-bottom: 24px;
+    width: 100%;
+    margin-bottom: 24px;
 }
 
 .header-content {
-  display: flex;
-  align-items: center;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
 .header-titles {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .assign-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
 }
 
 .assign-subtitle {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
 }
 
 .back-btn {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 4px;
-  margin-right: -17px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 4px;
+    margin-right: -17px;
 }

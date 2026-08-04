@@ -35,6 +35,8 @@ import { ComplaintsdashboardComponent } from './pages/dashboard/complaintsdashbo
 import { KanbanComponent } from './pages/complaints/kanban/kanban.component';
 import { GatesModule } from './pages/testing/gates/gates.module';
 import { SqmComponent } from './pages/sqm/sqm.component';
+import { ActivityComponent } from './pages/activity/activity.component';
+import { LoginGuard } from './pages/helpers/login.guard';
 
 
 const routes: Routes = [
@@ -42,7 +44,9 @@ const routes: Routes = [
 
     {
         path: 'app',
-        component: PagesComponent, children: [
+        component: PagesComponent,
+        canActivate: [LoginGuard],
+        children: [
 
             { path: '', redirectTo: 'test-dashboard', pathMatch: 'full' },
 
@@ -52,6 +56,14 @@ const routes: Routes = [
                 data: {
                     breadcrumb: 'RPM Dashboard',
                     description: 'This is a System Dashboard with details of metrics, trends, and distribution across the system'
+                }
+            },
+            {
+                path: "test-activity",
+                component: ActivityComponent,
+                data: {
+                    breadcrumb: 'Tasks',
+                    description: 'The list of tasks can be managed here.'
                 }
             },
             {

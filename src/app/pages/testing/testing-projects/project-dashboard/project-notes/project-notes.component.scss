@@ -1,7 +1,7 @@
 .page-container {
- max-width: 100%;
+  max-width: 100%;
   width: 100%;
-  padding: 24px;
+  // padding: 24px;
   // background-color: $bg-color;
   // font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   min-height: 100vh;
@@ -35,7 +35,7 @@
     display: flex;
     align-items: center;
     box-shadow: #5f6368;
-    
+
     mat-icon {
       margin-right: 8px;
       margin-top: -6px;
@@ -71,9 +71,15 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 16px;
-  
-  .sparkle-icon { color: #4285f4; }
-  h3 { margin: 0; font-size: 18px; }
+
+  .sparkle-icon {
+    color: #4285f4;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+  }
 }
 
 /* Table Styling */

@@ -1,0 +1,63 @@
+<div class="nav-container" [ngClass]="{'nav-open': isNavOpen, 'nav-closed': !isNavOpen}">
+
+  <!-- Toggle Button -->
+  <button (click)="toggleNav()" class="toggle-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <nav class="nav-links">
+    <ul>
+
+      <!-- Roles & Users -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:false}">
+        <a [routerLink]="['./manage-users']">
+          <mat-icon *ngIf="!isNavOpen" matTooltip="Roles & Users">person_add</mat-icon>
+          <mat-icon *ngIf="isNavOpen">person_add</mat-icon>
+          <span *ngIf="isNavOpen">Roles & Users</span>
+        </a>
+      </li>
+
+      <!-- Dashboard -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <a [routerLink]="['./lookups']">
+          <mat-icon *ngIf="!isNavOpen" matTooltip="Dashboard">dashboard</mat-icon>
+          <mat-icon *ngIf="isNavOpen">dashboard</mat-icon>
+          <span *ngIf="isNavOpen">Dashboard</span>
+        </a>
+      </li>
+
+      <!-- Preferences -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <a [routerLink]="['./settings']">
+          <mat-icon *ngIf="!isNavOpen" matTooltip="Preferences">tune</mat-icon>
+          <mat-icon *ngIf="isNavOpen">tune</mat-icon>
+          <span *ngIf="isNavOpen">Preferences</span>
+        </a>
+      </li>
+
+      <!-- Event Log -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <a [routerLink]="['./event-log']">
+          <mat-icon *ngIf="!isNavOpen" matTooltip="Event Log">record_voice_over</mat-icon>
+          <mat-icon *ngIf="isNavOpen">record_voice_over</mat-icon>
+          <span *ngIf="isNavOpen">Event Log</span>
+        </a>
+      </li>
+
+      <!-- Escalation Matrix -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:false}">
+        <a [routerLink]="['./escalation']">
+          <mat-icon *ngIf="!isNavOpen" matTooltip="Escalation Matrix">mail</mat-icon>
+          <mat-icon *ngIf="isNavOpen">mail</mat-icon>
+          <span *ngIf="isNavOpen">Escalation Matrix</span>
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+
+</div>
+
+<div class="admin-main-wrapper" [ngClass]="{'content-nav-open': isNavOpen, 'content-nav-closed': !isNavOpen}">
+  <router-outlet></router-outlet>
+</div>

@@ -18,7 +18,24 @@ export class AddHoursPopComponent implements OnInit {
 
   isEditMode = false;
   dateStr = '';
-  name = '';
+  name: string | null = null;
+
+  employeeOptions: string[] = [
+    'Ravi Sharma',
+    'Priya Singh',
+    'Amit Kumar',
+    'Neha Sharma',
+    'Vikram Joshi'
+  ];
+  nameSearchTerm = '';
+
+  get filteredEmployeeOptions(): string[] {
+    if (!this.nameSearchTerm || !this.nameSearchTerm.trim()) {
+      return this.employeeOptions;
+    }
+    const term = this.nameSearchTerm.toLowerCase().trim();
+    return this.employeeOptions.filter(e => e.toLowerCase().includes(term));
+  }
 
   rows: TimesheetRow[] = [];
 
@@ -53,7 +70,7 @@ export class AddHoursPopComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.isEditMode = true;
-      this.name = this.data.name || '';
+      this.name = this.data.name || null;
       if (this.data.dateObj) {
         const d = this.data.dateObj;
         const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -64,7 +81,7 @@ export class AddHoursPopComponent implements OnInit {
       if (this.data.tasksList && this.data.tasksList.length > 0) {
         this.rows = this.data.tasksList.map((t: any) => ({
           module: t.module || '',
-          task: t.task || '',
+          task: t.task || null,
           hours: t.hours || 0,
           description: t.description || ''
         }));
@@ -72,7 +89,7 @@ export class AddHoursPopComponent implements OnInit {
         this.rows = [
           {
             module: this.data.module || '',
-            task: this.data.task || '',
+            task: this.data.task || null,
             hours: this.data.hours || 0,
             description: this.data.description || ''
           }
@@ -85,20 +102,20 @@ export class AddHoursPopComponent implements OnInit {
       const dd = String(today.getDate()).padStart(2, '0');
       this.dateStr = `${today.getFullYear()}-${mm}-${dd}`;
       this.rows = [
-        { module: '', task: '', hours: 0, description: '' }
+        { module: '', task: null, hours: 0, description: '' }
       ];
     }
   }
 
   addRow(): void {
-    this.rows.push({ module: '', task: '', hours: 0, description: '' });
+    this.rows.push({ module: '', task: null as any, hours: 0, description: '' });
   }
 
   deleteRow(index: number): void {
     if (this.rows.length > 1) {
       this.rows.splice(index, 1);
     } else {
-      this.rows[0] = { module: '', task: '', hours: 0, description: '' };
+      this.rows[0] = { module: '', task: null as any, hours: 0, description: '' };
     }
   }
 

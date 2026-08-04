@@ -1,5 +1,5 @@
 <div class="main-wrapper">
-<div class="header-section">
+  <div class="header-section">
     <div class="title-row">
       <div class="header-titles" style="visibility: hidden;">
         <h1 style="font-weight: 700; font-size: 24px">
@@ -9,11 +9,12 @@
           Track project financial allocations, expenses, and completion status.
         </p>
       </div>
-      
-        <button mat-raised-button class="back-btn" (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white;">
-    <mat-icon>arrow_back</mat-icon>
-    Back
-  </button>
+
+      <button mat-raised-button class="back-btn" (click)="goBack()"
+        style="background-color: rgb(130, 130, 130); color: white;">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
     </div>
 
     <div class="filter-bar">
@@ -33,41 +34,38 @@
         </select>
       </div>
 
-      <button
-        class="btn-go"
-        (click)="applyFilters(stageSelect.value, moduleSelect.value)"
-      >
+      <button class="btn-go" (click)="applyFilters(stageSelect.value, moduleSelect.value)">
         GO
       </button>
     </div>
   </div>
 
-<div class="stats-grid">
-  <div class="stat-card blue">
-    <span class="label">BUDGET</span>
-    <span class="label">Rs. 20,00,000</span>
+  <div class="stats-grid">
+    <div class="stat-card blue">
+      <span class="label">BUDGET</span>
+      <span class="label">Rs. 20,00,000</span>
+    </div>
+    <div class="stat-card green">
+      <span class="label1">ACTUAL</span>
+      <span class="label1">Rs. 8,50,000</span>
+    </div>
+    <div class="stat-card orange">
+      <span class="label2">COMPLETION</span>
+      <span class="label2">45%</span>
+    </div>
+    <div class="stat-card purple">
+      <span class="label3">PROJECTED BUDGET</span>
+      <span class="label3">Rs. 18,88,889</span>
+    </div>
+    <div class="stat-card red">
+      <span class="label4">DUE DATE</span>
+      <span class="label4">30 Oct 2026</span>
+    </div>
+    <div class="stat-card cyan">
+      <span class="label5">ETA</span>
+      <span class="label5">20 Oct 2026</span>
+    </div>
   </div>
-  <div class="stat-card green">
-    <span class="label1">ACTUAL</span>
-    <span class="label1">Rs. 8,50,000</span>
-  </div>
-  <div class="stat-card orange">
-    <span class="label2">COMPLETION</span>
-    <span class="label2">45%</span>
-  </div>
-  <div class="stat-card purple">
-    <span class="label3">PROJECTED BUDGET</span>
-    <span class="label3">Rs. 18,88,889</span>
-  </div>
-  <div class="stat-card red">
-    <span class="label4">DUE DATE</span>
-    <span class="label4">30 Oct 2026</span>
-  </div>
-  <div class="stat-card cyan">
-    <span class="label5">ETA</span>
-    <span class="label5">20 Oct 2026</span>
-  </div>
-</div>
 
   <div class="table-container">
     <table class="table table-bordered table-hover">
@@ -94,10 +92,7 @@
           <td class="text-center">{{ row.standardHours }}</td>
           <td class="text-center">{{ fmt(row.budget) }}</td>
           <td class="text-center">{{ row.actualHours }}</td>
-          <td
-            class="text-center font-bold"
-            [style.color]="getCompColor(row.completion)"
-          >
+          <td class="text-center font-bold" [style.color]="getCompColor(row.completion)">
             {{ row.completion }}%
           </td>
           <td class="text-center">{{ fmt(row.expenses) }}</td>

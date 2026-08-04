@@ -9,13 +9,15 @@ import * as Highcharts from "highcharts";
 import HC_xrange from "highcharts/modules/xrange";
 HC_xrange(Highcharts);
 
+type DashboardKey = "resp" | "category" | "ageing" | "rpn";
+
 @Component({
   selector: "app-testdashboard",
   templateUrl: "./testdashboard.component.html",
   styleUrls: ["./testdashboard.component.scss"],
 })
 export class TestdashboardComponent implements OnInit, AfterViewInit {
-  activeDashboard: "resp" | "category" | "ageing" | "rpn" = "resp";
+  activeDashboard: DashboardKey = "resp";
   currentView: "graph" | "grid" = "graph";
 
   getSprintLabel(num: number): string {
@@ -23,7 +25,7 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
     return '1' + String.fromCharCode(64 + num); // 1 -> '1A', 2 -> '1B', 3 -> '1C', ...
   }
 
-  dashboards = [
+  dashboards: Array<{ key: DashboardKey; title: string; color: string }> = [
     { key: "resp", title: "Portfolio", color: "#ffeadb" },
     { key: "category", title: "Timeline", color: "#e2f6d3" },
     { key: "ageing", title: "Budget", color: "#d7f3ff" },
@@ -62,15 +64,15 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
   constructor(private cdr: ChangeDetectorRef) { }
 
   // --- Gantt filter state ---
-  selectedProject = 'Project Alpha';
-  projects = ['Project Alpha', 'Project Beta'];
+  selectedProject = 'All Projects';
+  projects = ['All Projects'];
   selectedStageFilter = 'all';
   filteredGanttData: any[] = [];
-  selectedBudgetProject = 'Project Alpha';
+  selectedBudgetProject = 'All Projects';
   filteredBudgetGanttData: any[] = [];
 
   // --- Buffer filter state ---
-  selectedBufferProject = 'Project Alpha';
+  selectedBufferProject = 'All Projects';
   selectedBufferStage = 'all';
   filteredBufferSprintData: any[] = [];
 
@@ -103,21 +105,13 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
 
   // Budget Gantt data
   budgetGanttData = [
-    { task: 'Fesibility', start: Date.UTC(2024, 4, 1), end: Date.UTC(2024, 4, 7), allocated: 50000, spent: 48000, completion: 96, project: 'Project Alpha' },
-    { task: 'Prototyping', start: Date.UTC(2024, 4, 8), end: Date.UTC(2024, 4, 21), allocated: 80000, spent: 75000, completion: 94, project: 'Project Alpha' },
-    { task: 'Design', start: Date.UTC(2024, 4, 22), end: Date.UTC(2024, 5, 11), allocated: 120000, spent: 95000, completion: 79, project: 'Project Alpha' },
-    { task: 'Implementation', start: Date.UTC(2024, 5, 12), end: Date.UTC(2024, 6, 23), allocated: 200000, spent: 110000, completion: 55, project: 'Project Alpha' },
-    { task: 'Testing', start: Date.UTC(2024, 6, 24), end: Date.UTC(2024, 7, 13), allocated: 60000, spent: 72000, completion: 120, project: 'Project Alpha' },
-    { task: 'Deployment', start: Date.UTC(2024, 7, 14), end: Date.UTC(2024, 7, 27), allocated: 40000, spent: 5000, completion: 13, project: 'Project Alpha' },
-    { task: 'Launch', start: Date.UTC(2024, 7, 28), end: Date.UTC(2024, 8, 30), allocated: 30000, spent: 0, completion: 0, project: 'Project Alpha' },
-
-    { task: 'Fesibility', start: Date.UTC(2024, 6, 1), end: Date.UTC(2024, 6, 10), allocated: 35000, spent: 34000, completion: 97, project: 'Project Beta' },
-    { task: 'Prototyping', start: Date.UTC(2024, 6, 11), end: Date.UTC(2024, 6, 25), allocated: 60000, spent: 40000, completion: 66, project: 'Project Beta' },
-    { task: 'Design', start: Date.UTC(2024, 6, 26), end: Date.UTC(2024, 7, 15), allocated: 90000, spent: 20000, completion: 22, project: 'Project Beta' },
-    { task: 'Implementation', start: Date.UTC(2024, 7, 16), end: Date.UTC(2024, 8, 20), allocated: 150000, spent: 0, completion: 0, project: 'Project Beta' },
-    { task: 'Testing', start: Date.UTC(2024, 8, 21), end: Date.UTC(2024, 9, 10), allocated: 45000, spent: 0, completion: 0, project: 'Project Beta' },
-    { task: 'Deployment', start: Date.UTC(2024, 9, 11), end: Date.UTC(2024, 9, 24), allocated: 25000, spent: 0, completion: 0, project: 'Project Beta' },
-    { task: 'Launch', start: Date.UTC(2024, 9, 25), end: Date.UTC(2024, 10, 15), allocated: 20000, spent: 0, completion: 0, project: 'Project Beta' },
+    { task: 'Feasibility', start: Date.UTC(2024, 4, 1), end: Date.UTC(2024, 4, 7), allocated: 50000, spent: 48000, completion: 96, project: 'All Projects' },
+    { task: 'Prototyping', start: Date.UTC(2024, 4, 8), end: Date.UTC(2024, 4, 21), allocated: 80000, spent: 75000, completion: 94, project: 'All Projects' },
+    { task: 'Design', start: Date.UTC(2024, 4, 22), end: Date.UTC(2024, 5, 11), allocated: 120000, spent: 95000, completion: 79, project: 'All Projects' },
+    { task: 'Implementation', start: Date.UTC(2024, 5, 12), end: Date.UTC(2024, 6, 23), allocated: 200000, spent: 110000, completion: 55, project: 'All Projects' },
+    { task: 'Testing', start: Date.UTC(2024, 6, 24), end: Date.UTC(2024, 7, 13), allocated: 60000, spent: 72000, completion: 120, project: 'All Projects' },
+    { task: 'Deployment', start: Date.UTC(2024, 7, 14), end: Date.UTC(2024, 7, 27), allocated: 40000, spent: 5000, completion: 13, project: 'All Projects' },
+    { task: 'Launch', start: Date.UTC(2024, 7, 28), end: Date.UTC(2024, 8, 30), allocated: 30000, spent: 0, completion: 0, project: 'All Projects' },
   ];
 
   // --- Ageing Data ---
@@ -131,19 +125,19 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
 
   // --- Buffer Data ---
   bufferSprintData = [
-    { sprint: 1, bufferUsed: 0.8, project: 'Project Alpha', stage: 'g1' },
-    { sprint: 2, bufferUsed: 2.5, project: 'Project Alpha', stage: 'g2' },
-    { sprint: 3, bufferUsed: 2.2, project: 'Project Alpha', stage: 'g2' },
-    { sprint: 4, bufferUsed: 4.8, project: 'Project Alpha', stage: 'g3' },
-    { sprint: 5, bufferUsed: 4.0, project: 'Project Alpha', stage: 'g4' },
-    { sprint: 6, bufferUsed: 6.5, project: 'Project Alpha', stage: 'g5' },
+    { sprint: 1, bufferUsed: 0.8, project: 'All Projects', stage: 'g1' },
+    { sprint: 2, bufferUsed: 2.5, project: 'All Projects', stage: 'g2' },
+    { sprint: 3, bufferUsed: 2.2, project: 'All Projects', stage: 'g2' },
+    { sprint: 4, bufferUsed: 4.8, project: 'All Projects', stage: 'g3' },
+    { sprint: 5, bufferUsed: 4.0, project: 'All Projects', stage: 'g4' },
+    { sprint: 6, bufferUsed: 6.5, project: 'All Projects', stage: 'g5' },
 
-    { sprint: 1, bufferUsed: 0.5, project: 'Project Beta', stage: 'g1' },
-    { sprint: 2, bufferUsed: 1.2, project: 'Project Beta', stage: 'g2' },
-    { sprint: 3, bufferUsed: 3.0, project: 'Project Beta', stage: 'g2' },
-    { sprint: 4, bufferUsed: 2.9, project: 'Project Beta', stage: 'g3' },
-    { sprint: 5, bufferUsed: 5.5, project: 'Project Beta', stage: 'g4' },
-    { sprint: 6, bufferUsed: 7.1, project: 'Project Beta', stage: 'g5' },
+    { sprint: 1, bufferUsed: 0.5, project: 'All Projects', stage: 'g1' },
+    { sprint: 2, bufferUsed: 1.2, project: 'All Projects', stage: 'g2' },
+    { sprint: 3, bufferUsed: 3.0, project: 'All Projects', stage: 'g2' },
+    { sprint: 4, bufferUsed: 2.9, project: 'All Projects', stage: 'g3' },
+    { sprint: 5, bufferUsed: 5.5, project: 'All Projects', stage: 'g4' },
+    { sprint: 6, bufferUsed: 7.1, project: 'All Projects', stage: 'g5' },
   ];
 
   // ─── Tooltip State ────────────────────────────────────────────────────────
@@ -192,7 +186,7 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
 
   // ─── Dashboard / View control ─────────────────────────────────────────────
 
-  setActiveDashboard(key: "resp" | "category" | "ageing" | "rpn") {
+  setActiveDashboard(key: DashboardKey) {
     this.activeDashboard = key;
     this.renderChartWithDelay();
   }
@@ -277,8 +271,8 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
       tooltip: { pointFormat: '<b>{point.name}</b>: {point.y} Projects' },
       plotOptions: { column: { grouping: false, dataLabels: { enabled: true, style: { fontWeight: 'bold', fontSize: '14px' } } } },
       series: [
-        { type: 'column', name: 'On Time (5)',    color: '#00a859', data: [{ x: 0, y: 5, color: '#00a859' }] },
-        { type: 'column', name: 'Delayed (2)',    color: '#ed1c24',  data: [{ x: 1, y: 2, color: '#ed1c24' }] },
+        { type: 'column', name: 'On Time (5)', color: '#00a859', data: [{ x: 0, y: 5, color: '#00a859' }] },
+        { type: 'column', name: 'Delayed (2)', color: '#ed1c24', data: [{ x: 1, y: 2, color: '#ed1c24' }] },
       ],
     } as any);
   }
@@ -370,7 +364,7 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
 
     Highcharts.chart(containerId, {
       chart: { type: 'xrange', height: 400 },
-      title: { text: 'Budget Utilization by Phase' },
+      title: { text: 'Budget Utilization by Stage' },
       credits: { enabled: false },
       xAxis: { type: 'datetime' },
       yAxis: { title: { text: 'Phases' }, categories: this.filteredBudgetGanttData.map(x => x.task), reversed: true },
@@ -523,14 +517,15 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
         const entry = stageMap.get(g.key)!;
         const avgActual = entry.actualTotal / entry.count;
         const expected = stageOrder.get(g.key)!;
-        const variancePct = +(((avgActual - expected) / expected) * 100).toFixed(1);
+        // Variance relative to expected baseline (savings / under budget is positive/green)
+        const variancePct = +(((expected - avgActual) / expected) * 100).toFixed(1);
         return {
           name: g.label,
           y: variancePct,
           avgActual: +avgActual.toFixed(2),
           expected,
           stageKey: g.key,
-          // Dynamic color: green for positive/zero, red for negative
+          // Favorable variance (saved buffer / on track) is green
           color: variancePct >= 0 ? '#00a859' : '#dc3545'
         };
       });
@@ -539,7 +534,7 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
 
     this.bufferStageChart = Highcharts.chart(containerId, {
       chart: { type: 'column' },
-      title: { text: 'Buffer Variance - Stage-wise Distribution' },
+      title: { text: 'Buffer Stage-wise Distribution' },
       subtitle: { text: 'Click a bar to drill into that stage\'s sprints' },
       credits: { enabled: false },
       xAxis: {
@@ -559,7 +554,7 @@ export class TestdashboardComponent implements OnInit, AfterViewInit {
         useHTML: true,
         formatter: function () {
           const p = this.point as any;
-          const status = p.y >= 0 ? 'Positive Variance' : 'Negative Variance';
+          const status = p.y >= 0 ? 'Favorable (On Track / Saved Buffer)' : 'Unfavorable (Over Buffer)';
           return `
             <div style="font-size: 13px;">
               <b>${this.key}</b><br/>

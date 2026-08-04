@@ -33,6 +33,8 @@ export interface Card {
 })
 export class TestingIssuesComponent implements OnInit {
   filterToggle: boolean = false;
+  showTimelineModal: boolean = false;
+  selectedTimelineTask: any = null;
   totalSize = 0;
   currentPage: number = 0;
   pageSize: number = 5;
@@ -367,5 +369,15 @@ export class TestingIssuesComponent implements OnInit {
 
   trackByCard(index: number, item: Card): number {
     return item.id;
+  }
+
+  openTimelineModal(task: any): void {
+    this.selectedTimelineTask = task;
+    this.showTimelineModal = true;
+  }
+
+  closeTimelineModal(): void {
+    this.showTimelineModal = false;
+    this.selectedTimelineTask = null;
   }
 }

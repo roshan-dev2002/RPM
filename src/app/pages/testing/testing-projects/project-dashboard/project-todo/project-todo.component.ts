@@ -13,6 +13,15 @@ export interface ProjectTodoItem {
   group: string;
   site: string;
   department: string;
+  planStart?: string;
+  planEnd?: string;
+  actualStart?: string;
+  actualEnd?: string;
+  eta?: string;
+  actualHours?: number;
+  section?: string;
+  taskCode?: string;
+  effort?: number;
 }
 
 @Component({
@@ -67,7 +76,16 @@ export class ProjectTodoComponent implements OnInit {
         role: 'Design Lead',
         group: 'Tooling Group',
         site: 'Plant 1 - Sanand',
-        department: 'Tooling Design'
+        department: 'Tooling Design',
+        planStart: '2026-07-01',
+        planEnd: '2026-07-28',
+        actualStart: '2026-07-02',
+        actualEnd: '2026-07-27',
+        eta: '2026-07-28',
+        actualHours: 32,
+        section: 'Section A',
+        taskCode: 'TODO-101',
+        effort: 40
       },
       {
         id: 2,
@@ -77,7 +95,16 @@ export class ProjectTodoComponent implements OnInit {
         role: 'Safety Engineer',
         group: 'EHS Group',
         site: 'Plant 2 - Chakan',
-        department: 'EHS & Compliance'
+        department: 'EHS & Compliance',
+        planStart: '2026-07-15',
+        planEnd: '2026-08-05',
+        actualStart: '2026-07-16',
+        actualEnd: '',
+        eta: '2026-08-05',
+        actualHours: 18,
+        section: 'Section B',
+        taskCode: 'TODO-102',
+        effort: 24
       },
       {
         id: 3,
@@ -87,7 +114,16 @@ export class ProjectTodoComponent implements OnInit {
         role: 'Automation Lead',
         group: 'Robotics Group',
         site: 'Plant 1 - Sanand',
-        department: 'Automation'
+        department: 'Automation',
+        planStart: '2026-07-20',
+        planEnd: '2026-08-10',
+        actualStart: '2026-07-22',
+        actualEnd: '',
+        eta: '2026-08-10',
+        actualHours: 25,
+        section: 'Section A',
+        taskCode: 'TODO-103',
+        effort: 36
       },
       {
         id: 4,
@@ -97,7 +133,16 @@ export class ProjectTodoComponent implements OnInit {
         role: 'Quality Inspector',
         group: 'Supplier Quality',
         site: 'Plant 3 - Hosur',
-        department: 'Quality Assurance'
+        department: 'Quality Assurance',
+        planStart: '2026-08-01',
+        planEnd: '2026-08-15',
+        actualStart: '',
+        actualEnd: '',
+        eta: '2026-08-15',
+        actualHours: 0,
+        section: 'Section C',
+        taskCode: 'TODO-104',
+        effort: 16
       },
       {
         id: 5,
@@ -107,7 +152,16 @@ export class ProjectTodoComponent implements OnInit {
         role: 'Electrical Engineer',
         group: 'Electrical Systems',
         site: 'Plant 2 - Chakan',
-        department: 'Electrical Maintenance'
+        department: 'Electrical Maintenance',
+        planStart: '2026-08-05',
+        planEnd: '2026-08-20',
+        actualStart: '',
+        actualEnd: '',
+        eta: '2026-08-20',
+        actualHours: 0,
+        section: 'Section B',
+        taskCode: 'TODO-105',
+        effort: 28
       },
       {
         id: 6,
@@ -117,7 +171,16 @@ export class ProjectTodoComponent implements OnInit {
         role: 'Planner',
         group: 'Supply Chain Group',
         site: 'Plant 1 - Sanand',
-        department: 'Production Control'
+        department: 'Production Control',
+        planStart: '2026-08-10',
+        planEnd: '2026-08-25',
+        actualStart: '',
+        actualEnd: '',
+        eta: '2026-08-25',
+        actualHours: 0,
+        section: 'Section A',
+        taskCode: 'TODO-106',
+        effort: 20
       },
       {
         id: 7,
@@ -127,7 +190,16 @@ export class ProjectTodoComponent implements OnInit {
         role: 'Industrial Engineer',
         group: 'Process Group',
         site: 'Plant 3 - Hosur',
-        department: 'Process Engineering'
+        department: 'Process Engineering',
+        planStart: '2026-08-15',
+        planEnd: '2026-08-30',
+        actualStart: '',
+        actualEnd: '',
+        eta: '2026-08-30',
+        actualHours: 0,
+        section: 'Section C',
+        taskCode: 'TODO-107',
+        effort: 15
       },
       {
         id: 8,
@@ -137,7 +209,16 @@ export class ProjectTodoComponent implements OnInit {
         role: 'Project Manager',
         group: 'NPI Management',
         site: 'Plant 1 - Sanand',
-        department: 'Project Management'
+        department: 'Project Management',
+        planStart: '2026-08-20',
+        planEnd: '2026-09-02',
+        actualStart: '',
+        actualEnd: '',
+        eta: '2026-09-02',
+        actualHours: 0,
+        section: 'Section A',
+        taskCode: 'TODO-108',
+        effort: 12
       }
     ];
   }
@@ -279,5 +360,23 @@ export class ProjectTodoComponent implements OnInit {
         this.applyFilters();
       }
     });
+  }
+
+  // Timeline Modal Popup state
+  showTimelineModal = false;
+  selectedTimelineTask: ProjectTodoItem | null = null;
+
+  openTimelineModal(todo: ProjectTodoItem) {
+    this.selectedTimelineTask = todo;
+    this.showTimelineModal = true;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  closeTimelineModal() {
+    this.showTimelineModal = false;
+    this.selectedTimelineTask = null;
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
   }
 }

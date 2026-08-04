@@ -1,4 +1,4 @@
-<div fxLayout="row wrap" #resizedDiv>
+<div fxLayout="row wrap" #resizedDiv style="margin-top: 35px;margin-left: 10px;">
   <!-- Table -->
 
   <div class="flex-p w-100" style="width: 100% !important ; margin-left: -9px;">
@@ -89,7 +89,7 @@
               </a> -->
               <div style="display: flex; justify-content: center;">
                 <button mat-raised-button color="primary" [mat-dialog-close]="'test'" matTooltip="Click to Save">
-                  <mat-icon  style="font-size:20px" class="mt-1">save</mat-icon>
+                  <mat-icon style="font-size:20px" class="mt-1">save</mat-icon>
                   <span style="margin-left: 5px;">{{ data ? "Update" : "Save" }}</span>
                 </button>
               </div>

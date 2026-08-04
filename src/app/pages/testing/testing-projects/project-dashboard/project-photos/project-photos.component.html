@@ -1,4 +1,5 @@
-<div class="main-wrapper" style="padding: 0 10px; box-sizing: border-box;">
+<div class="main-wrapper"
+  style="width: 107%; max-width: 103%; padding: 24px; margin-top: 15px; box-sizing: border-box;">
   <!-- Header Section with Buttons -->
   <div class="header-section"
     style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 20px; width: 100%;">
@@ -9,7 +10,8 @@
       <button mat-raised-button (click)="toggleFilter()" style="background-color: black; color: white; height: 38px;">
         <mat-icon>filter_list</mat-icon> Filter
       </button>
-      <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
+      <button mat-raised-button (click)="goBack()"
+        style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
         <mat-icon>arrow_back</mat-icon> Back
       </button>
     </div>
@@ -22,7 +24,8 @@
           <!-- Module Field -->
           <div style="display: flex; align-items: center; gap: 10px; flex: 1; box-sizing: border-box;">
             <b style="white-space: nowrap; font-size: 13px; color: #475569;">Select Module:</b>
-            <mat-select class="form-control" placeholder="Select Module" style="display: inline-flex; align-items: center; height: 36px; padding: 0 10px; flex-grow: 1; box-sizing: border-box;">
+            <mat-select class="form-control" placeholder="Select Module"
+              style="display: inline-flex; align-items: center; height: 36px; padding: 0 10px; flex-grow: 1; box-sizing: border-box;">
               <mat-option value="1">Module 1</mat-option>
               <mat-option value="2">Module 2</mat-option>
             </mat-select>
@@ -31,7 +34,8 @@
           <!-- Stage Field -->
           <div style="display: flex; align-items: center; gap: 10px; flex: 1; box-sizing: border-box;">
             <b style="white-space: nowrap; font-size: 13px; color: #475569;">Select Stage:</b>
-            <mat-select class="form-control" placeholder="Select Stage" style="display: inline-flex; align-items: center; height: 36px; padding: 0 10px; flex-grow: 1; box-sizing: border-box;">
+            <mat-select class="form-control" placeholder="Select Stage"
+              style="display: inline-flex; align-items: center; height: 36px; padding: 0 10px; flex-grow: 1; box-sizing: border-box;">
               <mat-option value="1">Stage 1</mat-option>
               <mat-option value="2">Stage 2</mat-option>
             </mat-select>
@@ -39,13 +43,18 @@
 
           <!-- Actions & Close Button -->
           <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
-            <button mat-raised-button color="primary" style="background-color: #286ba5; color: white; height: 36px; display: inline-flex; align-items: center;">
+            <button mat-raised-button color="primary"
+              style="background-color: #286ba5; color: white; height: 36px; display: inline-flex; align-items: center;">
               <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">search</mat-icon> Search
             </button>
-            <button mat-raised-button class="btn-default" (click)="toggleFilter()" style="height: 36px; background-color: #cbd5e1; display: inline-flex; align-items: center;">
-              <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">settings_backup_restore</mat-icon> Clear
+            <button mat-raised-button class="btn-default" (click)="toggleFilter()"
+              style="height: 36px; background-color: #cbd5e1; display: inline-flex; align-items: center;">
+              <mat-icon
+                style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">settings_backup_restore</mat-icon>
+              Clear
             </button>
-            <a (click)="toggleFilter()" style="font-size: 25px; cursor: pointer; color: #333; margin-left: 5px; display: flex; align-items: center;">
+            <a (click)="toggleFilter()"
+              style="font-size: 25px; cursor: pointer; color: #333; margin-left: 5px; display: flex; align-items: center;">
               <i class="fa fa-angle-double-up" aria-hidden="true"></i>
             </a>
           </div>
@@ -54,11 +63,14 @@
     </mat-card>
   </div>
 
-  <div class="gallery-grid" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" style="width: 100%;">
+  <div class="gallery-grid" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)"
+    style="width: 100%;">
     <mat-card class="photo-card" *ngFor="let photo of photoList; let i = index" cdkDrag>
       <div class="card-header-actions">
-        <i class="fa fa-pencil text-primary action-icon" matTooltip="Edit" (click)="Addphoto(photo); $event.stopPropagation()"></i>
-        <i class="fa fa-trash text-danger action-icon" matTooltip="Delete" (click)="deletePhoto(i); $event.stopPropagation()"></i>
+        <i class="fa fa-pencil text-primary action-icon" matTooltip="Edit"
+          (click)="Addphoto(photo); $event.stopPropagation()"></i>
+        <i class="fa fa-trash text-danger action-icon" matTooltip="Delete"
+          (click)="deletePhoto(i); $event.stopPropagation()"></i>
       </div>
       <div class="img-container">
         <img [src]="photo.url" [alt]="photo.title">

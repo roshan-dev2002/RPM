@@ -156,12 +156,14 @@
     <!-- ===================== FOOTER ===================== -->
 
     <div mat-dialog-actions align="end" class="footer-actions">
-        <button mat-raised-button type="button" class="close-btn" (click)="close()">
+        <button mat-raised-button type="button" class="close-btn" (click)="close()"
+            style="background-color: lightgray; color: red; height: 38px;">
             <mat-icon>cancel</mat-icon>
             Close
         </button>
         <button mat-raised-button color="primary" type="submit" class="save-btn" (click)="save()"
-            [disabled]="!expenseForm.valid">
+            [disabled]="!expenseForm.valid"
+            style="background-color: #0284c7 !important; color: white !important; height: 38px; border-radius: 6px; font-weight: 500;">
             <mat-icon>save</mat-icon>
             Save
         </button>

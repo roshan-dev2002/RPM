@@ -1,7 +1,8 @@
-<div class="main-wrapper" style="width: 100%; box-sizing: border-box;">
+<div class="main-wrapper" style="width: 100%; box-sizing: border-box; padding-left: 30px;">
 
   <div class="header-section" style="margin-bottom: 20px;">
-    <div class="title-row" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+    <div class="title-row"
+      style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
       <div class="header-titles" style="visibility: hidden;">
         <h1 style="font-weight: 700; font-size: 24px; margin: 0;">
           Resources (NextGen Assembly Line-2026/MFG/011 )
@@ -13,65 +14,62 @@
     </div>
 
     <!-- Header Actions Row -->
-    <div class="header-actions-row" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-      
+    <div class="header-actions-row"
+      style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px;">
+
       <!-- Left: Tab Selectors (Scheduling / Allocation) -->
       <div class="tab-buttons" style="display: flex; gap: 12px;">
-        <button mat-raised-button 
-                [style.background-color]="activeTab === 'Scheduling' ? '#286ba5' : '#37474f'"
-                style="color: white; font-weight: 500; height: 38px; min-width: 120px;"
-                (click)="setTab('Scheduling')">
+        <button mat-raised-button [style.background-color]="activeTab === 'Scheduling' ? '#286ba5' : '#37474f'"
+          style="color: white; font-weight: 500; height: 38px; min-width: 120px;" (click)="setTab('Scheduling')">
           <mat-icon style="margin-right: 4px; vertical-align: middle;">calendar_today</mat-icon>
           Scheduling
         </button>
-        <button mat-raised-button 
-                [style.background-color]="activeTab === 'Allocation' ? '#286ba5' : '#37474f'"
-                style="color: white; font-weight: 500; height: 38px; min-width: 120px;"
-                (click)="setTab('Allocation')">
+        <button mat-raised-button [style.background-color]="activeTab === 'Allocation' ? '#286ba5' : '#37474f'"
+          style="color: white; font-weight: 500; height: 38px; min-width: 120px;" (click)="setTab('Allocation')">
           <mat-icon style="margin-right: 4px; vertical-align: middle;">assignment_ind</mat-icon>
           Allocation
         </button>
       </div>
 
       <!-- Right: View & Weekend Toggles in Scheduling Tab -->
-      <div class="scheduling-toggles" *ngIf="activeTab === 'Scheduling'" style="display: flex; gap: 15px; align-items: center;">
-        
+      <div class="scheduling-toggles" *ngIf="activeTab === 'Scheduling'"
+        style="display: flex; gap: 15px; align-items: center;">
+
         <!-- Show Weekend Button -->
         <button *ngIf="isCalendarView" mat-raised-button class="weekend-btn"
-                style="background-color: black; color: white; height: 38px; display: flex; align-items: center;" 
-                (click)="toggleWeekend()">
+          style="background-color: black; color: white; height: 38px; display: flex; align-items: center;"
+          (click)="toggleWeekend()">
           <mat-icon style="vertical-align: middle; margin-right: 6px;">weekend</mat-icon>
           {{ showWeekend ? 'Hide Weekend' : 'Show Weekend' }}
         </button>
 
         <!-- Toggle Button Group (Calendar View & Table View) -->
-        <div class="toggle-btn-group" style="display: flex; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-          
-          <button mat-button 
-                  [style.background-color]="!isCalendarView ? 'black' : 'white'" 
-                  [style.color]="!isCalendarView ? 'white' : 'black'" 
-                  (click)="setCalendarView(false)" 
-                  style="border-radius: 0; height: 38px; font-weight: 500; padding: 0 16px; border: none; display: flex; align-items: center;">
+        <div class="toggle-btn-group"
+          style="display: flex; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+
+          <button mat-button [style.background-color]="!isCalendarView ? 'black' : 'white'"
+            [style.color]="!isCalendarView ? 'white' : 'black'" (click)="setCalendarView(false)"
+            style="border-radius: 0; height: 38px; font-weight: 500; padding: 0 16px; border: none; display: flex; align-items: center;">
             <mat-icon style="margin-right: 6px; vertical-align: middle;">view_headline</mat-icon>
             Table View
           </button>
 
-          <button mat-button 
-                  [style.background-color]="isCalendarView ? 'black' : 'white'" 
-                  [style.color]="isCalendarView ? 'white' : 'black'" 
-                  (click)="setCalendarView(true)" 
-                  style="border-radius: 0; height: 38px; font-weight: 500; padding: 0 16px; border: none; border-left: 1px solid #cbd5e1; display: flex; align-items: center;">
+          <button mat-button [style.background-color]="isCalendarView ? 'black' : 'white'"
+            [style.color]="isCalendarView ? 'white' : 'black'" (click)="setCalendarView(true)"
+            style="border-radius: 0; height: 38px; font-weight: 500; padding: 0 16px; border: none; border-left: 1px solid #cbd5e1; display: flex; align-items: center;">
             <mat-icon style="margin-right: 6px; vertical-align: middle;">calendar_today</mat-icon>
             Calendar View
           </button>
 
         </div>
 
-        <button mat-raised-button color="primary" class="add-btn" style="height: 38px; background-color: #286ba5; color: white;" (click)="openAddResourceScheduleDialog()">
+        <button mat-raised-button color="primary" class="add-btn"
+          style="height: 38px; background-color: #286ba5; color: white;" (click)="openAddResourceScheduleDialog()">
           <mat-icon style="margin-right: 4px; vertical-align: middle;">add</mat-icon> Add Resource
         </button>
 
-        <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
+        <button mat-raised-button (click)="goBack()"
+          style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
           <mat-icon>arrow_back</mat-icon> Back
         </button>
 
@@ -82,7 +80,8 @@
         <button mat-raised-button color="primary" style="height: 38px;" (click)="openAddResourceDialog()">
           <mat-icon style="margin-right: 4px; vertical-align: middle;">add</mat-icon> Add Resource
         </button>
-        <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
+        <button mat-raised-button (click)="goBack()"
+          style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
           <mat-icon>arrow_back</mat-icon> Back
         </button>
       </div>
@@ -92,10 +91,11 @@
 
   <!-- SCHEDULING TAB VIEW -->
   <div *ngIf="activeTab === 'Scheduling'">
-    
+
     <!-- 1. Grid / Table View -->
     <div *ngIf="!isCalendarView" class="table-wrapper">
-      <div class="table-container" #tableContainer style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; overflow-x: auto; background: white;">
+      <div class="table-container" #tableContainer
+        style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; overflow-x: auto; background: white;">
         <table class="table table-bordered table-hover text-nowrap" style="width: 100%; margin-bottom: 0;">
           <thead class="tbl-head" style="background-color: #3f3f3f !important;">
             <tr>
@@ -127,8 +127,7 @@
               <td class="text-center" style="vertical-align: middle;">{{ s.planDuration }}</td>
               <td class="text-center" style="vertical-align: middle;">{{ s.actualDuration }}</td>
               <td class="text-center" style="vertical-align: middle;">
-                <span class="badge" 
-                      [ngClass]="{
+                <span class="badge" [ngClass]="{
                         'stage-approved': s.status === 'Completed',
                         'stage-review': s.status === 'Active',
                         'stage-declined': s.status === 'Pending'
@@ -139,7 +138,8 @@
               <td class="text-center" style="vertical-align: middle;">
                 <button mat-icon-button (click)="openTimelineModal(s)" matTooltip="View Timeline"
                   style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
-                  <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                  <mat-icon
+                    style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
                     calendar_today
                   </mat-icon>
                 </button>
@@ -153,38 +153,37 @@
       </div>
 
       <!-- Paginator for Scheduling Table -->
-      <mat-paginator
-        [length]="schedules.length"
-        [pageSize]="pageSize"
-        [pageSizeOptions]="[5, 10, 15, 20]"
-        (page)="handlePageEvent($event)"
-        showFirstLastButtons
+      <mat-paginator [length]="schedules.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 15, 20]"
+        (page)="handlePageEvent($event)" showFirstLastButtons
         style="margin-top: 10px; background: white; border: 1px solid #cbd5e1; border-radius: 6px;">
       </mat-paginator>
     </div>
 
     <!-- 2. Kanban / Calendar View -->
-    <div *ngIf="isCalendarView" class="calendar-kanban-row" 
-         [style.grid-template-columns]="showWeekend ? 'repeat(7, 1fr)' : 'repeat(5, 1fr)'"
-         style="display: grid; gap: 12px; width: 100%;">
-      
-      <div *ngFor="let day of displayDays" class="day-column" style="display: flex; flex-direction: column; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; min-height: 450px;">
-        
-        <div class="day-header" style="background-color: black; color: white; padding: 10px 14px; font-weight: bold; font-size: 14px;">
+    <div *ngIf="isCalendarView" class="calendar-kanban-row"
+      [style.grid-template-columns]="showWeekend ? 'repeat(7, 1fr)' : 'repeat(5, 1fr)'"
+      style="display: grid; gap: 12px; width: 100%;">
+
+      <div *ngFor="let day of displayDays" class="day-column"
+        style="display: flex; flex-direction: column; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; min-height: 450px;">
+
+        <div class="day-header"
+          style="background-color: black; color: white; padding: 10px 14px; font-weight: bold; font-size: 14px;">
           {{ day }}
         </div>
 
-        <div class="day-cards-list" style="padding: 10px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1; overflow-y: auto;">
-          
-          <div *ngIf="getSchedulesForDay(day).length === 0" style="text-align: center; color: #94a3b8; font-size: 12px; padding: 20px 0;">
+        <div class="day-cards-list"
+          style="padding: 10px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1; overflow-y: auto;">
+
+          <div *ngIf="getSchedulesForDay(day).length === 0"
+            style="text-align: center; color: #94a3b8; font-size: 12px; padding: 20px 0;">
             No tasks scheduled.
           </div>
 
-          <div *ngFor="let card of getSchedulesForDay(day)" 
-               [style.background-color]="card.color"
-               [style.border-left-color]="card.status === 'Completed' ? '#16a34a' : (card.status === 'Active' ? '#2563eb' : '#dc2626')"
-               style="border-radius: 6px; padding: 12px; border-left: 5px solid; box-shadow: 0 1px 3px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 4px;">
-            
+          <div *ngFor="let card of getSchedulesForDay(day)" [style.background-color]="card.color"
+            [style.border-left-color]="card.status === 'Completed' ? '#16a34a' : (card.status === 'Active' ? '#2563eb' : '#dc2626')"
+            style="border-radius: 6px; padding: 12px; border-left: 5px solid; box-shadow: 0 1px 3px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 4px;">
+
             <div style="font-weight: 700; font-size: 13px; color: #1e293b; line-height: 1.3;">
               {{ card.initials }} — {{ card.task }}
             </div>
@@ -193,14 +192,15 @@
               {{ card.module }}
             </div>
 
-            <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #475569; margin-top: 4px;">
-              <mat-icon style="font-size: 14px; width: 14px; height: 14px; vertical-align: middle; color: #64748b;">person</mat-icon>
+            <div
+              style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #475569; margin-top: 4px;">
+              <mat-icon
+                style="font-size: 14px; width: 14px; height: 14px; vertical-align: middle; color: #64748b;">person</mat-icon>
               <span>{{ card.resource }}</span>
             </div>
 
             <div style="margin-top: 6px;">
-              <span class="badge" 
-                    [ngClass]="{
+              <span class="badge" [ngClass]="{
                       'stage-approved': card.status === 'Completed',
                       'stage-review': card.status === 'Active',
                       'stage-declined': card.status === 'Pending'
@@ -220,19 +220,24 @@
   </div>
 
   <!-- ALLOCATION TAB VIEW -->
-  <div *ngIf="activeTab === 'Allocation'" style="background: white; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; padding: 24px;">
-    
-    <div class="allocation-layout" style="display: flex; gap: 20px; align-items: stretch; justify-content: space-between;">
-      
+  <div *ngIf="activeTab === 'Allocation'"
+    style="background: white;  border-radius: 6px; overflow: hidden; padding: 24px;">
+
+    <div class="allocation-layout"
+      style="display: flex; gap: 20px; align-items: stretch; justify-content: space-between;">
+
       <!-- Left Panel: Available Resources -->
-      <div class="allocation-panel" style="flex: 1; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; flex-direction: column; background-color: #fafafa;">
-        <div class="panel-header" style="background-color: #286ba5; color: white; padding: 12px 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+      <div class="allocation-panel"
+        style="flex: 1; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; flex-direction: column; background-color: #fafafa;">
+        <div class="panel-header"
+          style=" color: #286ba5; font-size: 18px; padding: 12px 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
           <span>Available Resources</span>
-          <span class="count-badge" style="background-color: rgba(255,255,255,0.25); color: white; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">
+          <span class="count-badge"
+            style="background-color: rgba(255,255,255,0.25); color: white; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">
             {{ availableResources.length }}
           </span>
         </div>
-        
+
         <div class="panel-body" style="padding: 12px; max-height: 400px; overflow-y: auto; flex-grow: 1;">
           <table class="table table-hover table-bordered" style="background-color: white; margin-bottom: 0;">
             <thead class="tbl-head">
@@ -246,11 +251,11 @@
               <tr *ngIf="availableResources.length === 0">
                 <td colspan="3" style="text-align: center; color: #94a3b8; padding: 20px;">No available resources.</td>
               </tr>
-              <tr *ngFor="let r of availableResources" 
-                  [style.background-color]="r.selected ? '#eff6ff' : 'transparent'"
-                  (click)="toggleAvailableSelect(r)" style="cursor: pointer;">
+              <tr *ngFor="let r of availableResources" [style.background-color]="r.selected ? '#eff6ff' : 'transparent'"
+                (click)="toggleAvailableSelect(r)" style="cursor: pointer;">
                 <td style="text-align: center; vertical-align: middle;" (click)="$event.stopPropagation()">
-                  <input type="checkbox" [checked]="r.selected" (change)="toggleAvailableSelect(r)" style="cursor: pointer; width: 15px; height: 15px;">
+                  <input type="checkbox" [checked]="r.selected" (change)="toggleAvailableSelect(r)"
+                    style="cursor: pointer; width: 15px; height: 15px;">
                 </td>
                 <td style="vertical-align: middle; font-weight: 500;">{{ r.code }}</td>
                 <td style="vertical-align: middle;">{{ r.name }}</td>
@@ -261,27 +266,28 @@
       </div>
 
       <!-- Middle Action Buttons -->
-      <div class="allocation-actions-col" style="width: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; flex-shrink: 0;">
-        <button mat-raised-button 
-                color="primary"
-                style="width: 100%; height: 38px; display: flex; align-items: center; justify-content: center;"
-                [disabled]="!canAllocate()"
-                (click)="allocateResources()">
+      <div class="allocation-actions-col"
+        style="width: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; flex-shrink: 0;">
+        <button mat-raised-button color="primary"
+          style="width: 100%; height: 38px; display: flex; align-items: center; justify-content: center;"
+          [disabled]="!canAllocate()" (click)="allocateResources()">
           Add &gt;
         </button>
-        <button mat-raised-button 
-                style="width: 100%; height: 38px; background-color: lightgray; color: #ef4444; display: flex; align-items: center; justify-content: center;"
-                [disabled]="!canDeallocate()"
-                (click)="deallocateResources()">
+        <button mat-raised-button
+          style="width: 100%; height: 38px; background-color: lightgray; color: #ef4444; display: flex; align-items: center; justify-content: center;"
+          [disabled]="!canDeallocate()" (click)="deallocateResources()">
           &lt; Remove
         </button>
       </div>
 
       <!-- Right Panel: Allocated Resources -->
-      <div class="allocation-panel" style="flex: 1; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; flex-direction: column; background-color: #fafafa;">
-        <div class="panel-header" style="background-color: #286ba5; color: white; padding: 12px 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+      <div class="allocation-panel"
+        style="flex: 1; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; flex-direction: column; background-color: #fafafa;">
+        <div class="panel-header"
+          style=" color: #286ba5; font-size: 18px; padding: 12px 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
           <span>Allocated Resources</span>
-          <span class="count-badge" style="background-color: rgba(255,255,255,0.25); color: white; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">
+          <span class="count-badge"
+            style="background-color: rgba(255,255,255,0.25); color: white; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">
             {{ allocatedResources.length }}
           </span>
         </div>
@@ -299,11 +305,11 @@
               <tr *ngIf="allocatedResources.length === 0">
                 <td colspan="3" style="text-align: center; color: #94a3b8; padding: 20px;">No allocated resources.</td>
               </tr>
-              <tr *ngFor="let r of allocatedResources" 
-                  [style.background-color]="r.selected ? '#eff6ff' : 'transparent'"
-                  (click)="toggleAllocatedSelect(r)" style="cursor: pointer;">
+              <tr *ngFor="let r of allocatedResources" [style.background-color]="r.selected ? '#eff6ff' : 'transparent'"
+                (click)="toggleAllocatedSelect(r)" style="cursor: pointer;">
                 <td style="text-align: center; vertical-align: middle;" (click)="$event.stopPropagation()">
-                  <input type="checkbox" [checked]="r.selected" (change)="toggleAllocatedSelect(r)" style="cursor: pointer; width: 15px; height: 15px;">
+                  <input type="checkbox" [checked]="r.selected" (change)="toggleAllocatedSelect(r)"
+                    style="cursor: pointer; width: 15px; height: 15px;">
                 </td>
                 <td style="vertical-align: middle; font-weight: 500;">{{ r.code }}</td>
                 <td style="vertical-align: middle;">{{ r.name }}</td>
@@ -328,7 +334,8 @@
 </button> -->
 
 <!-- ============ TIMELINE POP-UP MODAL ============ -->
-<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()"
+  (wheel)="$event.stopPropagation()">
   <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
     <!-- Header -->
     <div class="timeline-popup-header">
@@ -341,7 +348,8 @@
         </h3>
       </div>
       <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
-        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
       </button>
     </div>
 

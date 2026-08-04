@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddResourcePopComponent } from './add-resource-pop/add-resource-pop.component';
+import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 
 interface Resource {
   code: string;
@@ -221,6 +222,26 @@ export class RpmResourcesComponent implements OnInit {
           selected: false
         };
         this.availableResources.push(newRes);
+      }
+    });
+  }
+
+  openEditDialog(data: any): void {
+    this.openAddResourceDialog();
+  }
+
+  deleteConfirmation(s: any): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: 'auto',
+      data: {
+        title: 'Delete Confirmation',
+        content: 'Are you sure you want to delete this resource record?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.schedules = this.schedules.filter(item => item !== s);
       }
     });
   }

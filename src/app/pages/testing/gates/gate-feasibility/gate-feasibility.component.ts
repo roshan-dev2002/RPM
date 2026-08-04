@@ -7,6 +7,7 @@ import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { StatusConfirmationDialogComponent } from '../../testing-projects/add-projects/status-confirmation-dialog/status-confirmation-dialog.component';
+import { GridcolumnFeasibilityComponent } from './gridcolumn-feasibility/gridcolumn-feasibility.component';
 
 @Component({
   selector: 'app-gate-feasibility',
@@ -114,7 +115,7 @@ export class GateFeasibilityComponent implements OnInit, OnDestroy {
   }
 
   // --- Stubs for table actions ---
-  
+
   addmodule(item: any): void {
     let dialogRef = this.dialog.open(AddcriteriaComponent, {
       width: '850px',
@@ -130,6 +131,18 @@ export class GateFeasibilityComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+
+  gridview(): void {
+    this.dialog.open(GridcolumnFeasibilityComponent, {
+      width: '680px',
+      data: {}
+    });
+  }
+
+
+
+
 
   deleteConfirmation(item: any): void {
     let dialogRef = this.dialog.open(ConfirmationDialogComponent, {

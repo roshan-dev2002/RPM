@@ -17,10 +17,12 @@ $c-pending: #a1a1aa;
 
 .schedule-dashboard {
   width: 100%;
-  padding: 24px;
+  max-width: 100%;
+  // padding: 24px;
+  padding-left: 24px;
   min-height: 100vh;
-  margin-top: 0px;
-  margin-left: -6px;
+  margin-top: 15px;
+  box-sizing: border-box;
 }
 
 .container {
@@ -89,14 +91,37 @@ $c-pending: #a1a1aa;
     border-radius: 8px;
 
     .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      &.pending { background: rgba($c-pending, 0.5); }
-      &.ongoing { background: $c-blue; }
-      &.completed { background: $c-emerald; }
-      &.exceeded { background: $c-red; }
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+
+      &.pending {
+        background: rgba($c-pending, 0.5);
+      }
+
+      &.ongoing {
+        background: $c-blue;
+      }
+
+      &.completed {
+        background: $c-emerald;
+      }
+
+      &.exceeded {
+        background: $c-red;
+      }
     }
-    .label { font-size: 12px; color: $text-muted; }
-    .value { font-size: 14px; font-weight: 600; color: $text-main; }
+
+    .label {
+      font-size: 12px;
+      color: $text-muted;
+    }
+
+    .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-main;
+    }
   }
 }
 
@@ -134,8 +159,15 @@ $c-pending: #a1a1aa;
       cursor: pointer;
       color: $text-muted;
 
-      svg { width: 16px; height: 16px; }
-      &.active { background: $text-main; color: white; }
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      &.active {
+        background: $text-main;
+        color: white;
+      }
     }
   }
 
@@ -149,12 +181,34 @@ $c-pending: #a1a1aa;
       gap: 12px;
       font-size: 12px;
       color: $text-muted;
-      span { display: flex; align-items: center; gap: 6px; }
-      .legend-color { width: 12px; height: 8px; border-radius: 2px; }
-      .pending { background: rgba($c-pending, 0.3); }
-      .ongoing { background: $c-blue; }
-      .completed { background: $c-emerald; }
-      .exceeded { background: $c-red; }
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .legend-color {
+        width: 12px;
+        height: 8px;
+        border-radius: 2px;
+      }
+
+      .pending {
+        background: rgba($c-pending, 0.3);
+      }
+
+      .ongoing {
+        background: $c-blue;
+      }
+
+      .completed {
+        background: $c-emerald;
+      }
+
+      .exceeded {
+        background: $c-red;
+      }
     }
 
     .btn-mask {
@@ -169,35 +223,88 @@ $c-pending: #a1a1aa;
       border-radius: 6px;
       color: $text-main;
       cursor: pointer;
-      svg { width: 16px; height: 16px; }
-      &.active { background: $text-main; color: white; border-color: $text-main; }
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      &.active {
+        background: $text-main;
+        color: white;
+        border-color: $text-main;
+      }
     }
   }
 }
 
 // Shared Status Colors for both views
-.completed { background: $c-emerald; }
-.exceeded { background: $c-red; }
-.ongoing { background: $c-blue; }
-.pending { background: rgba($c-pending, 0.3); }
+.completed {
+  background: $c-emerald;
+}
+
+.exceeded {
+  background: $c-red;
+}
+
+.ongoing {
+  background: $c-blue;
+}
+
+.pending {
+  background: rgba($c-pending, 0.3);
+}
 
 // Grid View
 .grid-view {
   overflow-x: auto;
+
   table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
     text-align: left;
-    
-    th { padding: 10px 8px; font-weight: 600; color: $text-muted; border-bottom: 1px solid $border; background: rgba(#f1f5f9, 0.5); font-size: 14px;color: #333c48; }
-    td { padding: 8px; border-bottom: 1px solid $border; }
-    .pl-4 { padding-left: 16px; }
-    .pr-4 { padding-right: 16px; }
-    .w-180 { width: 180px; }
-    .text-muted { color: $text-muted; }
-    .task-name { font-weight: 500; color: $text-main; }
-    .task-id { font-size: 11px; color: $text-muted; }
+
+    th {
+      padding: 10px 8px;
+      font-weight: 600;
+      color: $text-muted;
+      border-bottom: 1px solid $border;
+      background: rgba(#f1f5f9, 0.5);
+      font-size: 14px;
+      color: #333c48;
+    }
+
+    td {
+      padding: 8px;
+      border-bottom: 1px solid $border;
+    }
+
+    .pl-4 {
+      padding-left: 16px;
+    }
+
+    .pr-4 {
+      padding-right: 16px;
+    }
+
+    .w-180 {
+      width: 180px;
+    }
+
+    .text-muted {
+      color: $text-muted;
+    }
+
+    .task-name {
+      font-weight: 500;
+      color: $text-main;
+    }
+
+    .task-id {
+      font-size: 11px;
+      color: $text-muted;
+    }
 
     .status-pill {
       display: inline-flex;
@@ -207,19 +314,77 @@ $c-pending: #a1a1aa;
       border-radius: 6px;
       font-size: 12px;
       font-weight: 500;
-      .dot { width: 6px; height: 6px; border-radius: 50%; }
 
-      &.completed { background: rgba($c-emerald, 0.1); color: darken($c-emerald, 10%); .dot { background: $c-emerald; } }
-      &.exceeded { background: rgba($c-red, 0.1); color: $c-red; .dot { background: $c-red; } }
-      &.ongoing { background: rgba($c-blue, 0.1); color: darken($c-blue, 10%); .dot { background: $c-blue; } }
-      &.pending { background: #f1f5f9; color: $text-muted; .dot { background: rgba($c-pending, 0.8); } }
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+
+      &.completed {
+        background: rgba($c-emerald, 0.1);
+        color: darken($c-emerald, 10%);
+
+        .dot {
+          background: $c-emerald;
+        }
+      }
+
+      &.exceeded {
+        background: rgba($c-red, 0.1);
+        color: $c-red;
+
+        .dot {
+          background: $c-red;
+        }
+      }
+
+      &.ongoing {
+        background: rgba($c-blue, 0.1);
+        color: darken($c-blue, 10%);
+
+        .dot {
+          background: $c-blue;
+        }
+      }
+
+      &.pending {
+        background: #f1f5f9;
+        color: $text-muted;
+
+        .dot {
+          background: rgba($c-pending, 0.8);
+        }
+      }
     }
 
     .progress-wrapper {
-      display: flex; align-items: center; gap: 8px;
-      .progress-bg { flex: 1; height: 6px; background: #f1f5f9; border-radius: 4px; position: relative; overflow: hidden; }
-      .progress-fill { position: absolute; top: 0; bottom: 0; left: 0; }
-      .progress-text { width: 36px; text-align: right; font-size: 12px; color: $text-muted; }
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .progress-bg {
+        flex: 1;
+        height: 6px;
+        background: #f1f5f9;
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+      }
+
+      .progress-text {
+        width: 36px;
+        text-align: right;
+        font-size: 12px;
+        color: $text-muted;
+      }
     }
   }
 }
@@ -227,20 +392,20 @@ $c-pending: #a1a1aa;
 
 
 .assign-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 20px 0 6px 0;
-    display: flex;
-    justify-content: flex-start;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 20px 0 6px 0;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .assign-subtitle {
-    font-size: 14px;
-    color: #6b7280;
-    margin: 0;
-    display: flex;
-    justify-content: flex-start; 
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
 }
 
 // Custom Split Gantt Chart View
@@ -258,7 +423,8 @@ $c-pending: #a1a1aa;
   border-top: none;
   overflow: hidden;
   background: #ffffff;
-  user-select: none; /* prevent text highlights while dragging */
+  user-select: none;
+  /* prevent text highlights while dragging */
   align-items: stretch;
 }
 
@@ -277,7 +443,8 @@ $c-pending: #a1a1aa;
   border-collapse: collapse;
   table-layout: fixed;
 
-  th, td {
+  th,
+  td {
     padding: 8px 12px;
     font-size: 13px;
     border: 1px solid #cbd5e1;
@@ -302,21 +469,33 @@ $c-pending: #a1a1aa;
 
   tbody tr {
     height: 65px;
-    
+
     &:hover {
       background-color: #f8fafc;
     }
   }
 
-  .col-id { width: 50px; }
-  .col-name { width: 180px; }
-  .col-module { width: 150px; }
-  .col-date { width: 90px; }
+  .col-id {
+    width: 50px;
+  }
+
+  .col-name {
+    width: 180px;
+  }
+
+  .col-module {
+    width: 150px;
+  }
+
+  .col-date {
+    width: 90px;
+  }
 }
 
 // Splitter Divider Bar
 .gantt-splitter-bar {
-  width: 8px; /* Slightly wider click target area */
+  width: 8px;
+  /* Slightly wider click target area */
   background-color: #cbd5e1;
   cursor: col-resize;
   display: flex;
@@ -324,16 +503,20 @@ $c-pending: #a1a1aa;
   justify-content: center;
   position: relative;
   transition: background-color 0.2s ease;
-  z-index: 3; /* Kept low so it scrolls under sticky header */
+  z-index: 3;
+  /* Kept low so it scrolls under sticky header */
   flex-shrink: 0;
   align-self: stretch;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: #1a73e8;
+
     .splitter-knob {
       background-color: #1a73e8;
       border-color: #1a73e8;
       box-shadow: 0 2px 8px rgba(26, 115, 232, 0.4);
+
       svg {
         color: #ffffff !important;
       }
@@ -350,10 +533,11 @@ $c-pending: #a1a1aa;
     align-items: center;
     justify-content: center;
     position: absolute;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
     cursor: col-resize;
-    z-index: 4; /* Kept low so it scrolls under sticky header */
+    z-index: 4;
+    /* Kept low so it scrolls under sticky header */
   }
 }
 
@@ -416,6 +600,7 @@ $c-pending: #a1a1aa;
       font-weight: 600;
       color: #94a3b8;
     }
+
     .day-number {
       font-size: 10px;
       font-weight: 700;
@@ -483,9 +668,11 @@ $c-pending: #a1a1aa;
 .plan-bar {
   top: 12px;
   height: 14px;
-  background-color: #bbf7d0; /* bright light green */
+  background-color: #bbf7d0;
+  /* bright light green */
   border: 1px solid #86efac;
-  z-index: 1; /* Kept low so it scrolls under sticky header */
+  z-index: 1;
+  /* Kept low so it scrolls under sticky header */
 
   .bar-label {
     color: #166534;
@@ -496,7 +683,8 @@ $c-pending: #a1a1aa;
 .actual-bar {
   top: 32px;
   height: 20px;
-  z-index: 2; /* Kept low so it scrolls under sticky header */
+  z-index: 2;
+  /* Kept low so it scrolls under sticky header */
   color: #ffffff;
   justify-content: space-between;
 
@@ -535,4 +723,3 @@ $c-pending: #a1a1aa;
     }
   }
 }
-

@@ -22,7 +22,21 @@
                 <label class="control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">Name:</label>
             </div>
             <div class="col-sm-9">
-                <input type="text" name="name" [(ngModel)]="name" style="height:35px;" class="form-control back" placeholder="Enter Employee Name" required>
+                <mat-select class="form-control back" [(ngModel)]="name" name="name" placeholder="Select Employee Name" required>
+                    <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                        <span *ngIf="name" style="color: #1e293b;">{{ name }}</span>
+                        <span *ngIf="!name" style="color: #6b7280;">Select Employee Name</span>
+                    </mat-select-trigger>
+                    <div style="padding: 6px 10px; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 1px solid #e2e8f0;">
+                        <input type="text" class="form-control" placeholder="Search Name..." [(ngModel)]="nameSearchTerm" name="nameSearchTerm" (keydown)="$event.stopPropagation()" style="height: 32px; font-size: 13px;">
+                    </div>
+                    <mat-option *ngFor="let opt of filteredEmployeeOptions" [value]="opt">
+                        {{ opt }}
+                    </mat-option>
+                    <mat-option *ngIf="filteredEmployeeOptions.length === 0" disabled style="font-size: 12px; color: #94a3b8;">
+                        No matching employees
+                    </mat-option>
+                </mat-select>
             </div>
         </div>
 
@@ -52,7 +66,11 @@
                             <input type="text" [name]="'module_' + idx" [(ngModel)]="row.module" class="form-control back table-input" placeholder="Module">
                         </td>
                         <td>
-                            <mat-select [name]="'task_' + idx" [(ngModel)]="row.task" class="form-control back table-input" placeholder="Select Task" required style="height: 35px; line-height: 23px;">
+                            <mat-select [name]="'task_' + idx" [(ngModel)]="row.task" class="form-control back table-input" placeholder="Select Task" required>
+                                <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                                    <span *ngIf="row.task" style="color: #1e293b;">{{ row.task }}</span>
+                                    <span *ngIf="!row.task" style="color: #6b7280;">Select Task</span>
+                                </mat-select-trigger>
                                 <div style="padding: 8px; position: sticky; top: 0; background: white; z-index: 1;">
                                     <input type="text" [name]="'search_' + idx" class="form-control" placeholder="Search..." 
                                            [(ngModel)]="row.searchText" 
@@ -81,10 +99,11 @@
 
         <!-- Dialog Actions -->
         <div style="margin-top: 25px; display: flex; justify-content: flex-end; gap: 10px;">
-            <button mat-raised-button type="button" (click)="close()" style="background-color: lightgray; color: red">
+            <button mat-raised-button type="button" (click)="close()" style="background-color: lightgray; color: red; height: 38px;">
                 <mat-icon>cancel</mat-icon> Close
             </button>
-            <button mat-raised-button type="button" color="primary" (click)="save()" [disabled]="!hoursForm.valid">
+            <button mat-raised-button type="button" class="save" color="primary" (click)="save()" [disabled]="!hoursForm.valid"
+                style="background-color: #0284c7 !important; color: white !important; height: 38px; border-radius: 6px; font-weight: 500;">
                 <mat-icon>save</mat-icon> Save
             </button>
         </div>

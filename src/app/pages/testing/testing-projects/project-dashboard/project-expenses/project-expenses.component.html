@@ -2,8 +2,10 @@
 
   <div class="header-section" style="margin-bottom: 20px; justify-content: flex-end;">
     <div class="header-actions" style="display: flex; gap: 12px; align-items: center;">
-      <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; margin: 0; font-weight: 500; font-size: 14px; color: #1e293b; user-select: none;">
-        <input type="checkbox" class="custom-checkbox cb-black" [checked]="isMaskingApproved" (change)="toggleMaskApproved()" style="width: 18px; height: 18px; cursor: pointer;">
+      <label
+        style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; margin: 0; font-weight: 500; font-size: 14px; color: #1e293b; user-select: none;">
+        <input type="checkbox" class="custom-checkbox cb-black" [checked]="isMaskingApproved"
+          (change)="toggleMaskApproved()" style="width: 18px; height: 18px; cursor: pointer;">
         <span>Mask Approved</span>
       </label>
       <button mat-raised-button color="primary" class="btn-primary" (click)="addExpense()">
@@ -30,18 +32,19 @@
             <tr>
               <th class="text-center" style="vertical-align: middle;">Actions</th>
               <th class="text-left" style="vertical-align: middle;">Subject</th>
-              <th class="text-left" style="vertical-align: middle;">Description</th>
+              <!-- <th class="text-left" style="vertical-align: middle;">Description</th> -->
               <th class="text-left" style="vertical-align: middle;">Module</th>
               <th class="text-left" style="vertical-align: middle;">Task</th>
               <th class="text-left" style="vertical-align: middle;">Submitted By</th>
-              <th class="text-center" style="vertical-align: middle;">Submitted Date</th>
+              <!-- <th class="text-center" style="vertical-align: middle;">Submitted Date</th> -->
               <th class="text-left" style="vertical-align: middle;">Stage</th>
               <th class="text-left" style="vertical-align: middle;">Approved By</th>
-              <th class="text-center" style="vertical-align: middle;">Approved Date</th>
+              <!-- <th class="text-center" style="vertical-align: middle;">Approved Date</th> -->
               <th class="text-center" style="vertical-align: middle;">Messages</th>
               <th class="text-center" style="vertical-align: middle;">Approved</th>
               <th class="text-center" style="vertical-align: middle;">Declined</th>
               <th class="text-center" style="vertical-align: middle;">PDF</th>
+              <th>Timeline</th>
             </tr>
           </thead>
           <tbody>
@@ -65,22 +68,25 @@
                 {{ expense.subject }}
               </td>
 
-              <td class="text-left description-cell" [title]="expense.description"
+              <!-- <td class="text-left description-cell" [title]="expense.description"
                 style="vertical-align: middle; max-width: 200px;">
                 {{ truncateDescription(expense.description) }}
-              </td>
+              </td> -->
 
               <td class="text-left" style="vertical-align: middle;">{{ expense.module }}</td>
               <td class="text-left" style="vertical-align: middle;">{{ expense.task }}</td>
               <td class="text-left" style="vertical-align: middle;">{{ expense.submittedBy }}</td>
-              <td class="text-center" style="vertical-align: middle;">{{ expense.submittedDate | date:'yyyy-MM-dd' }}</td>
+              <!-- <td class="text-center" style="vertical-align: middle;">{{ expense.submittedDate | date:'yyyy-MM-dd' }}
+              </td> -->
 
-              <td class="text-left" style="vertical-align: middle;"><span class="badge" [ngClass]="expense.stageClass">{{ expense.stage
+              <td class="text-left" style="vertical-align: middle;"><span class="badge"
+                  [ngClass]="expense.stageClass">{{ expense.stage
                   }}</span></td>
 
               <td class="text-left" style="vertical-align: middle;">{{ expense.approvedBy || '-' }}</td>
-              <td class="text-center" style="vertical-align: middle;">{{ expense.approvedDate ? (expense.approvedDate | date:'yyyy-MM-dd') :
-                '-' }}</td>
+              <!-- <td class="text-center" style="vertical-align: middle;">{{ expense.approvedDate ? (expense.approvedDate |
+                date:'yyyy-MM-dd') :
+                '-' }}</td> -->
 
               <!-- Messages clickable number -->
               <td class="text-center" style="vertical-align: middle;">
@@ -107,6 +113,17 @@
                   matTooltip="View PDF" (click)="viewPdf(expense)"></i>
                 <i class="fa fa-download" style="color: #374151; font-size: 16px; cursor: pointer;"
                   matTooltip="Download PDF" (click)="downloadPdf(expense)"></i>
+              </td>
+
+              <!-- Timeline Action -->
+              <td class="text-center" style="vertical-align: middle;">
+                <button mat-icon-button (click)="openTimelineModal(expense)" matTooltip="View Timeline"
+                  style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                  <mat-icon
+                    style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                    calendar_today
+                  </mat-icon>
+                </button>
               </td>
 
             </tr>
@@ -138,33 +155,96 @@
           <span>{{ msg.sender }}</span>
           <span>{{ msg.date }}</span>
         </div>
-        <p style="margin: 0; font-size: 14px; color: #2d3748; line-height: 1.4;">{{ msg.text }}</p>
+        <div style="font-size: 13px; color: #2d3748;">
+          {{ msg.text }}
+        </div>
       </div>
     </div>
     <ng-template #noMsgs>
-      <p style="text-align: center; color: #a0aec0; margin: 20px 0;">No messages yet for this expense.</p>
+      <div style="text-align: center; color: #a0aec0; padding: 20px 0;">
+        No messages found for this item.
+      </div>
     </ng-template>
 
     <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
-      <label style="font-weight: 600; font-size: 13px; color: #4a5568; display: block; margin-bottom: 6px;">Add New Message</label>
+      <label style="font-weight: 600; font-size: 13px; color: #4a5568; display: block; margin-bottom: 6px;">Add New
+        Message</label>
       <div style="display: flex; gap: 8px; margin-bottom: 15px;">
         <input type="text" #newMsgInput class="form-control" placeholder="Type message details..."
           style="flex-grow: 1; height: 38px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px;">
-        <button mat-raised-button color="primary" style="height: 38px;"
-          (click)="addMessage(data, newMsgInput.value); newMsgInput.value=''">Send</button>
-      </div>
-      <div style="display: flex; justify-content: flex-end; border-top: 1px solid #e2e8f0; padding-top: 15px;">
-        <button mat-raised-button mat-dialog-close style="background-color: lightgray; color: red; height: 38px;">
-          <mat-icon>cancel</mat-icon> Close
+        <button mat-raised-button color="primary" (click)="addMessage(data, newMsgInput.value); newMsgInput.value = ''">
+          Send
         </button>
       </div>
     </div>
   </div>
+
+  <mat-dialog-actions align="end" style="padding: 10px 15px; background: #f7fafc; border-top: 1px solid #edf2f7;">
+    <button mat-raised-button mat-dialog-close style="background-color: lightgray; color: #e53e3e; font-weight: 500;">
+      Close
+    </button>
+  </mat-dialog-actions>
 </ng-template>
 
-<button class="mine" mat-fab (click)="scrollRight()">
+<!-- ============ TIMELINE POP-UP MODAL ============ -->
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()"
+  (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+    <!-- Header Row -->
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedTimelineTask?.subject }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Dates Grid (Submitted Date & Approved Date) -->
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+
+      <div class="timeline-grid-content">
+        <div class="timeline-grid-row" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Submitted Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.submittedDate ? (selectedTimelineTask!.submittedDate | date:'dd-MMM-yyyy') : '—'
+              }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Approved Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.approvedDate ? (selectedTimelineTask!.approvedDate | date:'dd-MMM-yyyy') : '—' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Box -->
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+        <span>Description</span>
+      </div>
+      <div class="timeline-desc-content">
+        {{ selectedTimelineTask?.description || 'No description available for this expense.' }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <button class="mine" mat-fab (click)="scrollRight()">
   <mat-icon style="color: #37474f">fast_forward</mat-icon>
 </button>
 <button class="mine" mat-fab style="margin-right: 78px !important" (click)="scrollLeft()">
   <mat-icon style="color: #37474f">fast_rewind</mat-icon>
-</button>
+</button> -->

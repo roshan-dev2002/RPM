@@ -1,0 +1,71 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title style="color:white; margin: 0; font-size: 18px; font-weight: 500;">
+    {{ isEditMode ? 'Update Stage Module' : 'Add Stage Module' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding-top: 15px;">
+  <div class="col-sm-12" style="margin-bottom: 10px;">
+    <form [formGroup]="moduleForm">
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px; font-weight: 500;">Module Name :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" placeholder="Enter Module Name" formControlName="moduleName"
+            type="text">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px; font-weight: 500;">Plan Start Date
+            :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" formControlName="planStart" type="date">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px; font-weight: 500;">Plan End Date
+            :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" formControlName="planEnd" type="date">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px; font-weight: 500;">Plan Effort (Hours)
+            :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" placeholder="e.g. 40" formControlName="planEffort" type="number">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px; font-weight: 500;">Description :</label>
+        </div>
+        <div class="col-sm-8">
+          <textarea class="form-control back" rows="2" placeholder="Description..."
+            formControlName="description"></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" style="padding: 10px 15px;">
+  <button mat-raised-button class="ms-2 add-dark-hover btn-default" (click)="onClose()"
+    style="background-color: lightgray; color: red;">
+    <mat-icon>cancel</mat-icon> Close
+  </button>
+  <button mat-raised-button color="primary" class="save" (click)="onSave()">
+    <mat-icon>save</mat-icon> {{ isEditMode ? 'Update' : 'Save' }}
+  </button>
+</mat-dialog-actions>

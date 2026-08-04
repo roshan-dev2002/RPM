@@ -1,4 +1,4 @@
-<div fxLayout="row wrap" #resizedDiv>
+<div fxLayout="row wrap" #resizedDiv style="margin-left: 20px; padding-right: 20px;">
     <div class="flex-p w-100">
 
         <div class="row" style="margin-bottom:14px;">
@@ -113,15 +113,16 @@
             </div>
         </div>
         <!-- Creating Table  -->
-        <div class="col-sm-12" style="margin-left: 13px;">  
-            <div id="grid-table-container" class="table-responsive" style="width: 101%; margin-left: -18px;">
-                <table id="example2" class="table table-bordered table-hover">
+        <div class="col-sm-12" style="padding: 0; margin-top: 10px;">
+            <div class="table-card-wrapper">
+                <div id="grid-table-container" class="table-responsive" style="width: 100%; margin: 0; overflow-x: hidden !important;">
+                    <table id="example2" class="table table-bordered table-hover">
                     <thead class="tbl-head">
                         <tr class="tr-grid-header">
                             <th class="text-center">Actions</th>
                             <th class="text-center">Status</th>
                             <th style="white-space:nowrap" class="text-center">Two-Factor</th>
-                             <th style="white-space:nowrap" class="text-center">Reset Password</th> 
+                            <th style="white-space:nowrap" class="text-center">Reset Password</th>
                             <th style="white-space:nowrap">User Name</th>
                             <th class="text-center">Managers</th>
                             <th>Email</th>
@@ -134,17 +135,17 @@
                             <th>Role</th>
                             <th>Work Hours</th>
                             <th style="min-width: 90px;">Job Code</th>
-                             <th style="min-width: 90px;">Location</th>
+                            <th style="min-width: 90px;">Location</th>
                             <th>HOD</th>
                             <th>CFT</th>
                             <th>Auditor</th>
                             <th style="white-space:nowrap">Web Access</th>
                             <th style="white-space:nowrap">Mobile Access</th>
                             <th style="white-space:nowrap" class="text-center">Managerial Role</th>
-                    
+
                             <th style="white-space:nowrap" class="text-center">Audit Types</th>
-                                    <th style="white-space:nowrap" class="text-center">Inspector</th>
-                             <th style="white-space:nowrap" class="text-center">RPM</th>
+                            <th style="white-space:nowrap" class="text-center">Inspector</th>
+                            <th style="white-space:nowrap" class="text-center">RPM</th>
 
 
                             <!-- <th class="text-center">Special-Permissions</th> -->
@@ -204,13 +205,13 @@
                             <td class="style text-center">
                                 <mat-checkbox (click)="Confirmation()"></mat-checkbox>
                             </td>
-                             <td class="style text-center">
-                            <a style="margin-right: 10px; cursor: pointer; color: cornflowerblue;"
-                                [ngClass]="{'disable-custom' :!canUpdate || item.UserName =='Admin'}"
-                                (click)="openResetPassword(item)">
-                                <mat-icon matTooltip="Reset Password">autorenew</mat-icon>
-                            </a>
-                        </td>
+                            <td class="style text-center">
+                                <a style="margin-right: 10px; cursor: pointer; color: cornflowerblue;"
+                                    [ngClass]="{'disable-custom' :!canUpdate || item.UserName =='Admin'}"
+                                    (click)="openResetPassword(item)">
+                                    <mat-icon matTooltip="Reset Password">autorenew</mat-icon>
+                                </a>
+                            </td>
 
 
                             <td>{{applicant.name}}</td>
@@ -232,8 +233,10 @@
                             <td class="text-center">
                                 {{applicant.workhours}}
                             </td>
-                             <td (click)="openjobpop()" style="color:blue; cursor: pointer;" class="text-center">{{applicant.job}}</td>
-                                <td (click)="openlocationpop()" style="color:blue; cursor: pointer;" class="text-center">{{applicant.locations}}</td>
+                            <td (click)="openjobpop()" style="color:blue; cursor: pointer;" class="text-center">
+                                {{applicant.job}}</td>
+                            <td (click)="openlocationpop()" style="color:blue; cursor: pointer;" class="text-center">
+                                {{applicant.locations}}</td>
                             <td class="text-center">
                                 <mat-checkbox [checked]="applicant.hod"></mat-checkbox>
                             </td>
@@ -260,27 +263,32 @@
                                 {{applicant.role}}
                             </td> -->
                             <td class="text-center" style="color: blue; cursor:pointer" (click)="audit()">10</td>
-                             <td class="text-center">
-                                <mat-checkbox  ></mat-checkbox>
+                            <td class="text-center">
+                                <mat-checkbox></mat-checkbox>
                             </td>
-                             <td class="text-center">
-                                <mat-checkbox ></mat-checkbox>
+                            <td class="text-center">
+                                <mat-checkbox></mat-checkbox>
                             </td>
 
                         </tr>
                     </tbody>
                 </table>
-                <mat-paginator [length]="totalSize" [pageIndex]="currentPage" [pageSize]="pageSize"
-                    [pageSizeOptions]="[5, 10, 25, 50, 100]" showFirstLastButtons>
-                </mat-paginator>
+                </div>
 
-                <!-- Scroll Buttons -->
-                <button class="mine" mat-fab (click)="scrollGrid('right')">
-                    <mat-icon style="color: #37474f">fast_forward</mat-icon>
-                </button>
-                <button class="mine" mat-fab style="margin-right: 78px !important" (click)="scrollGrid('left')">
-                    <mat-icon style="color: #37474f">fast_rewind</mat-icon>
-                </button>
+                <!-- Sticky Table Footer (Paginator & Scroll Buttons) -->
+                <div class="sticky-table-footer">
+                    <mat-paginator [length]="totalSize" [pageIndex]="currentPage" [pageSize]="pageSize"
+                        [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons>
+                    </mat-paginator>
+
+                    <!-- Scroll Buttons -->
+                    <button class="mine" mat-fab (click)="scrollGrid('right')">
+                        <mat-icon style="color: #37474f">fast_forward</mat-icon>
+                    </button>
+                    <button class="mine" mat-fab style="margin-right: 78px !important" (click)="scrollGrid('left')">
+                        <mat-icon style="color: #37474f">fast_rewind</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

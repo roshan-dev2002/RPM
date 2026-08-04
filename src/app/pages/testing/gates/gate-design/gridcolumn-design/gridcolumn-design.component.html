@@ -1,0 +1,79 @@
+<div class="manage-columns-dialog">
+  <!-- Dialog Header -->
+  <div class="dialog-header">
+    <h2>Manage Grid Columns</h2>
+  </div>
+
+  <!-- Subtitle -->
+  <p class="dialog-subtitle">Select, reorder, or freeze columns to customize your view.</p>
+
+  <!-- Dialog Body / Main Content -->
+  <div class="dialog-body">
+    <!-- Available Columns Panel -->
+    <div class="panel available-panel">
+      <div class="panel-header-title">AVAILABLE COLUMNS</div>
+
+      <div class="search-box">
+        <i class="fa fa-search search-icon"></i>
+        <input type="text" [(ngModel)]="searchQuery" placeholder="Search columns..." />
+      </div>
+
+      <div class="column-list" cdkDropList #availableList="cdkDropList" [cdkDropListData]="filteredAvailableColumns"
+        [cdkDropListConnectedTo]="[selectedList]" (cdkDropListDropped)="drop($event)">
+        <div class="column-item available-item" *ngFor="let col of filteredAvailableColumns" cdkDrag
+          (click)="selectColumn(col)">
+          <span>{{ col }}</span>
+        </div>
+        <div class="empty-info" *ngIf="filteredAvailableColumns.length === 0">
+          No available columns
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected Columns Panel -->
+    <div class="panel selected-panel">
+      <div class="panel-header">
+        <span class="panel-header-title">SELECTED ({{ selectedColumns.length }})</span>
+        <div class="freeze-control">
+          <span>Freeze first:</span>
+          <select [(ngModel)]="freezeCount">
+            <option [ngValue]="0">0</option>
+            <option [ngValue]="1">1</option>
+            <option [ngValue]="2">2</option>
+            <option [ngValue]="3">3</option>
+            <option [ngValue]="4">4</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="frozen-status-box">
+        <span *ngIf="freezeCount === 0">No columns are frozen</span>
+        <span *ngIf="freezeCount > 0">First {{ freezeCount }} {{ freezeCount === 1 ? 'column is' : 'columns are' }} frozen</span>
+      </div>
+
+      <div class="column-list" cdkDropList #selectedList="cdkDropList" [cdkDropListData]="selectedColumns"
+        [cdkDropListConnectedTo]="[availableList]" (cdkDropListDropped)="drop($event)">
+        <div class="column-item selected-item" *ngFor="let col of selectedColumns" cdkDrag>
+          <div class="drag-handle" cdkDragHandle title="Drag to reorder">
+            <span class="dots-icon">::</span>
+          </div>
+          <span class="col-title">{{ col }}</span>
+          <button type="button" class="remove-btn" (click)="removeColumn(col)">&times;</button>
+        </div>
+        <div class="empty-info" *ngIf="selectedColumns.length === 0">
+          No columns selected
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dialog Footer Buttons -->
+  <div class="dialog-actions">
+    <button type="button" class="btn btn-cancel" (click)="onClose()">
+      <span class="btn-icon">&times;</span> Cancel
+    </button>
+    <button type="button" class="btn btn-apply" (click)="onApply()">
+      <i class="fa fa-floppy-o" style="margin-right: 6px;"></i> Apply Changes
+    </button>
+  </div>
+</div>

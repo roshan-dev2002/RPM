@@ -7,6 +7,7 @@ import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { StatusConfirmationDialogComponent } from '../../testing-projects/add-projects/status-confirmation-dialog/status-confirmation-dialog.component';
+import { GridcolumnLaunchComponent } from './gridcolumn-launch/gridcolumn-launch.component';
 
 @Component({
   selector: 'app-gate-launch',
@@ -124,6 +125,13 @@ export class GateLaunchComponent implements OnInit, OnDestroy {
         item.priority = result.priority;
         item.mandatory = result.mandatory;
       }
+    });
+  }
+
+  gridview(): void {
+    this.dialog.open(GridcolumnLaunchComponent, {
+      width: '680px',
+      data: {}
     });
   }
 

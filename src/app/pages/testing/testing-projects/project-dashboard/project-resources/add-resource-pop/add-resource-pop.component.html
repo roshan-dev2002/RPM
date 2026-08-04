@@ -11,10 +11,25 @@
       <div class="col-sm-6">
         <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
           <div class="col-sm-4">
-            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Resource Name:<span style="color: red;">*</span></label>
+            <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Resource Name:<span
+                style="color: red;">*</span></label>
           </div>
           <div class="col-sm-8">
-            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="resource" name="resource" placeholder="Enter Resource Name">
+            <mat-select class="form-control" [(ngModel)]="resource" name="resource" placeholder="Select Resource">
+              <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                <span *ngIf="resource" style="color: #1e293b;">{{ resource }}</span>
+                <span *ngIf="!resource" style="color: #6b7280;">Select Resource</span>
+              </mat-select-trigger>
+              <div style="padding: 6px 10px; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 1px solid #e2e8f0;">
+                <input type="text" class="form-control" placeholder="Search Resource..." [(ngModel)]="resourceSearchTerm" name="resourceSearchTerm" (keydown)="$event.stopPropagation()" style="height: 32px; font-size: 13px;">
+              </div>
+              <mat-option *ngFor="let opt of filteredResourceOptions" [value]="opt">
+                {{ opt }}
+              </mat-option>
+              <mat-option *ngIf="filteredResourceOptions.length === 0" disabled style="font-size: 12px; color: #94a3b8;">
+                No matching resources
+              </mat-option>
+            </mat-select>
           </div>
         </div>
 
@@ -23,7 +38,15 @@
             <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Stage:</label>
           </div>
           <div class="col-sm-8">
-            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="stage" name="stage" placeholder="Enter Stage">
+            <mat-select class="form-control" [(ngModel)]="stage" name="stage" placeholder="Select Stage">
+              <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                <span *ngIf="stage" style="color: #1e293b;">{{ stage }}</span>
+                <span *ngIf="!stage" style="color: #6b7280;">Select Stage</span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let stg of stages" [value]="stg">
+                {{ stg }}
+              </mat-option>
+            </mat-select>
           </div>
         </div>
 
@@ -32,7 +55,15 @@
             <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Module:</label>
           </div>
           <div class="col-sm-8">
-            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="module" name="module" placeholder="Enter Module">
+            <mat-select class="form-control" [(ngModel)]="module" name="module" placeholder="Select Module">
+              <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                <span *ngIf="module" style="color: #1e293b;">{{ module }}</span>
+                <span *ngIf="!module" style="color: #6b7280;">Select Module</span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let mod of modules" [value]="mod">
+                {{ mod }}
+              </mat-option>
+            </mat-select>
           </div>
         </div>
 
@@ -41,7 +72,15 @@
             <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Task:</label>
           </div>
           <div class="col-sm-8">
-            <input type="text" style="height:35px;" class="form-control" [(ngModel)]="task" name="task" placeholder="Enter Task Name">
+            <mat-select class="form-control" [(ngModel)]="task" name="task" placeholder="Select Task">
+              <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                <span *ngIf="task" style="color: #1e293b;">{{ task }}</span>
+                <span *ngIf="!task" style="color: #6b7280;">Select Task</span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let tsk of tasks" [value]="tsk">
+                {{ tsk }}
+              </mat-option>
+            </mat-select>
           </div>
         </div>
 
@@ -107,7 +146,11 @@
             <label class="control-label" style="margin: 0; font-weight: 500; font-size: 13px;">Status:</label>
           </div>
           <div class="col-sm-8">
-            <mat-select style="height:35px; line-height: 24px; padding: 0 10px;" class="form-control" [(ngModel)]="status" name="status" placeholder="Select Status">
+            <mat-select class="form-control" [(ngModel)]="status" name="status" placeholder="Select Status">
+              <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                <span *ngIf="status" style="color: #1e293b;">{{ status }}</span>
+                <span *ngIf="!status" style="color: #6b7280;">Select Status</span>
+              </mat-select-trigger>
               <mat-option *ngFor="let st of statuses" [value]="st">{{ st }}</mat-option>
             </mat-select>
           </div>
@@ -117,7 +160,8 @@
   </form>
 
   <mat-dialog-actions align="end" style="margin-top: 15px; padding: 10px 0 0 0; border-top: 1px solid #cbd5e1;">
-    <button mat-raised-button class="ms-2 add-dark-hover btn-default" (click)="close()" style="background-color: lightgray; color: red; margin-right: 8px; height: 38px;">
+    <button mat-raised-button class="ms-2 add-dark-hover btn-default" (click)="close()"
+      style="background-color: lightgray; color: red; margin-right: 8px; height: 38px;">
       <mat-icon>cancel</mat-icon> Close
     </button>
     <button mat-raised-button type="button" class="save" color="primary" (click)="save()" style="height: 38px;">

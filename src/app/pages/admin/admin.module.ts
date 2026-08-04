@@ -24,85 +24,79 @@ import { AddDistributorComponent } from './masterdata/distributor/add-distributo
 import { MDepartmentsComponent } from './masterdata/m-departments/m-departments.component';
 import { MdataDeptsComponent } from '../setups/test-master-data/mdata-depts/mdata-depts.component';
 import { AvailabilityComponent } from './availability/availability.component';
-// for mat-raised-button and button features
-
-
+import { AdminComponent } from './admin.component';
 
 const routes: Routes = [
-  { path: "", redirectTo: "manage-users", pathMatch: "full" },
-
   {
-    path: "manage-users",
-    component: ManageUserComponent,
-    loadChildren: () =>
-      import("./manage-user/manage-user.module").then((m) => m.ManageUserModule),
-    data: { breadcrumb: 'Manage Users', description: 'This page is used to manage User' }
-  },
-
-
-  {
-    path: "availability",
-    component: AvailabilityComponent,
-    loadChildren: () =>
-      import("./availability/availability.module").then((m) => m.AvailabilityModule),
-    data: { breadcrumb: 'Availability', description: 'This page is used to manage user availability' }
-  },
-  {
-    path: "escalation",
-    component: EscalationComponent,
-    loadChildren: () =>
-      import("./escalation/escalation.module").then((m) => m.EscalationModule),
-    data: { breadcrumb: 'Escalation Matrix', description: 'Settings related to escalation are managed here.' }
-  },
-
-
-
-
-  {
-    path: "settings",
-    component: SettingsComponent,
-    pathMatch: "full",
-    data: { breadcrumb: 'Preferences', description: "Application settings are updated here." }
-  },
-  {
-    path: "lookups",
-    component: LookupComponent,
-    pathMatch: "full",
-    data: { breadcrumb: 'Lookup Options', description: "Codes and Lookup options are managed here." }
-  },
-  {
-    path: "departments",
-    component: MdataDeptsComponent,
-    pathMatch: "full",
-    data: { breadcrumb: 'Departments', description: "The list of departments is managed here." }
-  },
-  {
-    path: 'event-log',
-    component: EventLogComponent,
-    pathMatch: "full",
-    data: { breadcrumb: 'Event Log', description: "Create, read, update and delete event across the application are logged here." }
-  },
-
-  {
-    path: "audit-config",
-    component: AuditConfigComponent,
-    loadChildren: () =>
-      import("./audit-config/audit-config.module").then((m) => m.AuditConfigModule
-      ),
-    data: { breadcrumb: 'Audit Config', description: "Choices that appear in drop down select boxes are updated here." }
-  },
-
-  {
-    path: 'credentials',
-    component: CredentialsComponent,
-    pathMatch: "full",
-    data: { breadcrumb: 'Credentials', description: "This page is used to view Credentials" }
+    path: "",
+    component: AdminComponent,
+    children: [
+      { path: "", redirectTo: "manage-users", pathMatch: "full" },
+      {
+        path: "manage-users",
+        component: ManageUserComponent,
+        loadChildren: () =>
+          import("./manage-user/manage-user.module").then((m) => m.ManageUserModule),
+        data: { breadcrumb: 'Manage Users', description: 'This page is used to manage User' }
+      },
+      {
+        path: "availability",
+        component: AvailabilityComponent,
+        loadChildren: () =>
+          import("./availability/availability.module").then((m) => m.AvailabilityModule),
+        data: { breadcrumb: 'Availability', description: 'This page is used to manage user availability' }
+      },
+      {
+        path: "escalation",
+        component: EscalationComponent,
+        loadChildren: () =>
+          import("./escalation/escalation.module").then((m) => m.EscalationModule),
+        data: { breadcrumb: 'Escalation Matrix', description: 'Settings related to escalation are managed here.' }
+      },
+      {
+        path: "settings",
+        component: SettingsComponent,
+        pathMatch: "full",
+        data: { breadcrumb: 'Preferences', description: "Application settings are updated here." }
+      },
+      {
+        path: "lookups",
+        component: LookupComponent,
+        pathMatch: "full",
+        data: { breadcrumb: 'Dashboard', description: "Codes and Lookup options are managed here." }
+      },
+      {
+        path: "departments",
+        component: MdataDeptsComponent,
+        pathMatch: "full",
+        data: { breadcrumb: 'Departments', description: "The list of departments is managed here." }
+      },
+      {
+        path: 'event-log',
+        component: EventLogComponent,
+        pathMatch: "full",
+        data: { breadcrumb: 'Event Log', description: "Create, read, update and delete event across the application are logged here." }
+      },
+      {
+        path: "audit-config",
+        component: AuditConfigComponent,
+        loadChildren: () =>
+          import("./audit-config/audit-config.module").then((m) => m.AuditConfigModule),
+        data: { breadcrumb: 'Audit Config', description: "Choices that appear in drop down select boxes are updated here." }
+      },
+      {
+        path: 'credentials',
+        component: CredentialsComponent,
+        pathMatch: "full",
+        data: { breadcrumb: 'Credentials', description: "This page is used to view Credentials" }
+      }
+    ]
   }
-
 ];
 
 @NgModule({
   declarations: [
+    AdminComponent,
     EventLogComponent,
     LookupComponent,
     SettingsComponent,
@@ -112,7 +106,6 @@ const routes: Routes = [
     MasterdataComponent,
     MdataDeptsComponent,
     AvailabilityComponent
-
   ],
   imports: [
     CommonModule,
@@ -127,7 +120,6 @@ const routes: Routes = [
     MatSelectModule,
     FormsModule
   ],
-  // entryComponents: [],
   providers: [DragulaService]
 })
 export class AdminModule { }

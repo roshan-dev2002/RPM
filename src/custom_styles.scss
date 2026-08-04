@@ -41,11 +41,15 @@ table thead.tbl-head th {
   font-size: 14px !important;
 }
 
-th.text-left, td.text-left, .table-text-left {
+th.text-left,
+td.text-left,
+.table-text-left {
   text-align: left !important;
 }
 
-th.text-center, td.text-center, .table-text-center {
+th.text-center,
+td.text-center,
+.table-text-center {
   text-align: center !important;
 }
 
@@ -979,8 +983,14 @@ a {
 
 /* Ensure placeholder text displays well on yellow background */
 .mat-dialog-container ::placeholder,
-.mat-mdc-dialog-container ::placeholder {
+.mat-mdc-dialog-container ::placeholder,
+.cdk-overlay-pane ::placeholder,
+.mat-dialog-container .mat-select-placeholder,
+.mat-mdc-dialog-container .mat-mdc-select-placeholder,
+.cdk-overlay-pane .mat-select-placeholder,
+.cdk-overlay-pane .mat-mdc-select-placeholder {
   color: #6b7280 !important;
+  opacity: 1 !important;
 }
 
 /* 3. Keep dropdown list option backgrounds white (never yellow) */
@@ -1059,7 +1069,19 @@ select option {
   border-right: 5px solid transparent !important;
   border-top: 5px solid !important;
   margin: 0 !important;
-  display: inline-block !important;
-  visibility: visible !important;
   opacity: 1 !important;
+}
+
+/* Remove horizontal scrollbars globally from grid tables and containers */
+.table-responsive,
+#grid-table-container,
+.table-card-wrapper {
+  overflow-x: hidden !important;
+
+  .ps__rail-x {
+    display: none !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
 }

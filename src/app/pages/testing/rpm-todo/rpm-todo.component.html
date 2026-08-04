@@ -215,21 +215,23 @@
         <table matSort id="example2" mat-table class="table table-bordered table-hover" style="width: 100%;">
           <thead class="tbl-head">
             <tr>
-              <th class="text-center">Action</th>
-              <th class="text-center">Status</th>
-              <th class="text-center">Subject</th>
-              <th class="text-center">Description</th>
-              <th class="text-center">Due Date</th>
-              <th class="text-center">Completion Date</th>
-              <th class="text-center">Responsibility</th>
-              <th class="text-center">Group</th>
-              <th class="text-center">Project Name</th>
+              <th class="text-center" style="width: 70px;">Action</th>
+              <th class="text-center" style="width: 80px;">Status</th>
+              <th class="text-center" style="white-space: nowrap;">Subject</th>
+              <!-- <th class="text-center">Description</th> -->
+              <!-- <th class="text-center">Due Date</th> -->
+              <!-- <th class="text-center">Completion Date</th> -->
+              <th class="text-center" style="white-space: nowrap;">Responsibility</th>
+              <th class="text-center" style="width: 80px;">Group</th>
+              <th class="text-center" style="white-space: nowrap;">Project Name</th>
+              <th class="text-center" style="width: 80px;">Timeline</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of filteredData">
               <td class="text-center">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;">
+                <div
+                  style="display: flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;">
                   <a matTooltip="Edit Task" style="cursor: pointer;" (click)="openEditDialog(item)">
                     <i class="fa fa-edit" style="color: cornflowerblue;"></i>
                   </a>
@@ -243,17 +245,22 @@
                 <span *ngIf="item.IsActive" (click)="Confirmation(item)" style="color: blue;">Active</span>
               </td>
               <td class="text-center">{{ item.Subject }}</td>
-              <td class="text-center">{{ item.Comments }}</td>
-              <td class="text-center" [ngClass]="{'overdue-date': isOverdue(item.DueDate)}">{{ item.DueDate | date:
-                'mediumDate' }}</td>
-              <td class="text-center">{{ item.CompletionDate ? (item.CompletionDate | date: 'mediumDate') : 'N/A' }}
-              </td>
+              <!-- <td class="text-center">{{ item.Comments }}</td> -->
+              <!-- <td class="text-center" [ngClass]="{'overdue-date': isOverdue(item.DueDate)}">{{ item.DueDate | date:
+                'mediumDate' }}</td> -->
+              <!-- <td class="text-center">{{ item.CompletionDate ? (item.CompletionDate | date: 'mediumDate') : 'N/A' }}
+              </td> -->
               <td class="text-center">{{ item.Responsibility }}</td>
               <td class="text-center"> </td>
               <td class="text-center">{{ item.ProjectName }}</td>
+              <td class="text-center">
+                <a style="cursor: pointer;" matTooltip="View Timeline" (click)="openTimelineModal(item)">
+                  <mat-icon style="color: #2563eb; font-size: 18px; vertical-align: middle;">calendar_today</mat-icon>
+                </a>
+              </td>
             </tr>
             <tr *ngIf="filteredData.length === 0">
-              <td colspan="8" class="text-center">No records found</td>
+              <td colspan="10" class="text-center">No records found</td>
             </tr>
           </tbody>
         </table>
@@ -267,9 +274,91 @@
           </button> -->
         </div>
       </div>
-      <mat-paginator [length]="totalSize" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50, 100]"
-        showFirstLastButtons></mat-paginator>
+      <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageIndex]="currentPage"
+        [pageSizeOptions]="[5, 10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
     </div>
 
+  </div>
+</div>
+
+<!-- ============ TIMELINE POP-UP MODAL ============ -->
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()"
+  (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+    <!-- Header Row -->
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedTimelineTask?.Subject || selectedTimelineTask?.ProjectName }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Dates Grid -->
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+
+      <div class="timeline-grid-content">
+        <!-- Row 1: Due Date, Completion Date, Status -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Due Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.DueDate ? (selectedTimelineTask.DueDate | date:'dd-MMM-yyyy') : '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Completion Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.CompletionDate ? (selectedTimelineTask.CompletionDate | date:'dd-MMM-yyyy') : '—'
+              }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Status</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.IsActive ? 'Active' : 'Inactive' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row-divider"></div>
+
+        <!-- Row 2: Responsibility, Project Name -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Responsibility</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.Responsibility || '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Project Name</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.ProjectName || '—' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Box -->
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; color: #2563eb; vertical-align: middle;">description</mat-icon>
+        <span>Comments & Details</span>
+      </div>
+      <div class="timeline-desc-content">
+        {{ selectedTimelineTask?.Comments || 'No comments available for this todo item.' }}
+      </div>
+    </div>
   </div>
 </div>

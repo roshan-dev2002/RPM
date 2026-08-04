@@ -42,14 +42,16 @@ import { RpmTodoComponent } from './rpm-todo/rpm-todo.component';
 import { DragulaModule } from 'ng2-dragula';
 import { AddStagePopComponent } from './rpm-stages/add-stage-pop/add-stage-pop.component';
 import { ProcedurePopComponent } from './rpm-stages/rpm-stages-wbs/procedure-pop/procedure-pop.component';
+import { StageGridcolumnComponent } from './rpm-stages/rpm-stages-wbs/procedure-pop/stage-gridcolumn/stage-gridcolumn.component';
 import { de } from 'date-fns/locale';
 import { EditTodoDialogComponent } from './rpm-todo/edit-todo-dialog/edit-todo-dialog.component';
 import { RpmResourcesComponent } from './rpm-resources/rpm-resources.component';
 import { AddResourcePopComponent } from './rpm-resources/add-resource-pop/add-resource-pop.component';
+import { LoginGuard } from '../helpers/login.guard';
 
 const routes: Routes = [
     { path: "", redirectTo: "test-dashboard", pathMatch: "full" },
-    { path: 'test-dashboard', component: TestdashboardComponent, data: { breadcrum: 'Radar' } },
+    { path: 'test-dashboard', component: TestdashboardComponent, canActivate: [LoginGuard], data: { breadcrum: 'Radar' } },
     { path: 'issues', component: TestingIssuesComponent, data: { breadcrumb: 'Issues',
         description: 'Issues accross the projects are managed here.' } },
      
@@ -120,9 +122,15 @@ const routes: Routes = [
         RpmTodoComponent,
         AddStagePopComponent,
         ProcedurePopComponent,
+        StageGridcolumnComponent,
         EditTodoDialogComponent,
         RpmResourcesComponent,
         AddResourcePopComponent,
+    ],
+    exports: [
+        RpmTasksComponent,
+        TestingIssuesComponent,
+        RpmTodoComponent
     ],
     imports: [
         CommonModule,

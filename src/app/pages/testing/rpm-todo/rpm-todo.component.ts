@@ -38,6 +38,10 @@ export class RpmTodoComponent implements OnInit {
   showOverdueOnly: boolean = false;
   filteredData: TaskElement[] = [];
 
+  // --- Timeline Modal State ---
+  showTimelineModal: boolean = false;
+  selectedTimelineTask: any = null;
+
   // --- View Toggle States ---
   isKanbanView: boolean = false;
   isCalendarView: boolean = false;
@@ -462,5 +466,15 @@ export class RpmTodoComponent implements OnInit {
 
   trackByCard(index: number, item: Card): number {
     return item.id;
+  }
+
+  openTimelineModal(task: any): void {
+    this.selectedTimelineTask = task;
+    this.showTimelineModal = true;
+  }
+
+  closeTimelineModal(): void {
+    this.showTimelineModal = false;
+    this.selectedTimelineTask = null;
   }
 }

@@ -21,6 +21,13 @@ export interface AssignTask {
   selected: boolean;
 }
 
+export interface TaskBar {
+  planStart: string;
+  planFinish: string;
+  stage?: Stage;
+  effort?: number;
+}
+
 export interface Task {
   id: string;
   task: string;
@@ -42,6 +49,7 @@ export interface Task {
   notes?: { sender: string; date: string; text: string }[];
   progress?: number;
   expanded?: boolean;
+  bars?: TaskBar[];
 }
 
 export interface Sprint {
@@ -221,13 +229,13 @@ export class ProjectBacklogComponent {
     {
       id: 'sprint-2', label: 'Sprint 2', kind: 'active',
       tasks: [
-        { ...this.t('Build dashboard widgets', 'TSK-201', 'JOB-30', '2026-06-25', '2026-07-02', 16, 5, 'Three KPI widgets for the home dashboard.', 'Development', 'In Process'), assigned: 'Priya Nair', status: 'inprocess', approved: false, progress: 75, eta: '2026-07-02', actualStart: '2026-06-26', actualFinish: '', expenses: 120, notes: [{sender: 'Admin', date: '2026-07-02', text: 'Almost complete, waiting on widget styling.'}] },
+        { ...this.t('Build dashboard widgets', 'TSK-201', 'JOB-30', '2026-06-25', '2026-07-02', 16, 5, 'Three KPI widgets for the home dashboard.', 'Development', 'In Process'), assigned: 'Priya Nair', status: 'inprocess', approved: false, progress: 75, eta: '2026-07-02', actualStart: '2026-06-26', actualFinish: '', expenses: 120, notes: [{ sender: 'Admin', date: '2026-07-02', text: 'Almost complete, waiting on widget styling.' }] },
         { ...this.t('Refine empty states', 'TSK-202', 'JOB-30', '2026-06-26', '2026-06-30', 6, 2, 'Empty states for tables and lists.', 'Design', 'Completed'), assigned: 'Priya Nair', status: 'completed', approved: true, progress: 100, eta: '2026-06-30', actualStart: '2026-06-26', actualFinish: '2026-06-29', expenses: 0 },
         { ...this.t('Regression test suite', 'TSK-203', 'JOB-31', '2026-06-27', '2026-07-03', 10, 4, 'Add regression cases for sprint-1 features.', 'Testing', 'In Process'), assigned: 'Mei Tanaka', status: 'inprocess', approved: false, progress: 40, eta: '2026-07-03', actualStart: '2026-06-28', actualFinish: '', expenses: 50 },
         { ...this.t('Sprint review & feedback', 'TSK-204', 'JOB-31', '2026-06-29', '2026-07-01', 4, 2, 'Walkthrough sprint outcomes.', 'Design', 'Allocated'), assigned: 'Aarav Shah', status: 'allocated', approved: false, progress: 0, eta: '2026-07-01', actualStart: '', actualFinish: '', expenses: 0 },
         { ...this.t('Automate deploy scripts', 'TSK-205', 'JOB-32', '2026-06-30', '2026-07-03', 12, 3, 'Create CI CD scripts.', 'Deployment', 'In Process'), assigned: 'Diego Ruiz', status: 'inprocess', approved: false, progress: 60, eta: '2026-07-03', actualStart: '2026-07-01', actualFinish: '', expenses: 0 },
         { ...this.t('Optimize database indexes', 'TSK-206', 'JOB-33', '2026-07-01', '2026-07-04', 8, 3, 'Tune slow queries on customer tables.', 'Development', 'Allocated'), assigned: 'Diego Ruiz', status: 'allocated', approved: false, progress: 10, eta: '2026-07-04', actualStart: '', actualFinish: '', expenses: 0 },
-        { ...this.t('End-to-end user tests', 'TSK-207', 'JOB-33', '2026-07-02', '2026-07-05', 12, 3, 'Coordinate feedback sessions.', 'Testing', 'On Hold'), assigned: 'Mei Tanaka', status: 'onhold', approved: false, progress: 20, eta: '2026-07-05', actualStart: '2026-07-02', actualFinish: '', expenses: 80, notes: [{sender: 'Admin', date: '2026-07-03', text: 'Blocked by regression test suite stability.'}] },
+        { ...this.t('End-to-end user tests', 'TSK-207', 'JOB-33', '2026-07-02', '2026-07-05', 12, 3, 'Coordinate feedback sessions.', 'Testing', 'On Hold'), assigned: 'Mei Tanaka', status: 'onhold', approved: false, progress: 20, eta: '2026-07-05', actualStart: '2026-07-02', actualFinish: '', expenses: 80, notes: [{ sender: 'Admin', date: '2026-07-03', text: 'Blocked by regression test suite stability.' }] },
         { ...this.t('Deploy container images', 'TSK-208', 'JOB-34', '2026-07-03', '2026-07-04', 6, 1, 'Publish Docker images to AWS ECR.', 'Deployment', 'Allocated'), assigned: 'Olivia Brown', status: 'allocated', approved: false, progress: 0, eta: '2026-07-04', actualStart: '', actualFinish: '', expenses: 150 }
       ]
     }
@@ -455,16 +463,67 @@ export class ProjectBacklogComponent {
     }
     return days;
   }
-
   private getDaysInMonth(year: number, monthIndex: number): number {
     return new Date(year, monthIndex + 1, 0).getDate();
   }
 
-  getGanttBarStyle(t: Task): any {
-    if (!t || !t.planStart || !t.planFinish) return { display: 'none' };
+  getGanttBars(t: Task): TaskBar[] {
+    if (this.ganttScale === 'daily') {
+      return [{ planStart: t.planStart, planFinish: t.planFinish, stage: t.stage, effort: t.effort }];
+    }
+    if (t.bars && t.bars.length > 0) {
+      return t.bars;
+    }
+    return this.generateRandomBarsForTask(t);
+  }
 
-    const start = new Date(t.planStart);
-    const finish = new Date(t.planFinish);
+  generateRandomBarsForTask(t: Task): TaskBar[] {
+    const seed = (t.taskCode || t.id || 'TSK-100').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const count = 2 + (seed % 3);
+    const bars: TaskBar[] = [];
+
+    const startMonths = [
+      (seed % 3),
+      3 + (seed % 3),
+      6 + (seed % 3),
+      9 + ((seed + 1) % 3)
+    ];
+
+    const stages: Stage[] = ['Design', 'Development', 'Testing', 'Deployment'];
+
+    for (let i = 0; i < count; i++) {
+      const m = startMonths[i];
+      const startDay = 1 + ((seed * (i + 1) * 7) % 12);
+      const durationDays = 12 + ((seed * (i + 1) * 3) % 10);
+
+      const monthStr = (m + 1).toString().padStart(2, '0');
+      const dayStr = startDay.toString().padStart(2, '0');
+      const startIso = `2026-${monthStr}-${dayStr}`;
+
+      const finishDate = new Date(2026, m, startDay + durationDays);
+      const finishMonthStr = (finishDate.getMonth() + 1).toString().padStart(2, '0');
+      const finishDayStr = finishDate.getDate().toString().padStart(2, '0');
+      const finishIso = `2026-${finishMonthStr}-${finishDayStr}`;
+
+      const barStage = stages[(seed + i) % stages.length];
+      const barEffort = 8 + ((seed * (i + 1)) % 28);
+
+      bars.push({
+        planStart: startIso,
+        planFinish: finishIso,
+        stage: barStage,
+        effort: barEffort
+      });
+    }
+
+    return bars;
+  }
+
+  getGanttBarStyleFor(bar: TaskBar): any {
+    if (!bar || !bar.planStart || !bar.planFinish) return { display: 'none' };
+
+    const start = new Date(bar.planStart);
+    const finish = new Date(bar.planFinish);
     if (isNaN(start.getTime()) || isNaN(finish.getTime())) return { display: 'none' };
 
     if (this.ganttScale === 'monthly') {
@@ -480,14 +539,14 @@ export class ProjectBacklogComponent {
       const finishVal = finishM + finishD / finishDaysTotal;
 
       const leftPercent = (startVal / totalMonths) * 100;
-      const widthPercent = Math.max(0.5, ((finishVal - startVal) / totalMonths) * 100);
+      const widthPercent = Math.max(0.8, ((finishVal - startVal) / totalMonths) * 100);
 
       return {
         left: `${leftPercent.toFixed(2)}%`,
         width: `${widthPercent.toFixed(2)}%`
       };
     } else if (this.ganttScale === 'weekly') {
-      const totalWeeks = 48; // 12 months * 4 weeks
+      const totalWeeks = 48;
       const startM = start.getMonth();
       const startD = start.getDate();
       const startDaysTotal = this.getDaysInMonth(start.getFullYear(), startM);
@@ -499,13 +558,13 @@ export class ProjectBacklogComponent {
       const finishWeekVal = finishM * 4 + (finishD / finishDaysTotal) * 4;
 
       const leftPercent = (startWeekVal / totalWeeks) * 100;
-      const widthPercent = Math.max(0.5, ((finishWeekVal - startWeekVal) / totalWeeks) * 100);
+      const widthPercent = Math.max(0.8, ((finishWeekVal - startWeekVal) / totalWeeks) * 100);
 
       return {
         left: `${leftPercent.toFixed(2)}%`,
         width: `${widthPercent.toFixed(2)}%`
       };
-    } else { // daily
+    } else {
       const days = this.ganttDays;
       const totalDays = days.length;
       if (totalDays === 0) return { display: 'none' };
@@ -520,7 +579,6 @@ export class ProjectBacklogComponent {
           break;
         }
       }
-
       if (startIndex === -1) {
         if (startStripped < this.stripTime(days[0])) {
           startIndex = 0;
@@ -544,6 +602,10 @@ export class ProjectBacklogComponent {
         width: `${widthPercent.toFixed(2)}%`
       };
     }
+  }
+
+  getGanttBarStyle(t: Task): any {
+    return this.getGanttBarStyleFor({ planStart: t.planStart, planFinish: t.planFinish });
   }
 
   // --- class helpers (replace former inline style helpers) ---

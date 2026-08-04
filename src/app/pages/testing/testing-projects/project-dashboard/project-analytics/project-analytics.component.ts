@@ -154,7 +154,7 @@ export class ProjectAnalyticsComponent implements OnInit {
         x: -200,
         useHTML: true,
         style: { fontSize: '11px', color: '#1f2937', fontWeight: '500' },
-        formatter: function(): string {
+        formatter: function (): string {
           const categoryName = this.value as string;
           const description = sprintDescriptions[categoryName] || categoryName;
           return `<span class="gantt-y-label" data-tooltip="${description}">${description}</span>`;
@@ -177,14 +177,14 @@ export class ProjectAnalyticsComponent implements OnInit {
         style: { color: '#ffffff', textOutline: 'none', fontWeight: 'bold', fontSize: '10px' }
       },
       data: [
-        { y: 0, start: Date.UTC(2026, 5, 1), end: Date.UTC(2026, 5, 17), color: '#10b981', custom: { label: '16d' } },
-        { y: 1, start: Date.UTC(2026, 5, 14), end: Date.UTC(2026, 6, 8), color: '#10b981', custom: { label: '24d' } },
+        { y: 0, start: Date.UTC(2026, 5, 1), end: Date.UTC(2026, 5, 17), color: '#3b82f6', custom: { label: '16d' } },
+        { y: 1, start: Date.UTC(2026, 5, 14), end: Date.UTC(2026, 6, 8), color: '#3b82f6', custom: { label: '24d' } },
         { y: 2, start: Date.UTC(2026, 5, 28), end: Date.UTC(2026, 6, 26), color: '#3b82f6', custom: { label: '28d' } },
         { y: 3, start: Date.UTC(2026, 6, 15), end: Date.UTC(2026, 6, 27), color: '#ef4444', custom: { label: '12d' } },
-        { y: 4, start: Date.UTC(2026, 6, 25), end: Date.UTC(2026, 7, 10), color: '#9ca3af', custom: { label: '16d' } },
-        { y: 5, start: Date.UTC(2026, 7, 5), end: Date.UTC(2026, 7, 27), color: '#9ca3af', custom: { label: '22d' } },
-        { y: 6, start: Date.UTC(2026, 7, 20), end: Date.UTC(2026, 8, 3), color: '#9ca3af', custom: { label: '14d' } },
-        { y: 7, start: Date.UTC(2026, 8, 1), end: Date.UTC(2026, 8, 19), color: '#9ca3af', custom: { label: '18d' } }
+        { y: 4, start: Date.UTC(2026, 6, 25), end: Date.UTC(2026, 7, 10), color: '#ef4444', custom: { label: '16d' } },
+        { y: 5, start: Date.UTC(2026, 7, 5), end: Date.UTC(2026, 7, 27), color: '#ef4444', custom: { label: '22d' } },
+        { y: 6, start: Date.UTC(2026, 7, 20), end: Date.UTC(2026, 8, 3), color: '#ef4444', custom: { label: '14d' } },
+        { y: 7, start: Date.UTC(2026, 8, 1), end: Date.UTC(2026, 8, 19), color: '#ef4444', custom: { label: '18d' } }
       ]
     }]
   };

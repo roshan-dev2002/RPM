@@ -1,48 +1,45 @@
 <div class="setup-container">
-    <!-- <div class="mb-4">
+  <!-- <div class="mb-4">
   <b>Project Name : </b>NextGen Assembly Line <br>
   	2026/MFG/011
 </div> -->
- <div class="header-section">
-  <div class="header-content">
-    <div class="header-titles" style="visibility: hidden;">
-      <h1>Stage Gate Project Management (NextGen Assembly Line-2026/MFG/011 )</h1>
-      <p>Track progress across stages, modules, and tasks.</p>
+  <div class="header-section">
+    <div class="header-content">
+      <div class="header-titles" style="visibility: hidden;">
+        <h1>Stage Gate Project Management (NextGen Assembly Line-2026/MFG/011 )</h1>
+        <p>Track progress across stages, modules, and tasks.</p>
+      </div>
+
+      <button mat-raised-button class="back-btn" (click)="goBack()"
+        style="background-color: rgb(130, 130, 130); color: white;">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
     </div>
-
-     <button mat-raised-button class="back-btn" (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white;">
-    <mat-icon>arrow_back</mat-icon>
-    Back
-  </button>
   </div>
-</div>
 
-  <div class="board-grid" [style.grid-template-columns]="selectedStage?.type === 'gate' ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)'">
-    
+  <div class="board-grid"
+    [style.grid-template-columns]="selectedStage?.type === 'gate' ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)'">
+
     <div class="board-column">
       <h2>Stages / Gates</h2>
       <div class="column-content">
-        
-        <div class="list-item" 
-             *ngFor="let item of stagesAndGates" 
-             [ngClass]="{
+
+        <div class="list-item" *ngFor="let item of stagesAndGates" [ngClass]="{
                'is-stage': item.type === 'stage',
                'is-gate': item.type === 'gate',
                'is-active': item === selectedStage
-             }"
-             (click)="selectStage(item)">
-             
+             }" (click)="selectStage(item)">
+
           <div class="item-left">
             <div class="custom-checkbox" [class.checked]="item.completed" (click)="toggleCompleted($event, item)"></div>
             <span class="item-name">{{ item.name }}</span>
           </div>
-          
+
           <div class="item-right">
             <mat-icon class="sm-icon">chevron_right</mat-icon>
-            <button class="action-menu-btn" 
-                    (click)="$event.stopPropagation()" 
-                    [matMenuTriggerFor]="actionMenu" 
-                    [matMenuTriggerData]="{ item: item, type: 'Stage/Gate' }">
+            <button class="action-menu-btn" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionMenu"
+              [matMenuTriggerData]="{ item: item, type: 'Stage/Gate' }">
               <mat-icon class="sm-icon">more_vert</mat-icon>
             </button>
           </div>
@@ -54,27 +51,23 @@
     <div class="board-column" *ngIf="selectedStage?.type !== 'gate'">
       <h2>Modules <span class="header-context" *ngIf="selectedStage">({{ selectedStage?.name }})</span></h2>
       <div class="column-content">
-        
+
         <button class="dashed-add-btn">
           <mat-icon class="add-icon" style="margin-bottom:-6px">add</mat-icon> Add Module
         </button>
 
         <ng-container *ngIf="selectedStage?.modules">
-          <div class="list-item is-module" 
-               *ngFor="let mod of selectedStage?.modules"
-               [ngClass]="{'is-active': mod === selectedModule}"
-               (click)="selectModule(mod)">
-               
+          <div class="list-item is-module" *ngFor="let mod of selectedStage?.modules"
+            [ngClass]="{'is-active': mod === selectedModule}" (click)="selectModule(mod)">
+
             <div class="item-left">
               <div class="custom-checkbox" [class.checked]="mod.completed" (click)="toggleCompleted($event, mod)"></div>
               <span class="item-name">{{ mod.name }}</span>
             </div>
-            
+
             <div class="item-right">
-              <button class="action-menu-btn" 
-                      (click)="$event.stopPropagation()" 
-                      [matMenuTriggerFor]="actionMenu" 
-                      [matMenuTriggerData]="{ item: mod, type: 'Module' }">
+              <button class="action-menu-btn" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionMenu"
+                [matMenuTriggerData]="{ item: mod, type: 'Module' }">
                 <mat-icon class="sm-icon">more_vert</mat-icon>
               </button>
             </div>
@@ -98,7 +91,7 @@
         </ng-template>
       </h2>
       <div class="column-content">
-        
+
         <button class="dashed-add-btn">
           <mat-icon class="add-icon" style="margin-bottom:-6px">add</mat-icon>
           <span *ngIf="selectedStage?.type === 'gate'; else stageAddTaskBtn">Add Criterion</span>
@@ -110,14 +103,13 @@
           <ng-container *ngIf="selectedStage?.tasks">
             <div class="list-item is-task" *ngFor="let task of selectedStage?.tasks">
               <div class="item-left">
-                <div class="custom-checkbox" [class.checked]="task.completed" (click)="toggleCompleted($event, task)"></div>
+                <div class="custom-checkbox" [class.checked]="task.completed" (click)="toggleCompleted($event, task)">
+                </div>
                 <span class="item-name">{{ task.name }}</span>
               </div>
               <div class="item-right">
-                <button class="action-menu-btn" 
-                        (click)="$event.stopPropagation()" 
-                        [matMenuTriggerFor]="actionMenu" 
-                        [matMenuTriggerData]="{ item: task, type: 'Criterion' }">
+                <button class="action-menu-btn" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionMenu"
+                  [matMenuTriggerData]="{ item: task, type: 'Criterion' }">
                   <mat-icon class="sm-icon">more_vert</mat-icon>
                 </button>
               </div>
@@ -133,14 +125,13 @@
           <ng-container *ngIf="selectedModule?.tasks">
             <div class="list-item is-task" *ngFor="let task of selectedModule?.tasks">
               <div class="item-left">
-                <div class="custom-checkbox" [class.checked]="task.completed" (click)="toggleCompleted($event, task)"></div>
+                <div class="custom-checkbox" [class.checked]="task.completed" (click)="toggleCompleted($event, task)">
+                </div>
                 <span class="item-name">{{ task.name }}</span>
               </div>
               <div class="item-right">
-                <button class="action-menu-btn" 
-                        (click)="$event.stopPropagation()" 
-                        [matMenuTriggerFor]="actionMenu" 
-                        [matMenuTriggerData]="{ item: task, type: 'Task' }">
+                <button class="action-menu-btn" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionMenu"
+                  [matMenuTriggerData]="{ item: task, type: 'Task' }">
                   <mat-icon class="sm-icon">more_vert</mat-icon>
                 </button>
               </div>

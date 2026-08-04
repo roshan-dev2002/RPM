@@ -31,15 +31,12 @@
                     <app-horizontal-menu fxShow.gt-sm="true" fxShow="false" [menuParentId]="0"></app-horizontal-menu>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="end center">
-                    <button mat-icon-button [matMenuTriggerFor]="adminMenu" #adminMenuTrigger="matMenuTrigger" 
-                            (mouseenter)="openAdminMenu()" (mouseleave)="closeAdminMenu()" 
-                            style="margin-right:15px; color: white;">
+                    <button mat-icon-button routerLink="/app/admin" routerLinkActive="active-settings-btn"
+                        style="margin-right:15px; color: white;" matTooltip="Settings">
                         <mat-icon>settings</mat-icon>
                     </button>
-                    <mat-icon matBadge="3" matBadgeSize="small" matBadgeColor="accent" (click)="alerts()"
-                        style="margin-right:15px; cursor: pointer; color: white;">
-                        notifications
-                    </mat-icon>
+
+                    <app-messages></app-messages>
 
                     <app-fullscreen></app-fullscreen>
                     <app-user-menu></app-user-menu>
@@ -174,7 +171,8 @@
 
 </mat-sidenav-container>
 
-<mat-menu #adminMenu="matMenu" [overlapTrigger]="false" [hasBackdrop]="false" xPosition="before" class="toolbar-dropdown-menu admin-dropdown-menu">
+<mat-menu #adminMenu="matMenu" [overlapTrigger]="false" [hasBackdrop]="false" xPosition="before"
+    class="toolbar-dropdown-menu admin-dropdown-menu">
     <div (mouseenter)="stopAdminCloseTimer()" (mouseleave)="closeAdminMenu()">
         <a mat-menu-item *ngFor="let item of adminMenuItems" [routerLink]="[item.routerLink]">
             <mat-icon>{{item.icon}}</mat-icon>

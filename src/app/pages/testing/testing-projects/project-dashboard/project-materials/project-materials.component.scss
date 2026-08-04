@@ -31,8 +31,9 @@
       flex-direction: row;
       gap: 10px; // Spacing between Back and Add buttons
       align-items: center;
-      
-      .back-btn, .add-btn {
+
+      .back-btn,
+      .add-btn {
         display: flex;
         align-items: center;
         gap: 6px;
@@ -67,7 +68,7 @@
     cursor: pointer;
     color: #5e6c84;
     transition: all 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
     &:hover {
       background-color: #f1f3f9;
@@ -86,17 +87,19 @@
   background: white;
   border-radius: 8px;
   overflow-x: auto; // Ensures horizontal scrolling works
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   border: 1px solid #e3e6ee;
 
   // Smooth scrollbar styling (optional but looks nice)
   &::-webkit-scrollbar {
     height: 8px;
   }
+
   &::-webkit-scrollbar-thumb {
     background: #c1c7d0;
     border-radius: 4px;
   }
+
   &::-webkit-scrollbar-track {
     background: #f4f5f7;
   }
@@ -105,7 +108,7 @@
     width: 100%;
     border-collapse: collapse;
     white-space: nowrap; // Prevents columns from squishing, forcing scroll
-    
+
     th {
       font-size: 14px;
       padding: 15px;
@@ -119,22 +122,29 @@
       font-size: 13px;
     }
 
-    .text-right { text-align: right; }
-    .text-center { text-align: center; }
-    .font-bold { font-weight: 600; }
+    .text-right {
+      text-align: right;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .font-bold {
+      font-weight: 600;
+    }
   }
 }
 
 
-.main-wrapper
-{
-   min-width: 1250px;
+.main-wrapper {
   width: 100%;
-  padding: 24px;
-  // background-color: $bg-color;
-  // font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 100%;
+  // padding: 24px;
+  padding-left: 24px;
   min-height: 100vh;
   margin-top: 15px;
+  box-sizing: border-box;
 }
 
 .mine {
@@ -143,7 +153,7 @@
   right: 260px;
   background-color: #e6e6e6 !important;
   z-index: 9999;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 // ==================== TIMELINE POPUP MODAL ====================

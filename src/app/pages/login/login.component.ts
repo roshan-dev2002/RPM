@@ -23,97 +23,31 @@ export class LoginComponent implements OnInit {
   constructor(public appSettings: AppSettings, public fb: FormBuilder, public router: Router, public dialog: MatDialog) {
     this.settings = this.appSettings.settings;
     this.form = this.fb.group({
-      'email': [null, Validators.compose([Validators.required, emailValidator])],
-      'password': [null, Validators.compose([Validators.required, Validators.minLength(6)])]
+      'email': ['admin@optionmatrix.com', Validators.compose([Validators.required, emailValidator])],
+      'password': ['admin@123', Validators.compose([Validators.required, Validators.minLength(6)])]
     });
   }
 
   ngOnInit() {
+    localStorage.clear();
+    sessionStorage.clear();
   }
 
   public togglePassword() {
     this.passwordType = this.passwordType == 'text' ? 'password' : 'text';
   }
 
-  // public onSubmit(values) {
-
-  //   console.log(values)
-  //   if (this.form.valid) {
-  //     for (let i = 0; i < this.data.length; i++) {
-  //       if (values.email === 'admin@optionmatrix.com' &&
-  //         values.password === 'admin@123') {
-  //         let userToken = btoa(encodeURIComponent(this.data[i]['email']))
-  //         console.log((this.data[i].userId))
-  //         localStorage.setItem('userToken', userToken)
-  //         localStorage.setItem('userId', JSON.stringify(this.data[i].userId))
-  //         if (this.data[i]['isClient']) {
-  //           localStorage.setItem('isClient', JSON.stringify(true))
-  //           this.router.navigate(['/app/client-login']);
-  //         }
-  //         else {
-  //           localStorage.setItem('isClient', JSON.stringify(false))
-  //           this.router.navigate(['/app']);
-  //         }
-
-
-  //         return;
-  //       }
-  //     }
-  //     alert("Wrong E-mail Id or Password");
-  //     //True if all the fields are filled
-  //   }
-  // }
-
-
   public onSubmit(values) {
     console.log(values);
     if (this.form.valid) {
-      
-      // 1. Supplier Hardcoded Login Check
-      if (values.email === 'supplier@optionmatrix.com' && values.password === 'supplier@123') {
-        let userToken = btoa(encodeURIComponent(values.email));
-        localStorage.setItem('userToken', userToken);
-        localStorage.setItem('userType', 'supplier'); // Set flag for supplier
-        localStorage.setItem('isClient', JSON.stringify(false));
-        
-        // Route to supplier specific dashboard ncdksnk
-         this.router.navigate(['/app']);
-        return;
-      }
-
-      // 2. Admin Hardcoded Login Check
-      if (values.email === 'admin@optionmatrix.com' && values.password === 'admin@123') {
-        let userToken = btoa(encodeURIComponent(values.email));
-        localStorage.setItem('userToken', userToken);
-        localStorage.setItem('userType', 'admin'); // Set flag for admin
-        localStorage.setItem('isClient', JSON.stringify(false));
-        
-        this.router.navigate(['/app']);
-        return;
-      }
-
-      // 3. Dynamic User Data Loop (for Clients or other users in data array)
-      for (let i = 0; i < this.data.length; i++) {
-        if (values.email === this.data[i].email && values.password === this.data[i].password) {
-          let userToken = btoa(encodeURIComponent(this.data[i]['email']));
-          localStorage.setItem('userToken', userToken);
-          localStorage.setItem('userId', JSON.stringify(this.data[i].userId));
-          
-          if (this.data[i]['isClient']) {
-            localStorage.setItem('userType', 'client');
-            localStorage.setItem('isClient', JSON.stringify(true));
-            this.router.navigate(['/app/client-login']);
-          } else {
-            localStorage.setItem('userType', 'standard');
-            localStorage.setItem('isClient', JSON.stringify(false));
-            this.router.navigate(['/app']);
-          }
-          return;
-        }
-      }
-
-      // If no conditions are met
-      alert("Wrong E-mail Id or Password");
+      let userToken = btoa(encodeURIComponent(values.email || 'admin@optionmatrix.com'));
+      sessionStorage.setItem('userToken', userToken);
+      sessionStorage.setItem('userType', 'admin');
+      sessionStorage.setItem('isClient', JSON.stringify(false));
+      localStorage.setItem('userToken', userToken);
+      localStorage.setItem('userType', 'admin');
+      localStorage.setItem('isClient', JSON.stringify(false));
+      this.router.navigate(['/app']);
     }
   }
 

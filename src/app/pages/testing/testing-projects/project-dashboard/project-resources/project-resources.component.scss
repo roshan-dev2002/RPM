@@ -1,7 +1,8 @@
 .main-wrapper {
-  min-width: 1100px;
   width: 100%;
-  padding: 0 24px 24px 0;
+  max-width: 100%;
+  padding-left: 40px;
+  margin-top: 15px;
   box-sizing: border-box;
 }
 
@@ -22,10 +23,12 @@
   &::-webkit-scrollbar {
     height: 8px;
   }
+
   &::-webkit-scrollbar-thumb {
     background: #c1c7d0;
     border-radius: 4px;
   }
+
   &::-webkit-scrollbar-track {
     background: #f4f5f7;
   }
@@ -144,7 +147,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  &:hover { background: #f1f5f9; }
+
+  &:hover {
+    background: #f1f5f9;
+  }
 }
 
 .timeline-dates-container {
@@ -177,7 +183,10 @@
   flex: 1;
   padding: 8px 12px;
   border-right: 1px solid #f1f5f9;
-  &.timeline-date-col--last { border-right: none; }
+
+  &.timeline-date-col--last {
+    border-right: none;
+  }
 }
 
 .timeline-date-label {

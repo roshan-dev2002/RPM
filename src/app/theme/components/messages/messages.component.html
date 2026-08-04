@@ -1,70 +1,44 @@
-<button mat-icon-button [matMenuTriggerFor]="messagesMenu" (click)="openMessagesMenu()">
-    <mat-icon>notifications</mat-icon>
+<button mat-icon-button [matMenuTriggerFor]="messagesMenu" (click)="openMessagesMenu()"
+    (mouseenter)="openMessagesMenu()" style="margin-right:15px; color: white;">
+    <mat-icon matBadge="{{notifications.length}}" matBadgeSize="small" matBadgeColor="accent">notifications</mat-icon>
 </button>
 <mat-menu #messagesMenu="matMenu" [overlapTrigger]="false" class="toolbar-dropdown-menu messages">
-    <!--<span (mouseleave)="onMouseLeave()">-->
-        <mat-tab-group backgroundColor="primary" (click)="stopClickPropagate($event)" [selectedIndex]="selectedTab">
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <mat-icon>message</mat-icon>
-                </ng-template>
-                <mat-card class="content" perfectScrollbar>
-                  <div fxLayout="column" fxLayoutAlign="none">
-                      <button mat-button *ngFor="let message of messages">
-                          <img src="{{ ( message.image || (message.name | profilePicture)) }}" width="50">   
-                          <div fxLayout="column" fxLayoutAlign="none" class="w-100">
-                              <div fxLayout="row" fxLayoutAlign="space-between start">
-                                  <span class="name">{{message.name}}</span>
-                                  <span class="info"><mat-icon>access_time</mat-icon> {{message.time}}</span>
-                              </div>
-                              <span class="text muted-text">{{message.text}}</span>
-                          </div>
-                      </button>
-                    </div>             
-                </mat-card>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <mat-icon>description</mat-icon>
-                </ng-template>
-                <mat-card class="content" perfectScrollbar>
-                  <div fxLayout="column" fxLayoutAlign="none">
-                      <button mat-button *ngFor="let file of files">
-                          <div fxLayout="column" fxLayoutAlign="none" class="w-100">
-                              <div fxLayout="row" fxLayoutAlign="space-between start">
-                                  <span class="name">{{file.text}}</span>
-                                  <span class="info">{{file.size}}</span>
-                              </div>
-                              <mat-progress-bar
-                                  class="example-margin"
-                                  [color]="file.color"
-                                  mode="indeterminate"
-                                  [value]="file.value">
-                              </mat-progress-bar>
-                          </div>
-                      </button>
-                    </div>             
-                </mat-card>
-            </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <mat-icon>event</mat-icon>
-                </ng-template>
-                <mat-card class="content" perfectScrollbar>
-                  <div fxLayout="column" fxLayoutAlign="none">
-                      <button mat-button *ngFor="let meeting of meetings">  
-                          <div fxLayout="column" fxLayoutAlign="center center" class="row-1">
-                              <span class="name">{{meeting.day}}</span>
-                              <span class="name">{{meeting.month}}</span>
-                          </div>
-                          <div fxLayout="column" fxLayoutAlign="none">
-                              <span class="name">{{meeting.title}}</span>
-                              <span class="text muted-text">{{meeting.text}}</span>
-                          </div>
-                      </button>
-                    </div>             
-                </mat-card>
-            </mat-tab>
-        </mat-tab-group>
-    <!--</span>-->
+    <div (mouseenter)="openMessagesMenu()" (mouseleave)="onMouseLeave()" (click)="stopClickPropagate($event)"
+        style="width: 250px; background: white; border-radius: 4px; overflow: hidden; border: 1px solid #e2e8f0;">
+
+        <!-- Header -->
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+            <span style="font-weight: 600; font-size: 15px; color: #1e293b;">Notifications
+                ({{notifications.length}})</span>
+            <!-- <mat-icon
+                style="font-size: 20px; width: 20px; height: 20px; color: #64748b; cursor: pointer;">segment</mat-icon> -->
+        </div>
+
+        <!-- Notification List -->
+        <mat-card class="content" perfectScrollbar
+            style="padding: 0; max-height: 380px; box-shadow: none; border-radius: 0;">
+            <div fxLayout="column" fxLayoutAlign="none">
+                <div *ngFor="let item of notifications"
+                    style="padding: 12px 16px; border-bottom: 1px solid #f1f5f9; text-align: left;">
+                    <div style="font-weight: 600; font-size: 13px; color: #334155; margin-bottom: 4px;">
+                        {{item.title}} &nbsp;-&nbsp; <span
+                            style="font-weight: 400; color: #64748b; font-size: 12px;">{{item.date}}</span>
+                    </div>
+                    <div style="font-size: 12px; color: #64748b; line-height: 1.4;">
+                        {{item.details}}
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+
+        <!-- Footer Link -->
+        <div (click)="viewAllNotifications()"
+            style="display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 12px 16px; border-top: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; color: #475569; font-size: 13px; font-weight: 500;">
+            <mat-icon
+                style="font-size: 18px; width: 18px; height: 18px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; color: #64748b; margin: 0;">visibility</mat-icon>
+            <span style="display: inline-flex; align-items: center; line-height: 1;">View All Notifications</span>
+        </div>
+
+    </div>
 </mat-menu>

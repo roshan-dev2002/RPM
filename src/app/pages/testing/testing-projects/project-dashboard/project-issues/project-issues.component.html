@@ -1,8 +1,8 @@
-<div class="main-wrapper" style="width: 100%; box-sizing: border-box;">
+<div class="main-wrapper" style="width: 100%; box-sizing: border-box; padding-left: 25px;">
 
   <!-- Header Section with Invisible Title Spacer & Buttons -->
   <div class="header-section" style="margin-bottom: 20px;">
-    <div class="title-row" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+    <div class="title-row" style="display: flex; justify-content: space-between; align-items: flex-start;">
       <div class="header-titles" style="visibility: hidden;">
         <h1 style="font-weight: 700; font-size: 24px; margin: 0;">
           Issues (NextGen Assembly Line-2026/MFG/011)
@@ -13,11 +13,16 @@
       </div>
 
       <div class="header-actions" style="display: flex; gap: 10px; align-items: center;">
-        <div class="view-toggle" style="display: flex; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-          <button mat-button [style.background-color]="!isKanbanView ? 'black' : 'white'" [style.color]="!isKanbanView ? 'white' : 'black'" (click)="isKanbanView = false" style="border-radius: 0; height: 38px; font-weight: 500; padding: 0 14px; border: none; display: flex; align-items: center;">
+        <div class="view-toggle"
+          style="display: flex; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <button mat-button [style.background-color]="!isKanbanView ? 'black' : 'white'"
+            [style.color]="!isKanbanView ? 'white' : 'black'" (click)="isKanbanView = false"
+            style="border-radius: 0; height: 38px; font-weight: 500; padding: 0 14px; border: none; display: flex; align-items: center;">
             <mat-icon style="margin-right: 4px; vertical-align: middle;">grid_on</mat-icon> Grid View
           </button>
-          <button mat-button [style.background-color]="isKanbanView ? 'black' : 'white'" [style.color]="isKanbanView ? 'white' : 'black'" (click)="isKanbanView = true" style="border-radius: 0; height: 38px; font-weight: 500; padding: 0 14px; border: none; border-left: 1px solid #cbd5e1; display: flex; align-items: center;">
+          <button mat-button [style.background-color]="isKanbanView ? 'black' : 'white'"
+            [style.color]="isKanbanView ? 'white' : 'black'" (click)="isKanbanView = true"
+            style="border-radius: 0; height: 38px; font-weight: 500; padding: 0 14px; border: none; border-left: 1px solid #cbd5e1; display: flex; align-items: center;">
             <mat-icon style="margin-right: 4px; vertical-align: middle;">view_kanban</mat-icon> Kanban View
           </button>
         </div>
@@ -26,11 +31,13 @@
           <mat-icon>add</mat-icon> Add Issue
         </button>
 
-        <button mat-raised-button (click)="filterToggle = !filterToggle" style="background-color: black; color: white; height: 38px;">
+        <button mat-raised-button (click)="filterToggle = !filterToggle"
+          style="background-color: black; color: white; height: 38px;">
           <mat-icon>filter_list</mat-icon> Filter
         </button>
 
-        <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
+        <button mat-raised-button (click)="goBack()"
+          style="background-color: rgb(130, 130, 130); color: white; height: 38px;">
           <mat-icon>arrow_back</mat-icon> Back
         </button>
       </div>
@@ -42,18 +49,23 @@
     <mat-card class="filter" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
       <mat-card-content style="padding: 15px;">
         <form [formGroup]="myGroup">
-          <div style="display: flex; flex-wrap: wrap; align-items: center; width: 100%; gap: 15px; box-sizing: border-box;">
-            
+          <div
+            style="display: flex; flex-wrap: wrap; align-items: center; width: 100%; gap: 15px; box-sizing: border-box;">
+
             <!-- Keyword Field -->
             <div style="display: flex; align-items: center; gap: 8px;">
-              <label style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Keyword:</label>
-              <input type="text" formControlName="Keyword" class="form-control" placeholder="Search keyword..." style="height: 36px; min-width: 180px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px;" />
+              <label
+                style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Keyword:</label>
+              <input type="text" formControlName="Keyword" class="form-control" placeholder="Search keyword..."
+                style="height: 36px; min-width: 180px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px;" />
             </div>
 
             <!-- Status Field -->
             <div style="display: flex; align-items: center; gap: 8px;">
-              <label style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Status:</label>
-              <mat-select formControlName="Status" class="form-control" placeholder="Select Status" style="height: 36px; line-height: 24px; min-width: 160px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 10px; font-size: 13px; background: white;">
+              <label
+                style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Status:</label>
+              <mat-select formControlName="Status" class="form-control" placeholder="Select Status"
+                style="height: 36px; line-height: 24px; min-width: 160px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 10px; font-size: 13px; background: white;">
                 <mat-option value="">All Statuses</mat-option>
                 <mat-option value="Pending">Pending</mat-option>
                 <mat-option value="Allocated">Allocated</mat-option>
@@ -69,10 +81,12 @@
               <button mat-raised-button color="primary" (click)="go()" style="height: 36px;">
                 <mat-icon>search</mat-icon> Search
               </button>
-              <button mat-raised-button (click)="clearFilter()" style="height: 36px; background-color: #f1f5f9; color: #334155;">
+              <button mat-raised-button (click)="clearFilter()"
+                style="height: 36px; background-color: #f1f5f9; color: #334155;">
                 <mat-icon>settings_backup_restore</mat-icon> Clear
               </button>
-              <a (click)="filterToggle = !filterToggle" style="font-size: 22px; cursor: pointer; color: #475569; display: flex; align-items: center; margin-left: 5px;">
+              <a (click)="filterToggle = !filterToggle"
+                style="font-size: 22px; cursor: pointer; color: #475569; display: flex; align-items: center; margin-left: 5px;">
                 <i class="fa fa-angle-double-up" aria-hidden="true"></i>
               </a>
             </div>
@@ -88,33 +102,45 @@
 
     <!-- KANBAN VIEW -->
     <div *ngIf="isKanbanView">
-      <div class="kanban-board" cdkDropListGroup style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px;">
-        <div *ngFor="let list of lists" class="kanban-list" style="flex: 1; min-width: 240px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px;">
-          <div style="background-color: #374151; color: white; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+      <div class="kanban-board" cdkDropListGroup
+        style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px;">
+        <div *ngFor="let list of lists" class="kanban-list"
+          style="flex: 1; min-width: 240px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px;">
+          <div
+            style="background-color: #374151; color: white; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span [style.background-color]="getColor(list)" style="width: 10px; height: 10px; border-radius: 50%; display: inline-block;"></span>
+              <span [style.background-color]="getColor(list)"
+                style="width: 10px; height: 10px; border-radius: 50%; display: inline-block;"></span>
               <h3 style="margin: 0; font-size: 14px; font-weight: 600; color: white;">{{ list }}</h3>
             </div>
-            <span style="background-color: white; color: #1e293b; font-weight: 700; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px;">
+            <span
+              style="background-color: white; color: #1e293b; font-weight: 700; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px;">
               {{ cards[list]?.length || 0 }}
             </span>
           </div>
 
-          <div cdkDropList [id]="list" [cdkDropListData]="cards[list]" (cdkDropListDropped)="drop($event, list)" style="min-height: 150px;">
-            <div *ngFor="let card of cards[list]; trackBy: trackByCard" cdkDrag style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: grab;">
+          <div cdkDropList [id]="list" [cdkDropListData]="cards[list]" (cdkDropListDropped)="drop($event, list)"
+            style="min-height: 150px;">
+            <div *ngFor="let card of cards[list]; trackBy: trackByCard" cdkDrag
+              style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: grab;">
               <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <span style="font-weight: 600; font-size: 13px; color: #1e293b;">{{ card.subject }}</span>
-                <span class="material-symbols-outlined" style="cursor: pointer; font-size: 18px; color: #64748b;" (click)="toggleCard(card)">
+                <span class="material-symbols-outlined" style="cursor: pointer; font-size: 18px; color: #64748b;"
+                  (click)="toggleCard(card)">
                   {{ card.expanded ? "remove" : "add" }}
                 </span>
               </div>
               <p style="margin: 4px 0; color: #64748b; font-size: 12px;">{{ card.LawFirm }}</p>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; pt-8 border-top: 1px solid #f1f5f9; font-size: 11px; color: #64748b;">
+              <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; pt-8 border-top: 1px solid #f1f5f9; font-size: 11px; color: #64748b;">
                 <span>Due: {{ card.dueDate }}</span>
-                <span [style.background-color]="getColor(card.status)" style="color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600;">{{ card.status }}</span>
+                <span [style.background-color]="getColor(card.status)"
+                  style="color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600;">{{
+                  card.status }}</span>
               </div>
 
-              <div *ngIf="card.expanded" style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; font-size: 11px; color: #475569;">
+              <div *ngIf="card.expanded"
+                style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; font-size: 11px; color: #475569;">
                 <p style="margin: 2px 0;"><strong>Assigned To:</strong> {{ card.assignedTo }}</p>
                 <p style="margin: 2px 0;"><strong>Created By:</strong> {{ card.createdBy }}</p>
               </div>
@@ -126,45 +152,66 @@
 
     <!-- GRID TABLE VIEW -->
     <div *ngIf="!isKanbanView">
-      <div class="table-container" style="background: white; border-radius: 8px; border: 1px solid #e3e6ee; overflow-x: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative;" id="project-issues-grid-container">
-        <table class="table table-bordered table-hover text-center" style="width: 100%; border-collapse: collapse; margin-bottom: 0; white-space: nowrap;">
+      <div class="table-container"
+        style="background: white; border-radius: 8px; border: 1px solid #e3e6ee; overflow-x: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative;"
+        id="project-issues-grid-container">
+        <table class="table table-bordered table-hover text-center"
+          style="width: 100%; border-collapse: collapse; margin-bottom: 0; white-space: nowrap;">
           <thead class="tbl-head" style="background-color: #3f3f3f; color: white;">
             <tr>
-              <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">Actions</th>
-              <th class="text-center" style="min-width: 250px; background-color: #3f3f3f; color: white; padding: 12px;">Issue Description</th>
-              <th class="text-center" style="min-width: 180px; background-color: #3f3f3f; color: white; padding: 12px;">Subject</th>
-              <th class="text-center" style="min-width: 200px; background-color: #3f3f3f; color: white; padding: 12px;">Remarks</th>
-              <th class="text-center" style="min-width: 120px; background-color: #3f3f3f; color: white; padding: 12px;">Status</th>
-              <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">Image</th>
-              <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">Document</th>
-              <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">Timeline</th>
+              <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">
+                Actions</th>
+              <th class="text-center" style="min-width: 250px; background-color: #3f3f3f; color: white; padding: 12px;">
+                Issue Description</th>
+              <th class="text-center" style="min-width: 180px; background-color: #3f3f3f; color: white; padding: 12px;">
+                Subject</th>
+              <th class="text-center" style="min-width: 200px; background-color: #3f3f3f; color: white; padding: 12px;">
+                Remarks</th>
+              <!-- <th class="text-center" style="min-width: 120px; background-color: #3f3f3f; color: white; padding: 12px;">
+                Status</th> -->
+              <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">
+                Image</th>
+              <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">
+                Document</th>
+              <th class="text-center" style="min-width: 100px; background-color: #3f3f3f; color: white; padding: 12px;">
+                Timeline</th>
             </tr>
           </thead>
 
           <tbody>
             <tr *ngFor="let applicant of tableList">
               <td class="text-center" style="padding: 10px; vertical-align: middle;">
-                <a matTooltip="Edit Issue" (click)="addTests(applicant)" style="cursor: pointer; margin-right: 12px; color: cornflowerblue;">
+                <a matTooltip="Edit Issue" (click)="addTests(applicant)"
+                  style="cursor: pointer; margin-right: 12px; color: cornflowerblue;">
                   <i class="fa fa-edit" style="font-size: 15px;"></i>
                 </a>
-                <a matTooltip="Delete Issue" (click)="deleteConfirmation(applicant)" style="cursor: pointer; color: red;">
+                <a matTooltip="Delete Issue" (click)="deleteConfirmation(applicant)"
+                  style="cursor: pointer; color: red;">
                   <i class="fa fa-trash" style="font-size: 15px;"></i>
                 </a>
               </td>
-              <td class="text-left" style="white-space: normal; padding: 10px; vertical-align: middle; font-size: 13px; color: #1e293b;">{{ applicant.issueDescription }}</td>
-              <td class="text-center" style="padding: 10px; vertical-align: middle; font-weight: 600; font-size: 13px;">{{ applicant.subject }}</td>
-              <td class="text-left" style="white-space: normal; padding: 10px; vertical-align: middle; font-size: 13px; color: #475569;">{{ applicant.remarks }}</td>
-              <td class="text-center" style="padding: 10px; vertical-align: middle;">
-                <span class="badge" [ngStyle]="{'background-color': getColor(applicant.status), 'color': 'white', 'padding': '4px 8px', 'border-radius': '4px', 'font-size': '11px', 'font-weight': '600'}">
+              <td class="text-left"
+                style="white-space: normal; padding: 10px; vertical-align: middle; font-size: 13px; color: #1e293b;">{{
+                applicant.issueDescription }}</td>
+              <td class="text-center" style="padding: 10px; vertical-align: middle; font-weight: 600; font-size: 13px;">
+                {{ applicant.subject }}</td>
+              <td class="text-left"
+                style="white-space: normal; padding: 10px; vertical-align: middle; font-size: 13px; color: #475569;">{{
+                applicant.remarks }}</td>
+              <!-- <td class="text-center" style="padding: 10px; vertical-align: middle;">
+                <span class="badge"
+                  [ngStyle]="{'background-color': getColor(applicant.status), 'color': 'white', 'padding': '4px 8px', 'border-radius': '4px', 'font-size': '11px', 'font-weight': '600'}">
                   {{ applicant.status }}
                 </span>
-              </td>
+              </td> -->
               <td class="text-center" style="padding: 10px; vertical-align: middle;">
                 <ng-container *ngIf="applicant.image; else noImg">
-                  <a [href]="applicant.image" target="_blank" matTooltip="View Image" style="margin-right: 8px; color: black; cursor: pointer;">
+                  <a [href]="applicant.image" target="_blank" matTooltip="View Image"
+                    style="margin-right: 8px; color: black; cursor: pointer;">
                     <i class="fa fa-eye" style="color: black; font-size: 15px;"></i>
                   </a>
-                  <a [href]="applicant.image" download matTooltip="Download Image" style="color: black; cursor: pointer;">
+                  <a [href]="applicant.image" download matTooltip="Download Image"
+                    style="color: black; cursor: pointer;">
                     <i class="fa fa-download" style="font-size: 15px;"></i>
                   </a>
                 </ng-container>
@@ -172,25 +219,30 @@
               </td>
               <td class="text-center" style="padding: 10px; vertical-align: middle;">
                 <ng-container *ngIf="applicant.document; else noDoc">
-                  <a [href]="applicant.document" target="_blank" matTooltip="View Document" style="margin-right: 8px; color: black; cursor: pointer;">
+                  <a [href]="applicant.document" target="_blank" matTooltip="View Document"
+                    style="margin-right: 8px; color: black; cursor: pointer;">
                     <i class="fa fa-eye" style="color: black; font-size: 15px;"></i>
                   </a>
-                  <a [href]="applicant.document" download matTooltip="Download Document" style="color: black; cursor: pointer;">
+                  <a [href]="applicant.document" download matTooltip="Download Document"
+                    style="color: black; cursor: pointer;">
                     <i class="fa fa-download" style="font-size: 15px;"></i>
                   </a>
                 </ng-container>
                 <ng-template #noDoc>NA</ng-template>
               </td>
               <td class="text-center" style="padding: 10px; vertical-align: middle;">
-                <button mat-icon-button (click)="openTimelineModal(applicant)" matTooltip="View Timeline" style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
-                  <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                <button mat-icon-button (click)="openTimelineModal(applicant)" matTooltip="View Timeline"
+                  style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                  <mat-icon
+                    style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
                     calendar_today
                   </mat-icon>
                 </button>
               </td>
             </tr>
             <tr *ngIf="!tableList || tableList.length === 0">
-              <td colspan="8" class="text-center" style="padding: 25px;">No issues found match the selected filters.</td>
+              <td colspan="8" class="text-center" style="padding: 25px;">No issues found match the selected filters.
+              </td>
             </tr>
           </tbody>
         </table>
@@ -204,7 +256,9 @@
         </button> -->
       </div>
 
-      <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageIndex]="currentPage" [pageSizeOptions]="[5, 10, 25, 50]" (page)="fnHandlePage($event)" showFirstLastButtons style="margin-top: 10px;"></mat-paginator>
+      <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageIndex]="currentPage"
+        [pageSizeOptions]="[5, 10, 25, 50]" (page)="fnHandlePage($event)" showFirstLastButtons
+        style="margin-top: 10px;"></mat-paginator>
     </div>
 
   </div>
@@ -212,7 +266,8 @@
 </div>
 
 <!-- ============ TIMELINE POP-UP MODAL (IMG1 DESIGN) ============ -->
-<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()"
+  (wheel)="$event.stopPropagation()">
   <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
     <!-- Header Row -->
     <div class="timeline-popup-header">
@@ -225,7 +280,8 @@
         </h3>
       </div>
       <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
-        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
       </button>
     </div>
 
@@ -245,13 +301,15 @@
           <div class="timeline-date-col">
             <div class="timeline-date-label">Due Date</div>
             <div class="timeline-date-value">
-              {{ (selectedTimelineItem?.targetDate || selectedTimelineItem?.dueDate) ? ((selectedTimelineItem.targetDate || selectedTimelineItem.dueDate) | date:'dd-MMM-yyyy') : '&mdash;' }}
+              {{ (selectedTimelineItem?.targetDate || selectedTimelineItem?.dueDate) ? ((selectedTimelineItem.targetDate
+              || selectedTimelineItem.dueDate) | date:'dd-MMM-yyyy') : '&mdash;' }}
             </div>
           </div>
           <div class="timeline-date-col timeline-date-col--last">
             <div class="timeline-date-label">Status</div>
             <div class="timeline-date-value">
-              <span class="badge" [ngStyle]="{'background-color': getColor(selectedTimelineItem?.status), 'color': 'white', 'padding': '4px 8px', 'border-radius': '4px', 'font-size': '11px', 'font-weight': '600'}">
+              <span class="badge"
+                [ngStyle]="{'background-color': getColor(selectedTimelineItem?.status), 'color': 'white', 'padding': '4px 8px', 'border-radius': '4px', 'font-size': '11px', 'font-weight': '600'}">
                 {{ selectedTimelineItem?.status }}
               </span>
             </div>

@@ -1,9 +1,9 @@
 .main-wrapper {
-  min-width: 1250px;
   width: 100%;
-  padding: 0 24px 24px 0;
-  min-height: 100vh;
+  max-width: 100%;
+  padding: 0px;
   margin-top: 15px;
+  box-sizing: border-box;
 }
 
 .header-section {
@@ -92,13 +92,25 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scaleIn {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 // ==================== TIMELINE POPUP MODAL (IMG1 DESIGN) ====================

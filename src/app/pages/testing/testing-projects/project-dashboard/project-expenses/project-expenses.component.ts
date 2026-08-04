@@ -440,4 +440,22 @@ export class ProjectExpensesComponent implements OnInit {
   goBack(): void {
     this.router.navigateByUrl('/app/testing/projects');
   }
+
+  // Timeline Modal Popup state
+  showTimelineModal = false;
+  selectedTimelineTask: Expense | null = null;
+
+  openTimelineModal(expense: Expense) {
+    this.selectedTimelineTask = expense;
+    this.showTimelineModal = true;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  closeTimelineModal() {
+    this.showTimelineModal = false;
+    this.selectedTimelineTask = null;
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+  }
 }

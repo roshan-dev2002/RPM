@@ -1,12 +1,11 @@
-<div class="page-container" style="padding: 0 10px; box-sizing: border-box; width: 100%;">
+<div class="page-container"
+  style="width: 100%; max-width: 100%; padding: 0px; margin-top: 15px; box-sizing: border-box; padding-left: 24px;">
 
   <!-- Header Section with Back Button -->
-  <div class="header-section"
+  <!-- <div class="header-section"
     style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 20px; width: 100%;">
-    <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white;">
-      <mat-icon>arrow_back</mat-icon> Back
-    </button>
-  </div>
+
+  </div> -->
 
   <!-- Toolbar with Add Document, Filter, Grid Columns, and View Toggle -->
   <div class="toolbar"
@@ -20,9 +19,14 @@
     <button mat-raised-button (click)="gridview()" style="background-color: black; color: white;">
       <mat-icon style="vertical-align: middle; margin-right: 4px;">grid_on</mat-icon>Grid Columns
     </button>
-    <button mat-raised-button class="view-toggle-btn" (click)="toggleView()" style="height: 38px;">
-      <mat-icon>{{ isGridView ? 'view_list' : 'view_module' }}</mat-icon>
+    <button mat-raised-button class="view-toggle-btn" (click)="toggleView()"
+      style="height: 38px; background-color: white; color: black; border: 1px solid black;">
+      <mat-icon style="color: black;">{{ isGridView ? 'view_list' : 'view_module' }}</mat-icon>
       {{ isGridView ? 'Grid View': 'Card View' }}
+    </button>
+
+    <button mat-raised-button (click)="goBack()" style="background-color: rgb(130, 130, 130); color: white;">
+      <mat-icon>arrow_back</mat-icon> Back
     </button>
   </div>
 
@@ -41,8 +45,8 @@
           <!-- Category Field -->
           <div style="display: flex; align-items: center; gap: 10px; flex: 1; box-sizing: border-box;">
             <b style="white-space: nowrap; font-size: 13px; color: #475569;">Select Category:</b>
-            <mat-select [(value)]="selectedCategory" (selectionChange)="applyDocFilter()"
-              placeholder="Select Category" class="form-control"
+            <mat-select [(value)]="selectedCategory" (selectionChange)="applyDocFilter()" placeholder="Select Category"
+              class="form-control"
               style="display: inline-flex; align-items: center; height: 36px; padding: 0 10px; flex-grow: 1; box-sizing: border-box;">
               <mat-option [value]="null">All Categories</mat-option>
               <mat-option *ngFor="let cat of categories" [value]="cat">{{ cat }}</mat-option>
@@ -57,9 +61,12 @@
             </button>
             <button mat-raised-button class="btn-default" (click)="clearDocFilter()"
               style="height: 36px; background-color: #cbd5e1; display: inline-flex; align-items: center;">
-              <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">settings_backup_restore</mat-icon> Clear
+              <mat-icon
+                style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">settings_backup_restore</mat-icon>
+              Clear
             </button>
-            <a (click)="filterToggle = false" style="font-size: 25px; cursor: pointer; color: #333; margin-left: 5px; display: flex; align-items: center;">
+            <a (click)="filterToggle = false"
+              style="font-size: 25px; cursor: pointer; color: #333; margin-left: 5px; display: flex; align-items: center;">
               <i class="fa fa-angle-double-up" aria-hidden="true"></i>
             </a>
           </div>

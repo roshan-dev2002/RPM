@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core'
+import { Injectable } from '@angular/core'
 
 @Injectable()
 export class MessagesService {
@@ -39,11 +39,43 @@ export class MessagesService {
             text: 'Wrap the dropdown\'s trigger and the dropdown menu within .dropdown, or...',
             time: '1 week ago'
         }
-    ];   
+    ];
 
-    private files = [        
+    private notifications = [
         {
-            text:'gradus.zip',
+            title: 'Process Audit',
+            date: '06/07/2026',
+            details: 'Commodity - Casting'
+        },
+        {
+            title: 'Parts Audit',
+            date: '01/07/2026',
+            details: 'Commodity - Forging'
+        },
+        {
+            title: 'Process Audit',
+            date: '05/07/2026',
+            details: 'Commodity - Machining'
+        },
+        {
+            title: 'Parts Audit',
+            date: '03/07/2026',
+            details: 'Commodity - Fasteners'
+        },
+        {
+            title: 'Process Audit',
+            date: '02/07/2026',
+            details: 'Commodity - Sheet Metal'
+        }
+    ];
+
+    public getNotifications(): Array<Object> {
+        return this.notifications;
+    }
+
+    private files = [
+        {
+            text: 'gradus.zip',
             size: '~6.2 MB',
             value: '47',
             color: 'primary'
@@ -87,7 +119,7 @@ export class MessagesService {
             title: 'Meeting with Bruno',
             text: 'Fusce ut condimentum velit, quis egestas eros. Quisque sed condimentum neque.',
             color: 'danger'
-        },       
+        },
         {
             day: '15',
             month: 'May',
@@ -114,20 +146,20 @@ export class MessagesService {
             month: 'July',
             title: 'Birthday of Julia',
             text: 'Nam porttitor justo nec elit efficitur vestibulum.',
-            color:'success'
+            color: 'success'
         }
     ];
 
-    public getMessages():Array<Object> {
+    public getMessages(): Array<Object> {
         return this.messages;
     }
 
-    public getFiles():Array<Object> {
+    public getFiles(): Array<Object> {
         return this.files;
     }
 
-    public getMeetings():Array<Object> {
+    public getMeetings(): Array<Object> {
         return this.meetings;
-    }   
+    }
 
 }

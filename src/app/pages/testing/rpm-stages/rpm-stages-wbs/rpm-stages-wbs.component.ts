@@ -5,6 +5,7 @@ import { AddModuleComponent } from './add-module/add-module.component';
 import { AddTaskComponent } from '../../rpm-tasks/add-task/add-task.component';
 import { AddphotoPopComponent } from '../../testing-projects/project-dashboard/project-photos/addphoto-pop/addphoto-pop.component';
 import { ProcedurePopComponent } from './procedure-pop/procedure-pop.component';
+import { StageGridcolumnComponent } from './procedure-pop/stage-gridcolumn/stage-gridcolumn.component';
 import { Location } from '@angular/common';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 
@@ -63,7 +64,7 @@ export class RpmStagesWbsComponent implements OnInit {
   // Active data arrays
   tableData: any[] = [];
   paginatedData: any[] = [];
-  
+
   // Pagination properties
   totalItems: number = 0;
   pageSize: number = 5;
@@ -137,10 +138,17 @@ export class RpmStagesWbsComponent implements OnInit {
     });
   }
 
+  gridview() {
+    this.dialog.open(StageGridcolumnComponent, {
+      width: '680px',
+      data: {}
+    });
+  }
+
   addTask() {
     let dialogRef = this.dialog.open(AddTaskComponent, {
       width: '750px',
-      data: {} 
+      data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -214,7 +222,7 @@ export class RpmStagesWbsComponent implements OnInit {
 
 
 
-openfilepop() {
+  openfilepop() {
     // Opens the 'sop.pdf' file from the assets folder in a new tab
     window.open('assets/sop.pdf', '_blank');
   }

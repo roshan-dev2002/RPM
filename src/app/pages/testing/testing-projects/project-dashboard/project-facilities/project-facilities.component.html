@@ -11,22 +11,12 @@
       </div>
 
       <div class="header-actions">
-        <button 
-          mat-raised-button 
-          color="primary" 
-          class="add-btn" 
-          matTooltip="Add Facility" 
-          (click)="addFacility()"
-        >
+        <button mat-raised-button color="primary" class="add-btn" matTooltip="Add Facility" (click)="addFacility()">
           <mat-icon>add</mat-icon> Add Facility
         </button>
 
-        <button 
-          mat-raised-button
-          class="back-btn"
-          (click)="goBack()"
-          style="background-color: rgb(130, 130, 130); color: white"
-        >
+        <button mat-raised-button class="back-btn" (click)="goBack()"
+          style="background-color: rgb(130, 130, 130); color: white">
           <mat-icon>arrow_back</mat-icon>
           Back
         </button>
@@ -43,7 +33,9 @@
           <th>Facility Code</th>
           <th>Facility Type</th>
           <th>Facility Name</th>
-          <th>Location</th> <th>Capacity</th> <th class="text-center">Scheduling</th>
+          <th>Location</th>
+          <th>Capacity</th>
+          <th class="text-center">Scheduling</th>
         </tr>
       </thead>
 
@@ -51,8 +43,10 @@
         <tr *ngFor="let facility of facilities">
           <td class="text-center">
             <div style="display: flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap;">
-              <i class="fa fa-pencil text-primary action-icon" style="cursor:pointer;" (click)="editFacility(facility)"></i>
-              <i class="fa fa-trash text-danger action-icon" style="cursor:pointer;" (click)="deleteFacility(facility)"></i>
+              <i class="fa fa-pencil text-primary action-icon" style="cursor:pointer;"
+                (click)="editFacility(facility)"></i>
+              <i class="fa fa-trash text-danger action-icon" style="cursor:pointer;"
+                (click)="deleteFacility(facility)"></i>
             </div>
           </td>
 
@@ -60,8 +54,8 @@
             <span [ngClass]="{
               'status-active': facility.status === 'Active',
               'status-inactive': facility.status === 'Inactive'
-            }" [style.color]="facility.status === 'Active' ? 'blue' : 'red'"
-            style="cursor: pointer;" (click)="Confirmation(facility)">
+            }" [style.color]="facility.status === 'Active' ? 'blue' : 'red'" style="cursor: pointer;"
+              (click)="Confirmation(facility)">
               {{ facility.status }}
             </span>
           </td>

@@ -105,22 +105,18 @@ export class MenuService {
       return true;
     }
 
-    // 2. EXPLICIT SETUP CHECK (Uses ID 3)
-    // ✅ CHANGED: Removed Tasks, Issues, and To Do from this condition
-    if (menu.id === 3 && (
-      url.includes('/app/testing/stages') ||
-      url.includes('/app/testing/gates') ||
-      url.includes('/app/testing/testing-masterData')
-    )) {
+    // 2. EXPLICIT STAGES CHECK (Uses ID 3)
+    if (menu.id === 3 && url.includes('/app/testing/stages')) {
       return true;
     }
 
-    // 3. EXPLICIT ADMIN CHECK (Uses ID 4)
-    if (menu.id === 4 && (
-      url.includes('/app/admin') || 
-      url.includes('/app/setups/setup-masterdata') || 
-      url.includes('/app/setups/setup-audit')
-    )) {
+    // 3. EXPLICIT GATES CHECK (Uses ID 4)
+    if (menu.id === 4 && url.includes('/app/testing/gates')) {
+      return true;
+    }
+
+    // 4. EXPLICIT MASTER DATA CHECK (Uses ID 5)
+    if (menu.id === 5 && url.includes('/app/testing/testing-masterData')) {
       return true;
     }
 

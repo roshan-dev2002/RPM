@@ -3,6 +3,10 @@
 
     <div class="rpm-toolbar">
       <div class="toolbar-left">
+
+
+
+
         <button *ngIf="isCalendarView" mat-raised-button class="action-btn" (click)="toggleWeekend()">
           <mat-icon style="vertical-align: middle; margin-right: 4px;">
             {{ showWeekend ? 'view_week' : 'weekend' }}
@@ -11,7 +15,10 @@
         </button>
       </div>
 
-      <div class="toolbar-right">
+      <div class="toolbar-right" style="display: flex; align-items: center; gap: 12px;">
+        <mat-checkbox [(ngModel)]="excludeCompleted" (change)="onExcludeCompletedChange()" style="font-weight: 500;">
+          Exclude Completed
+        </mat-checkbox>
         <div class="view-toggle">
           <button mat-button class="view-btn" [class.active]="isCalendarView" (click)="showCalendarView()">
             <mat-icon style="vertical-align: middle; margin-right: 4px;">calendar_today</mat-icon>
@@ -148,44 +155,21 @@
       <table matSort id="example2" mat-table class="table table-bordered table-hover">
         <thead class="tbl-head">
           <tr>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 90px;">Action</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 90px;">Active</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 150px; white-space: nowrap;">
-              Project Name</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 150px; white-space: nowrap;">
-              Project Code</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 180px; white-space: nowrap;">Task
-              Name</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 130px; white-space: nowrap;">Task
-              Type</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 160px; white-space: nowrap;">
-              Responsibility</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 100px; white-space: nowrap;">
-              Duration</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 90px; white-space: nowrap;">Hours
+            <th mat-header-cell mat-sort-header class="text-center" style="width: 70px;">Action</th>
+            <th mat-header-cell mat-sort-header class="text-center" style="width: 60px;">Active</th>
+            <th mat-header-cell mat-sort-header class="text-center" style="white-space: nowrap;">Project Name</th>
+            <th mat-header-cell mat-sort-header class="text-center" style="white-space: nowrap;">Project Code</th>
+            <th mat-header-cell mat-sort-header class="text-center" style="white-space: nowrap;">Task Name</th>
+            <th mat-header-cell mat-sort-header class="text-center" style="width: 100px; white-space: nowrap;">Progress
             </th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 220px; white-space: nowrap;">
-              Description</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 120px; white-space: nowrap;">Plan
-              Start</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 120px; white-space: nowrap;">Plan
-              End</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 120px; white-space: nowrap;">
-              Actual Start</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 120px; white-space: nowrap;">
-              Actual End</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 120px; white-space: nowrap;">ETA
+            <th mat-header-cell mat-sort-header class="text-center" style="width: 120px; white-space: nowrap;">Status
             </th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 120px; white-space: nowrap;">
-              Progress</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 120px; white-space: nowrap;">
-              Status</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 130px; white-space: nowrap;">
-              Priority</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 130px; white-space: nowrap;">
+            <th mat-header-cell mat-sort-header class="text-center" style="width: 120px; white-space: nowrap;">Priority
+            </th>
+            <th mat-header-cell mat-sort-header class="text-center" style="width: 120px; white-space: nowrap;">
               Complexity</th>
-            <th mat-header-cell mat-sort-header class="text-center" style="min-width: 100px; white-space: nowrap;">
-              Template</th>
+            <th mat-header-cell mat-sort-header class="text-center" style="width: 80px; white-space: nowrap;">Timeline
+            </th>
           </tr>
         </thead>
 
@@ -214,20 +198,15 @@
                 {{ item.ProjectCode }}
               </a>
             </td>
-          <td class="text-center" [style.color]="getSliderColor(item.PercentCompletion) === '#ff0000' ? '#ff0000' : null"
-    [style.font-weight]="getSliderColor(item.PercentCompletion) === '#ff0000' ? '600' : null">
-  {{ item.TaskName }}
-</td>
-            <td class="text-center">{{ item.TaskType }}</td>
-            <td class="text-center">{{ item.Responsibility }}</td>
-            <td class="text-center">{{ item.Duration }}</td>
-            <td class="text-center">{{ item.Effort }}</td>
-            <td class="text-center">{{ item.Description }}</td>
-            <td class="text-center">{{ item.PlanStart }}</td>
-            <td class="text-center">{{ item.PlanEnd }}</td>
-            <td class="text-center">{{ item.ActualStart }}</td>
-            <td class="text-center">{{ item.ActualEnd }}</td>
-            <td class="text-center">{{ item.ETA }}</td>
+            <td class="text-center"
+              [style.color]="getSliderColor(item.PercentCompletion) === '#ff0000' ? '#ff0000' : null"
+              [style.font-weight]="getSliderColor(item.PercentCompletion) === '#ff0000' ? '600' : null">
+              {{ item.TaskName }}
+            </td>
+
+
+
+
             <td class="text-center" style="vertical-align: middle;">
               <input type="range" min="0" max="100" [(ngModel)]="item.PercentCompletion" class="custom-range"
                 [style.--slider-color]="getSliderColor(item.PercentCompletion)"
@@ -240,6 +219,9 @@
                 <option value="Pending">Pending</option>
                 <option value="Allocation">Allocation</option>
                 <option value="Progress">Progress</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Testing">Testing</option>
+                <option value="Review">Review</option>
                 <option value="Hold">Hold</option>
                 <option value="Cancelled">Cancelled</option>
                 <option value="Completed">Completed</option>
@@ -249,6 +231,7 @@
               <select [(ngModel)]="item.Priority"
                 style="width: 100%; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; background-color: white; appearance: auto; cursor: pointer;">
                 <option value="" disabled hidden selected>Select</option>
+                <option value="Critical">Critical</option>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
@@ -258,14 +241,20 @@
               <select [(ngModel)]="item.Complexity"
                 style="width: 100%; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; background-color: white; appearance: auto; cursor: pointer;">
                 <option value="" disabled hidden selected>Select</option>
+                <option value="Very High">Very High</option>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
               </select>
             </td>
-            <td class="text-center">
+            <!-- <td class="text-center">
               <a style="cursor: pointer;" matTooltip="View Template" (click)="openPdf('sample-1.pdf')">
                 <i class="fa fa-eye" style="color: black; font-size: 15px;"></i>
+              </a>
+            </td> -->
+            <td class="text-center">
+              <a style="cursor: pointer;" matTooltip="View Timeline" (click)="openTimelineModal(item)">
+                <mat-icon style="color: #2563eb; font-size: 18px; vertical-align: middle;">calendar_today</mat-icon>
               </a>
             </td>
           </tr>
@@ -275,13 +264,13 @@
           </tr>
         </tbody>
       </table>
-
+      <!-- 
       <button class="mine" mat-fab (click)="scrollRight()">
         <mat-icon style="color: #37474f">fast_forward</mat-icon>
       </button>
       <button class="mine" mat-fab style="margin-right: 78px !important" (click)="scrollLeft()">
         <mat-icon style="color: #37474f">fast_rewind</mat-icon>
-      </button>
+      </button> -->
     </div>
 
     <mat-paginator *ngIf="!isCalendarView" [length]="totalSize" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50, 100]"
@@ -329,5 +318,132 @@
       </table>
     </div>
 
+  </div>
+</div>
+
+<!-- ============ TIMELINE POP-UP MODAL ============ -->
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()"
+  (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+    <!-- Header Row -->
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedTimelineTask?.TaskName || selectedTimelineTask?.ProjectName }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Dates Grid -->
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+
+      <div class="timeline-grid-content">
+        <!-- Row 1: Plan Start Date, Plan End Date, Actual Start Date -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Plan Start Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.PlanStart ? (selectedTimelineTask.PlanStart | date:'dd-MMM-yyyy') : '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Plan End Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.PlanEnd ? (selectedTimelineTask.PlanEnd | date:'dd-MMM-yyyy') : '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Actual Start Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.ActualStart ? (selectedTimelineTask.ActualStart | date:'dd-MMM-yyyy') : '—' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row-divider"></div>
+
+        <!-- Row 2: Actual End Date, ETA, Duration -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Actual End Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.ActualEnd ? (selectedTimelineTask.ActualEnd | date:'dd-MMM-yyyy') : '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">ETA</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.ETA ? (selectedTimelineTask.ETA | date:'dd-MMM-yyyy') : '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Duration</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.Duration || '—' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row-divider"></div>
+
+        <!-- Row 3: Hours (Effort), Task Type, Responsibility -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Hours (Effort)</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.Effort ? (selectedTimelineTask.Effort + ' hrs') : '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Task Type</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.TaskType || '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Responsibility</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.Responsibility || '—' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row-divider"></div>
+
+        <!-- Row 4: Template -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Template</div>
+            <div class="timeline-date-value" style="display: flex; align-items: center; gap: 8px;">
+              <span>{{ selectedTimelineTask?.Template || '—' }}</span>
+              <a *ngIf="selectedTimelineTask?.Template" style="cursor: pointer;" matTooltip="View Template PDF"
+                (click)="openPdf('sample-1.pdf')">
+                <i class="fa fa-eye" style="color: #2563eb; font-size: 15px;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Box -->
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; color: #2563eb; vertical-align: middle;">description</mat-icon>
+        <span>Description</span>
+      </div>
+      <div class="timeline-desc-content">
+        {{ selectedTimelineTask?.Description || 'No description available for this task.' }}
+      </div>
+    </div>
   </div>
 </div>

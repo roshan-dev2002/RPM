@@ -303,3 +303,12 @@ $page-header-bar-height: 100px;
     width: 100%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.active-settings-btn {
+    background: #50636d !important;
+    border-radius: 4px !important;
+
+    mat-icon {
+        color: #ffffff !important;
+    }
+}

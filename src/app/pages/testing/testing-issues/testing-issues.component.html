@@ -1,6 +1,7 @@
 <div class="col-lg-12" style="overflow: hidden; margin-top: 40px; margin-left:-10px">
-  
-  <div class="rpm-toolbar" style="display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 15px; padding: 0 15px;">
+
+  <div class="rpm-toolbar"
+    style="display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 15px; padding: 0 15px;">
 
     <div class="toolbar-right" style="display: flex; align-items: center; gap: 10px;">
       <div class="view-toggle">
@@ -14,17 +15,18 @@
         </button>
       </div>
 
-      <button mat-raised-button style="background-color: black; color: white; height: 36px; display: inline-flex; align-items: center;" class="pull-right" (click)="filterToggle = !filterToggle" matTooltip="Filter">
+      <button mat-raised-button
+        style="background-color: black; color: white; height: 36px; display: inline-flex; align-items: center;"
+        class="pull-right" (click)="filterToggle = !filterToggle" matTooltip="Filter">
         <mat-icon>filter_list</mat-icon> Filter
       </button>
 
-      <!-- <button mat-raised-button color="primary" class="pull-right btn-primary" style="height: 36px; display: inline-flex; align-items: center; margin-left: 10px;" (click)="addIssues(null)" matTooltip="Add Issue">
-        <mat-icon>add</mat-icon> Add Issue
-      </button> -->
+
     </div>
   </div>
 
-  <div class="col-lg-12" fxLayout="row wrap" *ngIf="filterToggle" style="margin-bottom: 0px; width: 100.7%; margin-left: -4px;">
+  <div class="col-lg-12" fxLayout="row wrap" *ngIf="filterToggle"
+    style="margin-bottom: 0px; width: 100.7%; margin-left: -4px;">
     <div fxFlex="100" class="flex-p w-100" style="margin-top: 10px;">
       <form [formGroup]="myGroup">
         <mat-card class="filter">
@@ -54,7 +56,8 @@
               </div>
 
               <div class="col-sm-4 pull-right mt-3">
-                <a (click)="filterToggle = !filterToggle" class="pull-right" style="font-size: 25px; cursor: pointer; margin-left: 5px">
+                <a (click)="filterToggle = !filterToggle" class="pull-right"
+                  style="font-size: 25px; cursor: pointer; margin-left: 5px">
                   <i class="fa fa-angle-double-up" aria-hidden="true"></i>
                 </a>
                 <button mat-raised-button class="pull-right btn-default margin-right-10" (click)="clearFilter()">
@@ -81,22 +84,28 @@
               <span [style.background-color]="getColor(list)" class="status-dot"></span>
               <h3 style="margin: 0">{{ list }}</h3>
             </div>
-            <span style="background-color: white; color: black; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+            <span
+              style="background-color: white; color: black; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
               {{ cards[list]?.length || 0 }}
             </span>
           </div>
 
-          <div cdkDropList [id]="list" [cdkDropListData]="cards[list]" (cdkDropListDropped)="drop($event, list)" class="drop-container">
-            <div *ngFor="let card of cards[list]; trackBy: trackByCard" cdkDrag class="kanban-card" [ngClass]="getCardClass(list)">
+          <div cdkDropList [id]="list" [cdkDropListData]="cards[list]" (cdkDropListDropped)="drop($event, list)"
+            class="drop-container">
+            <div *ngFor="let card of cards[list]; trackBy: trackByCard" cdkDrag class="kanban-card"
+              [ngClass]="getCardClass(list)">
               <div class="fs-4 fw-semibold d-flex align-items-center justify-content-between">
                 <span>{{ card.subject }}</span>
-                <span class="material-symbols-outlined icon" style="padding: 5px; cursor: pointer" (click)="toggleCard(card)">
+                <span class="material-symbols-outlined icon" style="padding: 5px; cursor: pointer"
+                  (click)="toggleCard(card)">
                   {{ card.expanded ? "remove" : "add" }}
                 </span>
               </div>
               <div style="margin-bottom: 8px;">
-                <p style="display: flex; align-items: flex-start; gap: 6px; margin: 4px 0; color: gray; font-size: 12px; white-space: normal;">
-                  <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; flex-shrink: 0; margin-top: 2px;">business</mat-icon>
+                <p
+                  style="display: flex; align-items: flex-start; gap: 6px; margin: 4px 0; color: gray; font-size: 12px; white-space: normal;">
+                  <mat-icon
+                    style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; flex-shrink: 0; margin-top: 2px;">business</mat-icon>
                   <span>{{ card.LawFirm }}</span>
                 </p>
               </div>
@@ -109,8 +118,10 @@
               </div>
               <hr />
 
-              <div style="display: inline-flex; justify-content: center; align-items: center; gap: 4px; border: 1px solid gray; color: gray; padding: 2px 6px; border-radius: 6px; margin: 2px;">
-                <mat-icon style="font-size: 14px; width: 14px; height: 14px; line-height: 14px; display: inline-flex; align-items: center; vertical-align: middle;">alarm</mat-icon>
+              <div
+                style="display: inline-flex; justify-content: center; align-items: center; gap: 4px; border: 1px solid gray; color: gray; padding: 2px 6px; border-radius: 6px; margin: 2px;">
+                <mat-icon
+                  style="font-size: 14px; width: 14px; height: 14px; line-height: 14px; display: inline-flex; align-items: center; vertical-align: middle;">alarm</mat-icon>
                 <span style="font-size: 10px; line-height: 1; vertical-align: middle">
                   ETA {{ card.dueDate | date: "dd MMM" }}
                 </span>
@@ -145,24 +156,27 @@
               <th class="text-center" style="min-width: 100px;">Actions</th>
               <th class="text-center" style="min-width: 180px;">Project Name</th>
               <th class="text-center" style="min-width: 150px;">Project Code</th>
-              <th class="text-center" style="min-width: 250px;">Issue Description</th>
+              <!-- <th class="text-center" style="min-width: 250px;">Issue Description</th> -->
               <th class="text-center" style="min-width: 180px;">Subject</th>
               <th class="text-center" style="min-width: 150px;">Responsibility</th>
-              <th class="text-center" style="min-width: 130px;">Due Date</th>
+              <!-- <th class="text-center" style="min-width: 130px;">Due Date</th> -->
               <th class="text-center" style="min-width: 200px;">Remarks</th>
               <th class="text-center" style="min-width: 120px;">Status</th>
               <th class="text-center" style="min-width: 100px;">Image</th>
               <th class="text-center" style="min-width: 100px;">Document</th>
+              <th class="text-center" style="min-width: 100px;">Timeline</th>
             </tr>
           </thead>
 
           <tbody>
             <tr *ngFor="let applicant of tableList">
               <td class="text-center">
-                <a matTooltip="Edit Issue" (click)="addTests(applicant)" style="cursor: pointer; margin-right: 12px; color: cornflowerblue;">
+                <a matTooltip="Edit Issue" (click)="addTests(applicant)"
+                  style="cursor: pointer; margin-right: 12px; color: cornflowerblue;">
                   <i class="fa fa-edit"></i>
                 </a>
-                <a matTooltip="Delete Issue" (click)="deleteConfirmation(applicant)" style="cursor: pointer; color: red;">
+                <a matTooltip="Delete Issue" (click)="deleteConfirmation(applicant)"
+                  style="cursor: pointer; color: red;">
                   <i class="fa fa-trash"></i>
                 </a>
               </td>
@@ -176,22 +190,25 @@
                   {{ applicant.projectCode }}
                 </a>
               </td>
-              <td class="text-left" style="white-space: normal;">{{ applicant.issueDescription }}</td>
+              <!-- <td class="text-left" style="white-space: normal;">{{ applicant.issueDescription }}</td> -->
               <td class="text-center">{{ applicant.subject }}</td>
               <td class="text-center">{{ applicant.responsibility }}</td>
-              <td class="text-center">{{ applicant.targetDate | date:'dd MMM yyyy' }}</td>
+              <!-- <td class="text-center">{{ applicant.targetDate | date:'dd MMM yyyy' }}</td> -->
               <td class="text-left" style="white-space: normal;">{{ applicant.remarks }}</td>
               <td class="text-center">
-                <span class="badge" [ngStyle]="{'background-color': getColor(applicant.status), 'color': 'white', 'padding': '4px 8px', 'border-radius': '4px'}">
+                <span class="badge"
+                  [ngStyle]="{'background-color': getColor(applicant.status), 'color': 'white', 'padding': '4px 8px', 'border-radius': '4px'}">
                   {{ applicant.status }}
                 </span>
               </td>
               <td class="text-center">
                 <ng-container *ngIf="applicant.image; else noImg">
-                  <a [href]="applicant.image" target="_blank" matTooltip="View Image" style="margin-right: 8px; color: black; cursor: pointer;">
+                  <a [href]="applicant.image" target="_blank" matTooltip="View Image"
+                    style="margin-right: 8px; color: black; cursor: pointer;">
                     <i class="fa fa-eye" style="color: black; font-size: 15px;"></i>
                   </a>
-                  <a [href]="applicant.image" download matTooltip="Download Image" style="color: black; cursor: pointer;">
+                  <a [href]="applicant.image" download matTooltip="Download Image"
+                    style="color: black; cursor: pointer;">
                     <i class="fa fa-download" style="font-size: 15px;"></i>
                   </a>
                 </ng-container>
@@ -199,31 +216,122 @@
               </td>
               <td class="text-center">
                 <ng-container *ngIf="applicant.document; else noDoc">
-                  <a [href]="applicant.document" target="_blank" matTooltip="View Document" style="margin-right: 8px; color: black; cursor: pointer;">
+                  <a [href]="applicant.document" target="_blank" matTooltip="View Document"
+                    style="margin-right: 8px; color: black; cursor: pointer;">
                     <i class="fa fa-eye" style="color: black; font-size: 15px;"></i>
                   </a>
-                  <a [href]="applicant.document" download matTooltip="Download Document" style="color: black; cursor: pointer;">
+                  <a [href]="applicant.document" download matTooltip="Download Document"
+                    style="color: black; cursor: pointer;">
                     <i class="fa fa-download" style="font-size: 15px;"></i>
                   </a>
                 </ng-container>
                 <ng-template #noDoc>NA</ng-template>
               </td>
+              <td class="text-center">
+                <a style="cursor: pointer;" matTooltip="View Timeline" (click)="openTimelineModal(applicant)">
+                  <mat-icon style="color: #2563eb; font-size: 18px; vertical-align: middle;">calendar_today</mat-icon>
+                </a>
+              </td>
             </tr>
             <tr *ngIf="!tableList || tableList.length === 0">
-              <td colspan="11" class="text-center">No records found</td>
+              <td colspan="12" class="text-center">No records found</td>
             </tr>
           </tbody>
         </table>
 
-        <button class="mine" mat-fab (click)="scrollRight()">
+        <!-- <button class="mine" mat-fab (click)="scrollRight()">
           <mat-icon style="color: #37474f">fast_forward</mat-icon>
         </button>
         <button class="mine" mat-fab style="margin-right: 78px !important" (click)="scrollLeft()">
           <mat-icon style="color: #37474f">fast_rewind</mat-icon>
-        </button>
+        </button> -->
       </div>
-      
-      <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageIndex]="currentPage" [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="fnHandlePage($event)" showFirstLastButtons></mat-paginator>
+
+      <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageIndex]="currentPage"
+        [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="fnHandlePage($event)" showFirstLastButtons></mat-paginator>
     </div>
+  </div>
+</div>
+
+<!-- ============ TIMELINE POP-UP MODAL ============ -->
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()"
+  (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+    <!-- Header Row -->
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedTimelineTask?.subject || selectedTimelineTask?.projectName }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+      </button>
     </div>
+
+    <!-- Dates Grid -->
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+
+      <div class="timeline-grid-content">
+        <!-- Row 1: Target Date, Responsibility, Status -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Due / Target Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.targetDate ? (selectedTimelineTask.targetDate | date:'dd-MMM-yyyy') : '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Responsibility</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.responsibility || '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Status</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.status || '—' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row-divider"></div>
+
+        <!-- Row 2: Project Name, Project Code -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Project Name</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.projectName || '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Project Code</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.projectCode || '—' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Box -->
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; color: #2563eb; vertical-align: middle;">description</mat-icon>
+        <span>Issue Description & Remarks</span>
+      </div>
+      <div class="timeline-desc-content">
+        <p style="margin: 0 0 6px 0;"><strong>Issue:</strong> {{ selectedTimelineTask?.issueDescription || 'No
+          description' }}</p>
+        <p style="margin: 0;"><strong>Remarks:</strong> {{ selectedTimelineTask?.remarks || 'No remarks' }}</p>
+      </div>
+    </div>
+  </div>
 </div>

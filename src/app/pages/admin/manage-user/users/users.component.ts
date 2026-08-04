@@ -107,16 +107,13 @@ export class UsersComponent implements OnInit {
 
 
   ngOnInit() {
-    // this.getallusers();
+    // Set totalSize from mock users list
+    if (this.userss && this.userss.length) {
+      this.totalSize = this.userss.length;
+    }
     if (environment.mode == 1) {
-      //this.values = PartsData.getd1();
       this.users = admindata.user();
     }
-    else {
-
-    }
-
-
   }
 
   getallusers() {
@@ -287,17 +284,15 @@ export class UsersComponent implements OnInit {
   }
 
   public handlePage(e: any) {
-    this.getallusers();
-    this.allReports = this.users;
     this.currentPage = e.pageIndex;
     this.pageSize = e.pageSize;
-    this.users = this.allReports.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize);
-    this.sortedData = this.users;
-    console.log(this.sortedData);
+    if (this.userss && this.userss.length) {
+      this.totalSize = this.userss.length;
+    }
   }
 
   // delete pop-up
-  deleteConfirmation() {
+  deleteConfirmation(applicant: any) {
     let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: 'auto',
       data: { component: null, title: 'Delete Confirmation', content: 'Are you sure you want to Delete?', isConfirmation: true }
@@ -305,6 +300,8 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (data: any) => {
         if (data) {
+          this.userss = this.userss.filter(u => u !== applicant);
+          this.totalSize = this.userss.length;
         }
       }
     );

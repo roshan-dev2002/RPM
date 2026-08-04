@@ -134,4 +134,7 @@
 
 .project-dashboard-content-wrapper {
     overscroll-behavior: contain;
+    overflow-x: auto;
+    max-width: 100%;
+    box-sizing: border-box;
 }

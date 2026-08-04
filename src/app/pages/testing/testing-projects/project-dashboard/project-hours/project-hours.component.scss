@@ -10,10 +10,11 @@ $bg-light: #f9fafb;
 
 .schedule-dashboard {
   width: 100%;
-  padding: 24px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 100%;
+  padding: 0px;
   min-height: 100vh;
   margin-top: 15px;
+  box-sizing: border-box;
 }
 
 .header-section {

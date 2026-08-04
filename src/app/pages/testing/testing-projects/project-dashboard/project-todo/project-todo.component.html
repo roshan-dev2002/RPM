@@ -2,7 +2,8 @@
 
   <!-- Header Section with Buttons -->
   <div class="header-section" style="margin-bottom: 20px;">
-    <div class="title-row" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+    <div class="title-row"
+      style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
       <div class="header-titles" style="visibility: hidden;">
         <h1 style="font-weight: 700; font-size: 24px; margin: 0;">
           Todo (NextGen Assembly Line-2026/MFG/011)
@@ -30,20 +31,23 @@
   <div *ngIf="filterToggle" style="margin-bottom: 15px; width: 100%;">
     <mat-card class="filter" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
       <mat-card-content style="padding: 15px;">
-        <div style="display: flex; flex-wrap: wrap; align-items: center; width: 100%; gap: 15px; box-sizing: border-box;">
-          
+        <div
+          style="display: flex; flex-wrap: wrap; align-items: center; width: 100%; gap: 15px; box-sizing: border-box;">
+
           <!-- Keyword Field -->
-          <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
+          <div
+            style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
             <b style="white-space: nowrap; font-size: 13px; color: #475569;">Keyword:</b>
             <input type="text" [(ngModel)]="searchKeyword" (input)="applyFilters()" class="form-control"
               placeholder="Search Keyword" style="height: 36px; flex-grow: 1; box-sizing: border-box;" />
           </div>
 
           <!-- Role Field -->
-          <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
+          <div
+            style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
             <b style="white-space: nowrap; font-size: 13px; color: #475569;">Role:</b>
-            <mat-select [(value)]="selectedRole" (selectionChange)="applyFilters()"
-              placeholder="Select Role" class="form-control"
+            <mat-select [(value)]="selectedRole" (selectionChange)="applyFilters()" placeholder="Select Role"
+              class="form-control"
               style="display: inline-flex; align-items: center; height: 36px; padding: 0 10px; flex-grow: 1; box-sizing: border-box;">
               <mat-option [value]="null">All Roles</mat-option>
               <mat-option *ngFor="let opt of roleOptions" [value]="opt">{{ opt }}</mat-option>
@@ -51,10 +55,11 @@
           </div>
 
           <!-- Group Field -->
-          <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
+          <div
+            style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
             <b style="white-space: nowrap; font-size: 13px; color: #475569;">Group:</b>
-            <mat-select [(value)]="selectedGroup" (selectionChange)="applyFilters()"
-              placeholder="Select Group" class="form-control"
+            <mat-select [(value)]="selectedGroup" (selectionChange)="applyFilters()" placeholder="Select Group"
+              class="form-control"
               style="display: inline-flex; align-items: center; height: 36px; padding: 0 10px; flex-grow: 1; box-sizing: border-box;">
               <mat-option [value]="null">All Groups</mat-option>
               <mat-option *ngFor="let opt of groupOptions" [value]="opt">{{ opt }}</mat-option>
@@ -62,10 +67,11 @@
           </div>
 
           <!-- Site Field -->
-          <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
+          <div
+            style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
             <b style="white-space: nowrap; font-size: 13px; color: #475569;">Site:</b>
-            <mat-select [(value)]="selectedSite" (selectionChange)="applyFilters()"
-              placeholder="Select Site" class="form-control"
+            <mat-select [(value)]="selectedSite" (selectionChange)="applyFilters()" placeholder="Select Site"
+              class="form-control"
               style="display: inline-flex; align-items: center; height: 36px; padding: 0 10px; flex-grow: 1; box-sizing: border-box;">
               <mat-option [value]="null">All Sites</mat-option>
               <mat-option *ngFor="let opt of siteOptions" [value]="opt">{{ opt }}</mat-option>
@@ -73,7 +79,8 @@
           </div>
 
           <!-- Department Field -->
-          <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
+          <div
+            style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 180px; box-sizing: border-box;">
             <b style="white-space: nowrap; font-size: 13px; color: #475569;">Department:</b>
             <mat-select [(value)]="selectedDepartment" (selectionChange)="applyFilters()"
               placeholder="Select Department" class="form-control"
@@ -91,9 +98,12 @@
             </button>
             <button mat-raised-button class="btn-default" (click)="resetFilters()"
               style="height: 36px; background-color: #cbd5e1; display: inline-flex; align-items: center;">
-              <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">settings_backup_restore</mat-icon> Clear
+              <mat-icon
+                style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">settings_backup_restore</mat-icon>
+              Clear
             </button>
-            <a (click)="filterToggle = false" style="font-size: 25px; cursor: pointer; color: #333; margin-left: 5px; display: flex; align-items: center;">
+            <a (click)="filterToggle = false"
+              style="font-size: 25px; cursor: pointer; color: #333; margin-left: 5px; display: flex; align-items: center;">
               <i class="fa fa-angle-double-up" aria-hidden="true"></i>
             </a>
           </div>
@@ -111,12 +121,13 @@
           <tr>
             <th class="text-center" style="width: 90px;">Actions</th>
             <th class="text-left">Subject</th>
-            <th class="text-left">Description</th>
-            <th class="text-center">Due Date</th>
-            <th class="text-left">Role</th>
+            <!-- <th class="text-left">Description</th> -->
+            <!-- <th class="text-center">Due Date</th> -->
+            <!-- <th class="text-left">Role</th> -->
             <th class="text-left">Group</th>
             <th class="text-left">Site</th>
             <th class="text-left">Department</th>
+            <th>Timeline</th>
           </tr>
         </thead>
         <tbody>
@@ -131,36 +142,97 @@
             </td>
 
             <td class="text-left" style="font-weight: 600;">{{ row.subject }}</td>
-            <td class="text-left">{{ row.description }}</td>
-            <td class="text-center">{{ row.dueDate }}</td>
-            <td class="text-left">{{ row.role }}</td>
+            <!-- <td class="text-left">{{ row.description }}</td> -->
+            <!-- <td class="text-center">{{ row.dueDate }}</td> -->
+            <!-- <td class="text-left">{{ row.role }}</td> -->
             <td class="text-left">{{ row.group }}</td>
             <td class="text-left">{{ row.site }}</td>
             <td class="text-left">{{ row.department }}</td>
+            <!-- Timeline Action -->
+            <td class="text-center">
+              <button mat-icon-button (click)="openTimelineModal(row)" matTooltip="View Timeline"
+                style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                <mat-icon
+                  style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                  calendar_today
+                </mat-icon>
+              </button>
+            </td>
           </tr>
 
           <tr *ngIf="paginatedTodos.length === 0">
-            <td colspan="8" class="text-center" style="padding: 25px;">No todo items match the selected filters.</td>
+            <td colspan="9" class="text-center" style="padding: 25px;">No todo items match the selected filters.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <!-- Paginator -->
-    <mat-paginator
-      [length]="filteredTodos.length"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[5, 10, 20, 50]"
-      (page)="handlePageEvent($event)"
-      showFirstLastButtons>
+    <mat-paginator [length]="filteredTodos.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20, 50]"
+      (page)="handlePageEvent($event)" showFirstLastButtons>
     </mat-paginator>
   </div>
 </div>
 
 <!-- Floating fixed scroll buttons matching Issues design -->
-<button class="mine" mat-fab (click)="scrollRight()">
+<!-- <button class="mine" mat-fab (click)="scrollRight()">
   <mat-icon style="color: #37474f">fast_forward</mat-icon>
 </button>
 <button class="mine" mat-fab style="margin-right: 78px !important" (click)="scrollLeft()">
   <mat-icon style="color: #37474f">fast_rewind</mat-icon>
-</button>
+</button> -->
+
+<!-- ============ TIMELINE POP-UP MODAL ============ -->
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()"
+  (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+    <!-- Header Row -->
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedTimelineTask?.subject }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Dates Grid (Only Due Date and Role) -->
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+
+      <div class="timeline-grid-content">
+        <div class="timeline-grid-row" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Due Date</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.dueDate ? (selectedTimelineTask!.dueDate | date:'dd-MMM-yyyy') : '—' }}
+            </div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Role</div>
+            <div class="timeline-date-value">
+              {{ selectedTimelineTask?.role || '—' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Box -->
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+        <span>Description</span>
+      </div>
+      <div class="timeline-desc-content">
+        {{ selectedTimelineTask?.description || 'No description available for this todo task.' }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,6 +10,10 @@ export class AddResourcePopComponent implements OnInit {
 
   resourceCode = '';
   resourceName = '';
+  fromDate = '';
+  toDate = '';
+  fromTime = '';
+  toTime = '';
 
   constructor(
     public dialogRef: MatDialogRef<AddResourcePopComponent>,
@@ -24,12 +28,14 @@ export class AddResourcePopComponent implements OnInit {
   }
 
   save(): void {
-    if (this.resourceCode.trim() && this.resourceName.trim()) {
-      this.dialogRef.close({
-        code: this.resourceCode.trim(),
-        name: this.resourceName.trim()
-      });
-    }
+    this.dialogRef.close({
+      code: this.resourceCode.trim() || 'RES' + Math.floor(100 + Math.random() * 900),
+      name: this.resourceName.trim() || 'New Resource',
+      fromDate: this.fromDate,
+      toDate: this.toDate,
+      fromTime: this.fromTime,
+      toTime: this.toTime
+    });
   }
 
 }

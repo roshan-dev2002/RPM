@@ -15,7 +15,8 @@
           <mat-icon>add</mat-icon> Add Asset
         </button>
 
-        <button mat-raised-button (click)="goBack()" class="back-btn" style="background-color: rgb(130, 130, 130); color: white">
+        <button mat-raised-button (click)="goBack()" class="back-btn"
+          style="background-color: rgb(130, 130, 130); color: white">
           <mat-icon>arrow_back</mat-icon>
           Back
         </button>
@@ -51,8 +52,8 @@
             <span [ngClass]="{
               'status-active': asset.status === 'Active',
               'status-inactive': asset.status === 'Inactive'
-            }" [style.color]="asset.status === 'Active' ? 'blue' : 'red'"
-            style="cursor: pointer;" (click)="Confirmation(asset)">
+            }" [style.color]="asset.status === 'Active' ? 'blue' : 'red'" style="cursor: pointer;"
+              (click)="Confirmation(asset)">
               {{ asset.status }}
             </span>
           </td>

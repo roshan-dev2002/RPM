@@ -150,8 +150,8 @@ select.form-control {
     background: lightgray !important;
     color: red !important;
     font-weight: 500 !important;
-    border-radius: 4px !important;
-    height: 34px;
+    border-radius: 6px !important;
+    height: 38px !important;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -159,9 +159,11 @@ select.form-control {
 }
 
 .save-btn {
+    background-color: #0284c7 !important;
+    color: white !important;
     font-weight: 500 !important;
-    border-radius: 4px !important;
-    height: 34px;
+    border-radius: 6px !important;
+    height: 38px !important;
     display: flex;
     align-items: center;
     gap: 4px;

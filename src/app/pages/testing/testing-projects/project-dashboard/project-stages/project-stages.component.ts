@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { AddstagesmoduleComponent } from './addstagesmodule/addstagesmodule.component';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
 
@@ -75,6 +76,16 @@ export interface StageItem {
   styleUrls: ['./project-stages.component.scss']
 })
 export class ProjectStagesComponent implements OnInit, OnDestroy {
+
+  stageOptions: string[] = [
+    'Feasibility',
+    'Design',
+    'Prototyping',
+    'Testing',
+    'Launch',
+    'Implementation',
+    'Deployment'
+  ];
 
   stages: StageItem[] = [
     {
@@ -965,6 +976,60 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteModule(moduleIndex: number, event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: 'auto',
+      data: {
+        title: 'Delete Confirmation',
+        content: 'Are you sure you want to delete this module?'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && this.activeStage) {
+        this.activeStage.modules.splice(moduleIndex, 1);
+        this.activeStage.setupCount = this.activeStage.modules.length;
+        if (this.activeModuleIndex >= this.activeStage.modules.length) {
+          this.activeModuleIndex = Math.max(0, this.activeStage.modules.length - 1);
+        }
+      }
+    });
+  }
+
+  onStageNameChange(selectedName: string) {
+    if (!selectedName) return;
+    const index = this.stageOptions.indexOf(selectedName);
+    if (index !== -1) {
+      const codeNum = String(index + 1).padStart(3, '0');
+      this.stageModalData.stageCode = 'STG' + codeNum;
+    }
+  }
+
+  openAddModule(item: any = null) {
+    let dialogRef = this.dialog.open(AddstagesmoduleComponent, {
+      data: item,
+      height: 'auto',
+      width: '560px',
+    });
+    dialogRef.afterClosed().subscribe((data: any) => {
+      if (data) {
+        if (this.activeStage) {
+          const newMod: StageModule = {
+            name: data.moduleName,
+            count: 0,
+            tasks: [],
+            planStart: data.planStart,
+            planEnd: data.planEnd
+          };
+          this.activeStage.modules.push(newMod);
+          this.activeStage.setupCount = this.activeStage.modules.length;
+        }
+      }
+    });
+  }
+
   openAddStage() {
     this.stageModalStep = 1;
     this.stageModalData = {
@@ -1008,7 +1073,7 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
 
   saveStage() {
     if (!this.stageModalData.name || !this.stageModalData.stageCode) return;
-    
+
     if (this.isEditStageMode && this.stageModalIndex > -1) {
       this.stages[this.stageModalIndex] = { ...this.stages[this.stageModalIndex], ...this.stageModalData } as StageItem;
     } else {

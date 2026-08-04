@@ -1,0 +1,35 @@
+<div class="col-lg-12" style="overflow: hidden; margin-top: 15px; padding: 0 10px;">
+    <div class="col-sm-12" style="padding: 0;">
+        <!-- Top Tab Header -->
+        <div class="activity-tabs-header"
+            style="display: flex; gap: 20px; align-items: center; margin-left: 25px;margin-top: 25px;">
+            <button mat-raised-button
+                [ngClass]="{'custom-black-btn': activeTab === 'Tasks', 'custom-outline-btn': activeTab !== 'Tasks'}"
+                (click)="setTab('Tasks')">
+                <mat-icon>assignment</mat-icon>
+                <span>Tasks</span>
+            </button>
+
+            <button mat-raised-button
+                [ngClass]="{'custom-black-btn': activeTab === 'Issues', 'custom-outline-btn': activeTab !== 'Issues'}"
+                (click)="setTab('Issues')">
+                <mat-icon>report_problem</mat-icon>
+                <span>Issues</span>
+            </button>
+
+            <button mat-raised-button
+                [ngClass]="{'custom-black-btn': activeTab === 'ToDo', 'custom-outline-btn': activeTab !== 'ToDo'}"
+                (click)="setTab('ToDo')">
+                <mat-icon>check_circle_outline</mat-icon>
+                <span>To Do</span>
+            </button>
+        </div>
+
+        <!-- Tab Components -->
+        <div class="activity-tab-content">
+            <app-rpm-tasks *ngIf="activeTab === 'Tasks'"></app-rpm-tasks>
+            <app-testing-issues *ngIf="activeTab === 'Issues'"></app-testing-issues>
+            <app-rpm-todo *ngIf="activeTab === 'ToDo'"></app-rpm-todo>
+        </div>
+    </div>
+</div>

@@ -11,21 +11,12 @@
       </div>
 
       <div class="header-actions">
-        <button
-          mat-raised-button
-          color="primary"
-          class="add-btn"
-          (click)="addMaterial()"
-        >
+        <button mat-raised-button color="primary" class="add-btn" (click)="addMaterial()">
           <mat-icon>add</mat-icon>
           Add Requisition
         </button>
-        <button
-          mat-raised-button
-          class="back-btn"
-          (click)="goBack()"
-          style="background-color: rgb(130, 130, 130); color: white"
-        >
+        <button mat-raised-button class="back-btn" (click)="goBack()"
+          style="background-color: rgb(130, 130, 130); color: white">
           <mat-icon>arrow_back</mat-icon>
           Back
         </button>
@@ -70,22 +61,24 @@
 
             <td class="text-left">{{ row.remarks }}</td>
             <td class="text-left">{{ row.requestedBy }}</td>
-            
+
             <td class="text-center">
               <input type="checkbox" [checked]="row.available" (change)="row.available = !row.available">
             </td>
             <td class="text-center">
               <input type="checkbox" [checked]="row.reserved" (change)="row.reserved = !row.reserved">
             </td>
-            
 
-            
+
+
             <td class="text-center">
               <input type="checkbox" [checked]="row.issued" (change)="row.issued = !row.issued">
             </td>
             <td class="text-center">
-              <button mat-icon-button (click)="openTimelineModal(row)" matTooltip="View Timeline" style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
-                <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+              <button mat-icon-button (click)="openTimelineModal(row)" matTooltip="View Timeline"
+                style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                <mat-icon
+                  style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
                   calendar_today
                 </mat-icon>
               </button>
@@ -108,7 +101,8 @@
 </button> -->
 
 <!-- ============ TIMELINE POP-UP MODAL ============ -->
-<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+<div class="bl-modal-overlay" *ngIf="showTimelineModal" (click)="closeTimelineModal()"
+  (wheel)="$event.stopPropagation()">
   <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
     <!-- Header Row -->
     <div class="timeline-popup-header">
@@ -121,7 +115,8 @@
         </h3>
       </div>
       <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
-        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        <mat-icon
+          style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
       </button>
     </div>
 
@@ -185,7 +180,8 @@
         <span>Remarks & Details</span>
       </div>
       <p class="timeline-desc-text">
-        {{ selectedTimelineItem?.remarks || 'This timeline provides an overview of target, request, and issue dates for material allocation and tracking.' }}
+        {{ selectedTimelineItem?.remarks || 'This timeline provides an overview of target, request, and issue dates for
+        material allocation and tracking.' }}
       </p>
     </div>
   </div>

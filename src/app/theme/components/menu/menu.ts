@@ -88,95 +88,16 @@ export const verticalMenuItems = [
 ];
 
 export const horizontalMenuItems = [
-  // 1. Dashboard
-  new Menu(
-    1,
-    "Dashboard",
-    "/app/test-dashboard",
-    null,
-    "dashboard",
-    null,
-    false,
-    0,
-  ),
-
-  // 2. Projects
-  new Menu(
-    2,
-    "Projects",
-    "/app/testing/projects",
-    null,
-    "business_center",
-    null,
-    false,
-    0,
-  ),
-
-  new Menu(14, "Stages", "/app/testing/stages", null, "layers", null, false, 0),
-
-
-
-  new Menu(5, "Gates", "/app/testing/gates", null, "door_front", null, false, 0),
-
-
-
+  new Menu(1, "Dashboard", "/app/test-dashboard", null, "dashboard", null, false, 0),
+  new Menu(2, "Projects", "/app/testing/projects", null, "business_center", null, false, 0),
+  new Menu(3, "Stages", "/app/testing/stages", null, "layers", null, false, 0),
+  new Menu(4, "Gates", "/app/testing/gates", null, "door_front", null, false, 0),
   new Menu(5, "Master Data", "/app/testing/testing-masterData", null, "storage", null, false, 0),
-
-  // 3. Setup (Now ONLY contains Stages, Gates, and Master Data)
-  // new Menu(3, "Setup", "/app/testing/stages", null, "build", null, true, 0),
-  new Menu(
-    4,
-    "Stages",
-    "/app/testing/stages",
-    null,
-    "layers",
-    null,
-    false,
-    3,
-  ),
-  new Menu(
-    302,
-    "Gates",
-    "/app/testing/gates",
-    null,
-    "door_front",
-    null,
-    false,
-    3,
-  ),
-  new Menu(
-    306,
-    "Master Data",
-    "/app/testing/testing-masterData",
-    null,
-    "storage",
-    null,
-    false,
-    3,
-  ),
-
-  // ✅ ADDED: 5. Tasks as Top-Level
-  new Menu(5, "Tasks", "/app/testing/tasks", null, "task", null, false, 0),
-
-
-
-  // ✅ ADDED: 6. Issues as Top-Level
-  new Menu(
-    6,
-    "Issues",
-    "/app/testing/issues",
-    null,
-    "bug_report",
-    null,
-    false,
-    0,
-  ),
-
-  // ✅ ADDED: 7. To Do as Top-Level
-  new Menu(7, "To Do", "/app/testing/todo", null, "checklist", null, false, 0),
-
-  // ✅ ADDED: 8. Resources as Top-Level
-  new Menu(8, "Resources", "/app/testing/resources", null, "people", null, false, 0),
+  // new Menu(6, "Tasks", "/app/testing/tasks", null, "task", null, false, 0),
+  // new Menu(7, "Issues", "/app/testing/issues", null, "bug_report", null, false, 0),
+  // new Menu(8, "To Do", "/app/testing/todo", null, "checklist", null, false, 0),
+  new Menu(9, "Activity", "/app/test-activity", null, "people", null, false, 0),
+  new Menu(10, "Resources", "/app/testing/resources", null, "people", null, false, 0),
 ];
 
 export const clientMenuItems = [

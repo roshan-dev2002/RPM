@@ -10,20 +10,54 @@ export class AddResourcePopComponent implements OnInit {
 
   isEditMode: boolean = false;
 
-  resource: string = '';
-  stage: string = '';
-  module: string = '';
-  task: string = '';
+  resource: string | null = null;
+  stage: string | null = null;
+  module: string | null = null;
+  task: string | null = null;
   fromDate: string = '';
   toDate: string = '';
   fromTime: string = '';
   toTime: string = '';
   planDuration: string = '';
   actualDuration: string = '';
-  status: string = 'Active';
+  status: string | null = null;
 
-  stages: string[] = ['Feasibility', 'Design', 'Prototyping', 'Testing', 'Development', 'Deployment', 'Review'];
+  stages: string[] = ['Feasibility', 'Design', 'Prototyping', 'Testing', 'Launch', 'Implementation'];
+  modules: string[] = [
+    'Project Initiation & Planning',
+    'Execution, Monitoring & Control',
+    'Delivery, Handover & Closeout'
+  ];
+  tasks: string[] = [
+    'UI Design Implementation',
+    'Database Optimization',
+    'Update User Manual',
+    'API Integration Testing',
+    'Security Audit',
+    'UI Design',
+    'Database Setup',
+    'Employee Login Module',
+    'API Integration',
+    'Product Catalog'
+  ];
   statuses: string[] = ['Active', 'Completed', 'Pending'];
+
+  resourceOptions: string[] = [
+    'Ravi Sharma',
+    'Priya Singh',
+    'Amit Kumar',
+    'Neha Sharma',
+    'Vikram Joshi'
+  ];
+  resourceSearchTerm: string = '';
+
+  get filteredResourceOptions(): string[] {
+    if (!this.resourceSearchTerm || !this.resourceSearchTerm.trim()) {
+      return this.resourceOptions;
+    }
+    const term = this.resourceSearchTerm.toLowerCase().trim();
+    return this.resourceOptions.filter(r => r.toLowerCase().includes(term));
+  }
 
   constructor(
     public dialogRef: MatDialogRef<AddResourcePopComponent>,
@@ -33,23 +67,23 @@ export class AddResourcePopComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.isEditMode = true;
-      this.resource = this.data.resource || this.data.name || '';
-      this.stage = this.data.stage || '';
-      this.module = this.data.module || '';
-      this.task = this.data.task || '';
+      this.resource = this.data.resource || this.data.name || null;
+      this.stage = this.data.stage || null;
+      this.module = this.data.module || null;
+      this.task = this.data.task || null;
       this.fromDate = this.data.fromDate || '';
       this.toDate = this.data.toDate || '';
       this.fromTime = this.data.fromTime || '';
       this.toTime = this.data.toTime || '';
       this.planDuration = this.data.planDuration || '';
       this.actualDuration = this.data.actualDuration || '';
-      this.status = this.data.status || 'Active';
+      this.status = this.data.status || null;
     }
   }
 
   save(): void {
     if (!this.resource || !this.resource.trim()) {
-      alert('Please enter a Resource Name.');
+      alert('Please select a Resource.');
       return;
     }
     const initials = this.resource.trim().split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) || 'RS';

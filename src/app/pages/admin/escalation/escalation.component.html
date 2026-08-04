@@ -45,7 +45,7 @@
 
 
 
-<div fxLayout="row wrap" #resizedDiv>
+<div fxLayout="row wrap" #resizedDiv style="margin-top: 25px;margin-left: 10px;">
   <!-- Table -->
 
   <div class=" col-sm-12 flex-p w-100">
@@ -94,19 +94,19 @@
                   <mat-option [value]="5">50</mat-option>
                 </mat-select>
               </div> -->
-              
-              <div >
+
+              <div>
                 <input type="email" class="form-control" id="email" placeholder="Enter Revised Value " />
               </div>
-              
-              
+
+
             </td>
             <td>
-              
+
               <div style="display: flex; justify-content: center;">
                 <button mat-raised-button color="primary" [mat-dialog-close]="'test'" matTooltip="Click to Save">
                   <mat-icon style="font-size:20px" class="mt-1">save</mat-icon>
-                   <span style="margin-left: 5px;">{{ data ? "Update" : "Save" }}</span>
+                  <span style="margin-left: 5px;">{{ data ? "Update" : "Save" }}</span>
                 </button>
               </div>
 
